@@ -4,6 +4,7 @@ import {TouchableOpacity, View} from 'react-native';
 import {RootStackParamList} from '../interfaces';
 import {useNavigation} from '@react-navigation/native';
 import {IContact} from '../screens';
+import {Text} from 'react-native-elements';
 
 interface IContactDetailsButton extends Pick<IContact, 'name' | 'picture'> {}
 
@@ -18,15 +19,14 @@ export default function ContactDetailsButton({
 
   const navigationToContactDetailsScreen =
     useNavigation<ContactDetailsScreenNavigationProp>();
-  console.log(name);
-  console.log(picture);
   return (
     <View>
       <TouchableOpacity
         onPress={() =>
           navigationToContactDetailsScreen.navigate('ContactDetails')
         }>
-        {}
+        <Text>{picture}</Text>
+        <Text>{name}</Text>
       </TouchableOpacity>
     </View>
   );

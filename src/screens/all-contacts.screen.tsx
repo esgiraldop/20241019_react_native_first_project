@@ -25,9 +25,8 @@ export function AllContactsScreen(): React.JSX.Element {
       setIsLoading(true);
       try {
         reactotron.log('hola');
-        const response = await axios.get('http://192.168.89.30:3000/contacts');
-        // const response = await axios.get('http://10.0.0.2:3000/contacts');
-        // const response = await axios.get('http://localhost:3000/contacts');
+        // const response = await axios.get('http://192.168.89.30:3000/contacts');
+        const response = await axios.get('http://192.168.0.244:3000/contacts');
         reactotron.log('response.data: ', response.data);
         if (!String(response.status).startsWith('2')) {
           const errorMessage =
@@ -66,7 +65,7 @@ export function AllContactsScreen(): React.JSX.Element {
             data={contacts}
             keyExtractor={item => item.id}
             renderItem={({item}) => (
-              <ContactDetailsButton>{item}</ContactDetailsButton>
+              <ContactDetailsButton name={item.name} picture={item.picture} />
             )}
           />
         </View>
