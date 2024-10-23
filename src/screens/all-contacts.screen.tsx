@@ -1,11 +1,10 @@
-import {useNavigation} from '@react-navigation/native';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import React, {useEffect, useState} from 'react';
-import {Button, FlatList, Text, View} from 'react-native';
-import {RootStackParamList} from '../interfaces';
+import {FlatList, Text, View} from 'react-native';
 import axios from 'axios';
 import reactotron from 'reactotron-react-native';
-import ContactDetailsButton from '../components/CustomButton.component';
+import {SmallButton} from '../components/common/SmallButton';
+import {GoToContacDetailsButton} from '../components/allContacts/';
+import {ButtonsCarrousel} from '../components/common/ButtonsCarrousel.component';
 // import Loader from '../components/loader.component';
 
 export interface IContact {
@@ -46,14 +45,6 @@ export function AllContactsScreen(): React.JSX.Element {
     fetchAllContacts();
   }, []);
 
-  type AddcontactScreenNavigationProp = NativeStackNavigationProp<
-    RootStackParamList,
-    'AddContact'
-  >;
-
-  const navigationToCreateContact =
-    useNavigation<AddcontactScreenNavigationProp>();
-
   return (
     <View>
       {isLoading ? (
@@ -62,18 +53,23 @@ export function AllContactsScreen(): React.JSX.Element {
       ) : (
         <View>
           <FlatList
+            ListHeaderComponent={
+              <ButtonsCarrousel>
+                <SmallButton text={'Add new contact'} />
+                <SmallButton text={'Search a contact'} />
+              </ButtonsCarrousel>
+            }
             data={contacts}
             keyExtractor={item => item.id}
             renderItem={({item}) => (
-              <ContactDetailsButton name={item.name} picture={item.picture} />
+              <GoToContacDetailsButton
+                name={item.name}
+                picture={item.picture}
+              />
             )}
           />
         </View>
       )}
-      <Button
-        title="Add contact"
-        onPress={() => navigationToCreateContact.navigate('AddContact')}
-      />
     </View>
   );
 }

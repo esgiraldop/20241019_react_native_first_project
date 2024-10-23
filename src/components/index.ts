@@ -1,1 +1,2 @@
-export * from './section-component';
+export * from './allContacts';
+export * from './common';

@@ -32,9 +32,9 @@ function App(): React.JSX.Element {
         backgroundColor={backgroundStyle.backgroundColor}
       />
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Home">
+        <Stack.Navigator initialRouteName="Contacts">
           {/* <Stack.Screen name="Demo" component={DemoScreen} /> */}
-          <Stack.Screen name="Home" component={AllContactsScreen} />
+          <Stack.Screen name="Contacts" component={AllContactsScreen} />
           <Stack.Screen
             name="ContactDetails"
             component={ContactDetailsScreen}

@@ -7,7 +7,7 @@ import {
   LearnMoreLinks,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
-import {Section} from '../components/section-component';
+import {Section} from '../components/common/section-component';
 import {styles} from '../styles/general.style';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
@@ -40,6 +40,7 @@ export function DemoScreen(): React.JSX.Element {
           <Section title="Step One">
             Edit <Text style={styles.highlight}>App.tsx</Text> to change this
             screen and then come back to see your edits.
+            <Text style={styles.highlight}>Hi there again</Text>
           </Section>
           <Section title="See Your Changes">
             <ReloadInstructions />
