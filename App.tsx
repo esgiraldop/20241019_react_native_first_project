@@ -1,3 +1,7 @@
+if (__DEV__) {
+  require('./ReactotronConfig');
+}
+
 import React from 'react';
 import {StatusBar, useColorScheme} from 'react-native';
 import {Colors} from 'react-native/Libraries/NewAppScreen';

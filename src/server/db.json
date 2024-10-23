@@ -1,23 +1,23 @@
 {
-  "users": [
+  "contacts": [
     {
       "id": 1,
       "name": "Erick",
-      "phone-number": 123,
+      "phoneNumber": 123,
       "email": "erick@email.com",
       "picture": "picture here"
     },
     {
       "id": 2,
       "name": "Fede",
-      "phone-number": 123,
+      "phoneNumber": 123,
       "email": "fede@email.com",
       "picture": "picture here"
     },
     {
       "id": 3,
       "name": "Mari",
-      "phone-number": 123,
+      "phoneNumber": 123,
       "email": "mari@email.com",
       "picture": "picture here"
     }
