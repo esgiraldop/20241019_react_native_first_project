@@ -1,28 +1,31 @@
 import React, {useState} from 'react';
-import {StyleSheet, useColorScheme} from 'react-native';
+import {StyleSheet, useColorScheme, View} from 'react-native';
 import FastImage from 'react-native-fast-image';
-var contactPhotoLight = require('../../assets/img/contact-photo-light.png');
-var contactPhotoDark = require('../../assets/img/contact-photo-dark.png');
+import Icon from 'react-native-vector-icons/Ionicons';
 
 export default function ContactImage() {
   const [imageError, setImageError] = useState<boolean>(false);
   const isDarkMode = useColorScheme() === 'dark'; // TODO: Maybe define this in the main app theme?
   return (
-    <FastImage
-      style={style.imageDimensions}
-      source={
-        imageError
-          ? !isDarkMode
-            ? contactPhotoLight
-            : contactPhotoDark
-          : {
-              uri: 'https:....png',
-              priority: FastImage.priority.normal,
-            }
-      }
-      resizeMode={FastImage.resizeMode.contain}
-      onError={() => setImageError(true)}
-    />
+    <View>
+      {imageError ? (
+        <Icon
+          name="person-circle"
+          size={100}
+          color={!isDarkMode ? 'grey' : 'white'}
+        />
+      ) : (
+        <FastImage
+          style={style.imageDimensions}
+          source={{
+            uri: 'https:....png',
+            priority: FastImage.priority.normal,
+          }}
+          resizeMode={FastImage.resizeMode.contain}
+          onError={() => setImageError(true)}
+        />
+      )}
+    </View>
   );
 }
 

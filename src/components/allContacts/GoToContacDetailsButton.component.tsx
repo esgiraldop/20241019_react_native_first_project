@@ -5,7 +5,6 @@ import {RootStackParamList} from '../../interfaces';
 import {useNavigation} from '@react-navigation/native';
 import {IContact} from '../../screens';
 import {Text} from 'react-native-elements';
-import Icon from 'react-native-vector-icons/Ionicons';
 import ContactImage from '../common/image.component';
 
 interface IContactDetailsButton extends Pick<IContact, 'name'> {}
@@ -26,7 +25,6 @@ export function GoToContacDetailsButton({name}: IContactDetailsButton) {
         }>
         <ContactImage />
         <Text>{name}</Text>
-        <Icon size={24} color="grey" name="add-outline" />
         {/* TODO:
         Make these icons work*/}
       </TouchableOpacity>
