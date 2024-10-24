@@ -14,7 +14,6 @@ export function ContactDetailsScreen(): React.JSX.Element {
 
   return (
     <View>
-      <Text>This is the view for the contact details</Text>
       <Button
         title="Edit contact"
         onPress={() => navigation.navigate('EditContact')}

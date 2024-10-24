@@ -6,6 +6,7 @@ import {SmallButton} from '../components/common/SmallButton';
 import {GoToContacDetailsButton} from '../components/allContacts/';
 import {ButtonsCarrousel} from '../components/common/ButtonsCarrousel.component';
 // import Loader from '../components/loader.component';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 export interface IContact {
   id: string;
@@ -23,10 +24,8 @@ export function AllContactsScreen(): React.JSX.Element {
     async function fetchAllContacts() {
       setIsLoading(true);
       try {
-        reactotron.log('hola');
-        // const response = await axios.get('http://192.168.89.30:3000/contacts');
-        const response = await axios.get('http://192.168.0.244:3000/contacts');
-        reactotron.log('response.data: ', response.data);
+        const response = await axios.get('http://192.168.89.51:3000/contacts');
+        // const response = await axios.get('http://192.168.0.244:3000/contacts');
         if (!String(response.status).startsWith('2')) {
           const errorMessage =
             (response.data as {error?: string})?.error || 'Unknown error';
@@ -47,6 +46,7 @@ export function AllContactsScreen(): React.JSX.Element {
 
   return (
     <View>
+      <Icon size={24} color="grey" name="add-outline" />
       {isLoading ? (
         // <Loader name={'2-curves'} /> //TODO: Make this loader work!
         <Text>Loading...</Text>
@@ -62,10 +62,7 @@ export function AllContactsScreen(): React.JSX.Element {
             data={contacts}
             keyExtractor={item => item.id}
             renderItem={({item}) => (
-              <GoToContacDetailsButton
-                name={item.name}
-                picture={item.picture}
-              />
+              <GoToContacDetailsButton name={item.name} />
             )}
           />
         </View>

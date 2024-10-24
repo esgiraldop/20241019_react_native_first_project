@@ -20,7 +20,7 @@ import {SafeAreaProvider} from 'react-native-safe-area-context';
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function App(): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
+  const isDarkMode = useColorScheme() === 'dark'; // TODO: Maybe define this in the main app theme?
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };

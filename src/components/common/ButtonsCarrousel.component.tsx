@@ -17,12 +17,18 @@ const styles = StyleSheet.create({
   container: {
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-start',
     alignItems: 'flex-end',
     flexWrap: 'wrap',
+    borderColor: 'red',
+    borderStyle: 'solid',
+    borderWidth: 2,
   },
   subcontainer: {
     flex: 1,
     margin: 5,
+    borderColor: 'green',
+    borderStyle: 'solid',
+    borderWidth: 2,
   },
 });

@@ -2,9 +2,9 @@ apply plugin: "com.android.application"
 apply plugin: "org.jetbrains.kotlin.android"
 apply plugin: "com.facebook.react"
 
-project.ext.vectoricons = [
-    iconFontNames: [ 'Ionicons.tff' ] // Name of the font files you want to copy
-]
+// project.ext.vectoricons = [
+//     iconFontNames: [ 'Ionicons.tff' ] // Name of the font files you want to copy
+// ]
 apply from: file("../../node_modules/react-native-vector-icons/fonts.gradle")
 
 /**
@@ -121,4 +121,6 @@ dependencies {
     } else {
         implementation jscFlavor
     }
+
+    implementation project(':react-native-vector-icons')
 }
