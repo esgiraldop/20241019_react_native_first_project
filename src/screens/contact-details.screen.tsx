@@ -1,14 +1,13 @@
-import React, {useEffect, useState} from 'react';
 import {Text, TouchableOpacity, View} from 'react-native';
 import {NativeStackNavigationProp} from 'react-native-screens/lib/typescript/native-stack/types';
 import {RootStackParamList} from '../interfaces';
 import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
 import ContactImage from '../components/common/contactImage.component';
-import {IContact} from './all-contacts.screen';
-import {ContactsService} from '../services/contacts.service';
+import {useContactById} from '../hooks/useContactById.hook';
+import React from 'react';
 
 type ParamList = {
-  Params: {contactId: string};
+  Params: {contactId: number};
 };
 
 export function ContactDetailsScreen(): React.JSX.Element {
@@ -18,25 +17,11 @@ export function ContactDetailsScreen(): React.JSX.Element {
   >;
 
   const {params} = useRoute<RouteProp<ParamList, 'Params'>>();
-  const contactId = parseInt(params.contactId, 2);
-
-  const [contactInfo, setContactInfo] = useState<IContact | null>(null);
-  const [isLoading, setIsLoading] = useState<boolean | null>(false);
+  const contactId = params.contactId;
 
   const navigation = useNavigation<ContactDetailsScreenProp>();
 
-  useEffect(() => {
-    async function getContactInfo(id: number) {
-      const contactInfoResponse = await ContactsService.getById(id);
-      setIsLoading(true);
-      if (contactInfoResponse) {
-        setContactInfo(contactInfoResponse);
-        setIsLoading(false);
-      }
-    }
-
-    getContactInfo(contactId);
-  }, []);
+  const {contactInfo, isContactLoading} = useContactById(contactId);
 
   if (!contactInfo) {
     return (
@@ -48,7 +33,7 @@ export function ContactDetailsScreen(): React.JSX.Element {
 
   return (
     <View>
-      {isLoading ? (
+      {isContactLoading ? (
         <Text>Loading contact information...</Text>
       ) : (
         <View>
@@ -56,7 +41,8 @@ export function ContactDetailsScreen(): React.JSX.Element {
           <Text>{contactInfo.name}</Text>
           <Text>{contactInfo.phoneNumber}</Text>
           <Text>{contactInfo.email}</Text>
-          <TouchableOpacity onPress={() => navigation.navigate('EditContact')}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('EditContact', {contactId})}>
             <Text>Edit contact</Text>
           </TouchableOpacity>
         </View>
