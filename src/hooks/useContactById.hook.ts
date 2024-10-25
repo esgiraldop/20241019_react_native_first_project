@@ -11,19 +11,6 @@ export function useContactById(contactId: number) {
   const [errorLoadingContact, setErrorLoadingContact] =
     useState<boolean>(false);
 
-  // useEffect(() => {
-  //   async function getContactInfo(id: number) {
-  //     const contactInfoResponse = await ContactsService.getById(id);
-  //     setIsContactLoading(true);
-  //     if (contactInfoResponse) {
-  //       setContactInfo(contactInfoResponse);
-  //       setIsContactLoading(false);
-  //     }
-  //   }
-
-  //   getContactInfo(contactId);
-  // }, []);
-
   useFocusEffect(
     useCallback(() => {
       async function getContactInfo(id: number) {

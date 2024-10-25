@@ -1,5 +1,4 @@
 import {ParamListBase} from '@react-navigation/native';
-import {IUpdateContact} from './contact.interface';
 
 export interface RootStackParamList extends ParamListBase {
   Demo: undefined;
@@ -8,6 +7,5 @@ export interface RootStackParamList extends ParamListBase {
   AddContact: undefined;
   EditContact: {
     contactId: number;
-    onContactUpdate: (updatedContact: IUpdateContact) => void;
   };
 }

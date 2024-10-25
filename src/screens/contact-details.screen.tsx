@@ -21,13 +21,8 @@ export function ContactDetailsScreen(): React.JSX.Element {
 
   const navigation = useNavigation<ContactDetailsScreenProp>();
 
-  const {contactInfo, setContactInfo, isContactLoading, errorLoadingContact} =
+  const {contactInfo, isContactLoading, errorLoadingContact} =
     useContactById(contactId);
-
-  const handleContactUpdate = (updatedContact: typeof contactInfo) => {
-    // Function to update the contact
-    setContactInfo(updatedContact);
-  };
 
   return (
     <View>
@@ -45,7 +40,6 @@ export function ContactDetailsScreen(): React.JSX.Element {
             onPress={() =>
               navigation.navigate('EditContact', {
                 contactId,
-                onContactUpdate: handleContactUpdate,
               })
             }>
             <Text>Edit contact</Text>

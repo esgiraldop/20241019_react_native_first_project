@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {
   StyleSheet,
   Text,
@@ -35,14 +35,13 @@ export function EditContactScreen(): React.JSX.Element {
 
   const route = useRoute<RouteProp<RootStackParamList, 'EditContact'>>();
 
-  const {contactId, onContactUpdate} = route.params;
+  const {contactId} = route.params;
 
   const {contactInfo, isContactLoading, errorLoadingContact} =
     useContactById(contactId);
 
   const onSubmit = async (values: IUpdateContact) => {
     await ContactsService.update(contactId, values);
-    onContactUpdate(values);
     navigation.goBack();
   };
 
