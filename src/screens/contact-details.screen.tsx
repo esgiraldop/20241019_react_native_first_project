@@ -21,8 +21,13 @@ export function ContactDetailsScreen(): React.JSX.Element {
 
   const navigation = useNavigation<ContactDetailsScreenProp>();
 
-  const {contactInfo, isContactLoading, errorLoadingContact} =
+  const {contactInfo, setContactInfo, isContactLoading, errorLoadingContact} =
     useContactById(contactId);
+
+  const handleContactUpdate = (updatedContact: typeof contactInfo) => {
+    // Function to update the contact
+    setContactInfo(updatedContact);
+  };
 
   return (
     <View>
@@ -37,7 +42,12 @@ export function ContactDetailsScreen(): React.JSX.Element {
           <Text>{contactInfo.phoneNumber}</Text>
           <Text>{contactInfo.email}</Text>
           <TouchableOpacity
-            onPress={() => navigation.navigate('EditContact', {contactId})}>
+            onPress={() =>
+              navigation.navigate('EditContact', {
+                contactId,
+                onContactUpdate: handleContactUpdate,
+              })
+            }>
             <Text>Edit contact</Text>
           </TouchableOpacity>
         </View>

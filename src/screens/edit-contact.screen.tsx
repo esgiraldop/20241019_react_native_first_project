@@ -9,9 +9,11 @@ import {
 import {Formik} from 'formik';
 import * as Yup from 'yup';
 import {useContactById} from '../hooks/useContactById.hook';
-import {RouteProp, useRoute} from '@react-navigation/native';
+import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
 import {IContact, IUpdateContact} from '../interfaces/contact.interface';
 import {ContactsService} from '../services/contacts.service';
+import {RootStackParamList} from '../interfaces';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
 const contactSchema = Yup.object().shape({
   name: Yup.string()
@@ -21,21 +23,27 @@ const contactSchema = Yup.object().shape({
   phoneNumber: Yup.number().required('Phone number is required'),
 });
 
-type ParamList = {
-  Params: {contactId: number};
-};
-
 interface InewContactValues extends Omit<IContact, 'id'> {}
 
+type EditContactScreenProp = NativeStackNavigationProp<
+  RootStackParamList,
+  'EditContact'
+>;
+
 export function EditContactScreen(): React.JSX.Element {
-  const {params} = useRoute<RouteProp<ParamList, 'Params'>>();
-  const contactId = params.contactId;
+  const navigation = useNavigation<EditContactScreenProp>();
+
+  const route = useRoute<RouteProp<RootStackParamList, 'EditContact'>>();
+
+  const {contactId, onContactUpdate} = route.params;
 
   const {contactInfo, isContactLoading, errorLoadingContact} =
     useContactById(contactId);
 
   const onSubmit = async (values: IUpdateContact) => {
     await ContactsService.update(contactId, values);
+    onContactUpdate(values);
+    navigation.goBack();
   };
 
   let contactInfoNoId;

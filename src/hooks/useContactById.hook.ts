@@ -1,6 +1,7 @@
-import {useEffect, useState} from 'react';
+import {useCallback, useEffect, useState} from 'react';
 import {IContact} from '../interfaces/contact.interface';
 import {ContactsService} from '../services/contacts.service';
+import {useFocusEffect} from '@react-navigation/native';
 
 export function useContactById(contactId: number) {
   const [contactInfo, setContactInfo] = useState<IContact | null>(null);
@@ -10,18 +11,34 @@ export function useContactById(contactId: number) {
   const [errorLoadingContact, setErrorLoadingContact] =
     useState<boolean>(false);
 
-  useEffect(() => {
-    async function getContactInfo(id: number) {
-      const contactInfoResponse = await ContactsService.getById(id);
-      setIsContactLoading(true);
-      if (contactInfoResponse) {
-        setContactInfo(contactInfoResponse);
-        setIsContactLoading(false);
-      }
-    }
+  // useEffect(() => {
+  //   async function getContactInfo(id: number) {
+  //     const contactInfoResponse = await ContactsService.getById(id);
+  //     setIsContactLoading(true);
+  //     if (contactInfoResponse) {
+  //       setContactInfo(contactInfoResponse);
+  //       setIsContactLoading(false);
+  //     }
+  //   }
 
-    getContactInfo(contactId);
-  }, []);
+  //   getContactInfo(contactId);
+  // }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      async function getContactInfo(id: number) {
+        const contactInfoResponse = await ContactsService.getById(id);
+        setIsContactLoading(true);
+        if (contactInfoResponse) {
+          setContactInfo(contactInfoResponse);
+          setIsContactLoading(false);
+        }
+      }
+
+      getContactInfo(contactId);
+      return () => getContactInfo(contactId);
+    }, [contactId]),
+  );
 
   useEffect(() => {
     if (!contactInfo) {
@@ -35,6 +52,7 @@ export function useContactById(contactId: number) {
 
   return {
     contactInfo,
+    setContactInfo,
     isContactLoading,
     setIsContactLoading,
     errorLoadingContact,
