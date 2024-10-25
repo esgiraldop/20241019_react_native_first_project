@@ -42,7 +42,7 @@ export function AllContactsScreen(): React.JSX.Element {
                 <SmallButton text={'Search a contact'} />
               </ButtonsCarrousel>
             }
-            data={contacts}
+            data={contacts.sort((a, b) => a.name.localeCompare(b.name))}
             keyExtractor={item => item.id}
             renderItem={({item}) => (
               <GoToContacDetailsButton name={item.name} id={item.id} />
