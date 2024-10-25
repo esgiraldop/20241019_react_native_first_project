@@ -32,9 +32,7 @@ type EditContactScreenProp = NativeStackNavigationProp<
 
 export function EditContactScreen(): React.JSX.Element {
   const navigation = useNavigation<EditContactScreenProp>();
-
   const route = useRoute<RouteProp<RootStackParamList, 'EditContact'>>();
-
   const {contactId} = route.params;
 
   const {contactInfo, isContactLoading, errorLoadingContact} =

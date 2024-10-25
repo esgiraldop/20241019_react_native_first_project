@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import {FlatList, Text, View} from 'react-native';
 import {SmallButton} from '../components/common/SmallButton';
 import {GoToContacDetailsButton} from '../components/allContacts/';

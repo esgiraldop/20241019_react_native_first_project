@@ -29,4 +29,11 @@ export class ContactsService {
         ),
     );
   }
+
+  static async delete(id: number): Promise<IContact> {
+    return handleAxiosResponse<IContact>(
+      async () =>
+        await axiosInstance.delete<IContact>(`${this.resource}/${id}`),
+    );
+  }
 }

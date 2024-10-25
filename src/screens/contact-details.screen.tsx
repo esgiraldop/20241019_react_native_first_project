@@ -5,10 +5,7 @@ import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
 import ContactImage from '../components/common/contactImage.component';
 import {useContactById} from '../hooks/useContactById.hook';
 import React from 'react';
-
-type ParamList = {
-  Params: {contactId: number};
-};
+import {ContactsService} from '../services/contacts.service';
 
 type ContactDetailsScreenProp = NativeStackNavigationProp<
   RootStackParamList,
@@ -16,13 +13,18 @@ type ContactDetailsScreenProp = NativeStackNavigationProp<
 >;
 
 export function ContactDetailsScreen(): React.JSX.Element {
-  const {params} = useRoute<RouteProp<ParamList, 'Params'>>();
+  const {params} = useRoute<RouteProp<RootStackParamList, 'EditContact'>>();
   const contactId = params.contactId;
 
   const navigation = useNavigation<ContactDetailsScreenProp>();
 
   const {contactInfo, isContactLoading, errorLoadingContact} =
     useContactById(contactId);
+
+  const handleDeleteContact = async () => {
+    await ContactsService.delete(contactId);
+    navigation.goBack();
+  };
 
   return (
     <View>
@@ -43,6 +45,9 @@ export function ContactDetailsScreen(): React.JSX.Element {
               })
             }>
             <Text>Edit contact</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={handleDeleteContact}>
+            <Text>Delete contact</Text>
           </TouchableOpacity>
         </View>
       )}
