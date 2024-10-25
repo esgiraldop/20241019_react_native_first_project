@@ -10,30 +10,26 @@ type ParamList = {
   Params: {contactId: number};
 };
 
-export function ContactDetailsScreen(): React.JSX.Element {
-  type ContactDetailsScreenProp = NativeStackNavigationProp<
-    RootStackParamList,
-    'EditContact'
-  >;
+type ContactDetailsScreenProp = NativeStackNavigationProp<
+  RootStackParamList,
+  'EditContact'
+>;
 
+export function ContactDetailsScreen(): React.JSX.Element {
   const {params} = useRoute<RouteProp<ParamList, 'Params'>>();
   const contactId = params.contactId;
 
   const navigation = useNavigation<ContactDetailsScreenProp>();
 
-  const {contactInfo, isContactLoading} = useContactById(contactId);
+  const {contactInfo, isContactLoading, errorLoadingContact} =
+    useContactById(contactId);
 
-  if (!contactInfo) {
-    return (
-      <View>
-        <Text>No information for the contact could be found</Text>
-      </View>
-    );
-  }
   return (
     <View>
       {isContactLoading ? (
         <Text>Loading contact information...</Text>
+      ) : errorLoadingContact || !contactInfo ? (
+        <Text>No information for the contact could be found</Text>
       ) : (
         <View>
           <ContactImage />

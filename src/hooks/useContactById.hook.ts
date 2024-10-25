@@ -7,6 +7,8 @@ export function useContactById(contactId: number) {
   const [isContactLoading, setIsContactLoading] = useState<boolean | null>(
     false,
   );
+  const [errorLoadingContact, setErrorLoadingContact] =
+    useState<boolean>(false);
 
   useEffect(() => {
     async function getContactInfo(id: number) {
@@ -21,5 +23,21 @@ export function useContactById(contactId: number) {
     getContactInfo(contactId);
   }, []);
 
-  return {contactInfo, isContactLoading, setIsContactLoading};
+  useEffect(() => {
+    if (!contactInfo) {
+      setErrorLoadingContact(true);
+    } else {
+      setErrorLoadingContact(false);
+    }
+
+    setIsContactLoading(false);
+  }, [contactInfo, setIsContactLoading]);
+
+  return {
+    contactInfo,
+    isContactLoading,
+    setIsContactLoading,
+    errorLoadingContact,
+    setErrorLoadingContact,
+  };
 }

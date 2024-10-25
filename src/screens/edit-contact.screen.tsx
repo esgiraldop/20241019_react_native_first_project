@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {
   StyleSheet,
   Text,
@@ -8,7 +8,6 @@ import {
 } from 'react-native';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
-import {Button} from 'react-native-elements';
 import {useContactById} from '../hooks/useContactById.hook';
 import {RouteProp, useRoute} from '@react-navigation/native';
 import {IContact, IUpdateContact} from '../interfaces/contact.interface';
@@ -32,26 +31,14 @@ export function EditContactScreen(): React.JSX.Element {
   const {params} = useRoute<RouteProp<ParamList, 'Params'>>();
   const contactId = params.contactId;
 
-  const {contactInfo, isContactLoading, setIsContactLoading} =
+  const {contactInfo, isContactLoading, errorLoadingContact} =
     useContactById(contactId);
-  const [errorLoadingContact, setErrorLoadingContact] =
-    useState<boolean>(false);
 
   const onSubmit = async (values: IUpdateContact) => {
     await ContactsService.update(contactId, values);
   };
 
   let contactInfoNoId;
-
-  useEffect(() => {
-    if (!contactInfo) {
-      setErrorLoadingContact(true);
-    } else {
-      setErrorLoadingContact(false);
-    }
-
-    setIsContactLoading(false);
-  }, [contactInfo, setIsContactLoading]);
 
   if (!contactInfo) {
     contactInfoNoId = {
