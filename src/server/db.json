@@ -27,6 +27,13 @@
       "phoneNumber": 123,
       "email": "esteban@email.com",
       "picture": "picture here"
+    },
+    {
+      "id": "1af2",
+      "name": "Erick nuevo",
+      "phoneNumber": "123",
+      "email": "erick@otrotest.com",
+      "picture": ""
     }
   ]
 }

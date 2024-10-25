@@ -17,6 +17,13 @@ export class ContactsService {
     );
   }
 
+  static async create(contactData: IUpdateContact): Promise<IContact> {
+    return handleAxiosResponse<IContact>(
+      async () =>
+        await axiosInstance.post<IContact>(`${this.resource}`, contactData),
+    );
+  }
+
   static async update(
     id: number,
     contactData: IUpdateContact,
