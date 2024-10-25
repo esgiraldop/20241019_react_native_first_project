@@ -5,11 +5,11 @@ import {RootStackParamList} from '../../interfaces';
 import {useNavigation} from '@react-navigation/native';
 import {IContact} from '../../screens';
 import {Text} from 'react-native-elements';
-import ContactImage from '../common/image.component';
+import ContactImage from '../common/contactImage.component';
 
-interface IContactDetailsButton extends Pick<IContact, 'name'> {}
+interface IContactDetailsButton extends Pick<IContact, 'name' | 'id'> {}
 
-export function GoToContacDetailsButton({name}: IContactDetailsButton) {
+export function GoToContacDetailsButton({name, id}: IContactDetailsButton) {
   type ContactDetailsScreenNavigationProp = NativeStackNavigationProp<
     RootStackParamList,
     'ContactDetails'
@@ -21,12 +21,12 @@ export function GoToContacDetailsButton({name}: IContactDetailsButton) {
     <View>
       <TouchableOpacity
         onPress={() =>
-          navigationToContactDetailsScreen.navigate('ContactDetails')
+          navigationToContactDetailsScreen.navigate('ContactDetails', {
+            contactId: id,
+          })
         }>
         <ContactImage />
         <Text>{name}</Text>
-        {/* TODO:
-        Make these icons work*/}
       </TouchableOpacity>
     </View>
   );

@@ -10,4 +10,10 @@ export class ContactsService {
       async () => await axiosInstance.get<IContact[]>(`${this.resource}`),
     );
   }
+
+  static async getById(id: number): Promise<IContact> {
+    return handleAxiosResponse<IContact>(
+      async () => await axiosInstance.get<IContact>(`${this.resource}/${id}`),
+    );
+  }
 }

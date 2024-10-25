@@ -4,7 +4,6 @@ import {SmallButton} from '../components/common/SmallButton';
 import {GoToContacDetailsButton} from '../components/allContacts/';
 import {ButtonsCarrousel} from '../components/common/ButtonsCarrousel.component';
 // import Loader from '../components/loader.component';
-import Icon from 'react-native-vector-icons/Ionicons';
 import {ContactsService} from '../services/contacts.service';
 
 export interface IContact {
@@ -23,8 +22,6 @@ export function AllContactsScreen(): React.JSX.Element {
     async function fetchAllContacts() {
       setIsLoading(true);
       const response = await ContactsService.getAll();
-      console.log('!response: ', !response);
-      console.log('typeof response: ', typeof response);
       if (response) {
         setContacts(response);
         setIsLoading(false);
@@ -35,7 +32,6 @@ export function AllContactsScreen(): React.JSX.Element {
 
   return (
     <View>
-      <Icon size={24} color="grey" name="add-outline" />
       {isLoading ? (
         // <Loader name={'2-curves'} /> //TODO: Make this loader work!
         <Text>Loading...</Text>
@@ -51,7 +47,7 @@ export function AllContactsScreen(): React.JSX.Element {
             data={contacts}
             keyExtractor={item => item.id}
             renderItem={({item}) => (
-              <GoToContacDetailsButton name={item.name} />
+              <GoToContacDetailsButton name={item.name} id={item.id} />
             )}
           />
         </View>
