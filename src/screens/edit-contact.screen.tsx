@@ -1,11 +1,18 @@
 import React, {useEffect, useState} from 'react';
-import {StyleSheet, Text, TextInput, View} from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
 import {Button} from 'react-native-elements';
 import {useContactById} from '../hooks/useContactById.hook';
 import {RouteProp, useRoute} from '@react-navigation/native';
-import {IContact} from '../interfaces/contact.interface';
+import {IContact, IUpdateContact} from '../interfaces/contact.interface';
+import {ContactsService} from '../services/contacts.service';
 
 const contactSchema = Yup.object().shape({
   name: Yup.string()
@@ -27,28 +34,11 @@ export function EditContactScreen(): React.JSX.Element {
 
   const {contactInfo, isContactLoading, setIsContactLoading} =
     useContactById(contactId);
-  console.log('contactInfo: ', contactInfo);
   const [errorLoadingContact, setErrorLoadingContact] =
     useState<boolean>(false);
-  const [isSubmitting, setIsSubmitting] = useState<boolean | null>(null);
-  const [newContactInfo, setNewContactInfo] = useState<InewContactValues>({
-    name: '',
-    email: '',
-    phoneNumber: -1,
-    picture: '',
-  });
 
-  const onSubmit = values => {
-    console.log('values: ', values);
-    setIsSubmitting(true);
-    setNewContactInfo({
-      name: values.name,
-      email: values.email,
-      phoneNumber: values.phoneNumber,
-      picture: values.picture,
-    });
-    // Patch request here
-    setIsSubmitting(false);
+  const onSubmit = async (values: IUpdateContact) => {
+    await ContactsService.update(contactId, values);
   };
 
   let contactInfoNoId;
@@ -146,11 +136,11 @@ export function EditContactScreen(): React.JSX.Element {
                   // style={}
                 />
 
-                <Button
-                  onPress={handleSubmit}
-                  disabled={!isValid || isSubmitting}
-                  title={'Submit'}
-                />
+                <TouchableOpacity
+                  onPress={() => handleSubmit()}
+                  disabled={!isValid || isSubmitting}>
+                  <Text>Submit</Text>
+                </TouchableOpacity>
               </View>
             )}
           </Formik>

@@ -10,6 +10,7 @@ import {IContact} from '../interfaces/contact.interface';
 export function AllContactsScreen(): React.JSX.Element {
   const [contacts, setContacts] = useState<IContact[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [update, setUpdate] = useState<boolean>(false);
 
   useEffect(() => {
     async function fetchAllContacts() {
@@ -21,7 +22,7 @@ export function AllContactsScreen(): React.JSX.Element {
       }
     }
     fetchAllContacts();
-  }, []);
+  }, [update]);
 
   return (
     <View>

@@ -30,7 +30,6 @@ export function ContactDetailsScreen(): React.JSX.Element {
       </View>
     );
   }
-
   return (
     <View>
       {isContactLoading ? (

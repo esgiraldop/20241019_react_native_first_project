@@ -1,5 +1,5 @@
 import {axiosInstance} from '../config/axios.config';
-import {IContact} from '../screens';
+import {IContact, IUpdateContact} from '../interfaces/contact.interface';
 import {handleAxiosResponse} from '../utilities/handle-axios-response.utility';
 
 export class ContactsService {
@@ -14,6 +14,19 @@ export class ContactsService {
   static async getById(id: number): Promise<IContact> {
     return handleAxiosResponse<IContact>(
       async () => await axiosInstance.get<IContact>(`${this.resource}/${id}`),
+    );
+  }
+
+  static async update(
+    id: number,
+    contactData: IUpdateContact,
+  ): Promise<IContact> {
+    return handleAxiosResponse<IContact>(
+      async () =>
+        await axiosInstance.patch<IContact>(
+          `${this.resource}/${id}`,
+          contactData,
+        ),
     );
   }
 }

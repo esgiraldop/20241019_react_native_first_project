@@ -1,35 +1,35 @@
 {
   "contacts": [
     {
-      "id": 1,
+      "id": "1",
       "name": "Erick",
-      "phoneNumber": 123,
+      "phoneNumber": "123456",
       "email": "erick@email.com",
       "picture": "picture here"
     },
     {
-      "id": 2,
+      "id": "2",
       "name": "Fede",
       "phoneNumber": 123,
       "email": "fede@email.com",
       "picture": "picture here"
     },
     {
-      "id": 3,
+      "id": "3",
       "name": "Mari",
       "phoneNumber": 123,
       "email": "mari@email.com",
       "picture": "picture here"
     },
     {
-      "id": 4,
+      "id": "4",
       "name": "Esteban",
       "phoneNumber": 123,
       "email": "esteban@email.com",
       "picture": "picture here"
     },
     {
-      "id": 5,
+      "id": "5",
       "name": "Octavio",
       "phoneNumber": 123,
       "email": "Octavio@email.com",

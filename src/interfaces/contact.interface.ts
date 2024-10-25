@@ -5,3 +5,5 @@ export interface IContact {
   email: string;
   picture: string;
 }
+
+export interface IUpdateContact extends Partial<IContact> {}
