@@ -7,6 +7,7 @@ interface IConfirmationModal {
   confirmationModalVisible: boolean;
   setConfirmatioModalVisible: (confirmationModalVisible: boolean) => void;
   handleAccept: () => void;
+  requiresCancel: boolean;
 }
 
 export const ConfirmationModal = ({
@@ -14,6 +15,7 @@ export const ConfirmationModal = ({
   confirmationModalVisible,
   setConfirmatioModalVisible,
   handleAccept,
+  requiresCancel,
 }: IConfirmationModal): React.JSX.Element => {
   return (
     <View>
@@ -32,13 +34,15 @@ export const ConfirmationModal = ({
               onPress={handleAccept}>
               <Text>Accept</Text>
             </TouchableOpacity>
-            <TouchableOpacity
-              style={[styles.button, styles.buttonClose]}
-              onPress={() => {
-                setConfirmatioModalVisible(!confirmationModalVisible);
-              }}>
-              <Text>Cancel</Text>
-            </TouchableOpacity>
+            {requiresCancel && (
+              <TouchableOpacity
+                style={[styles.button, styles.buttonClose]}
+                onPress={() => {
+                  setConfirmatioModalVisible(!confirmationModalVisible);
+                }}>
+                <Text>Cancel</Text>
+              </TouchableOpacity>
+            )}
           </View>
         </View>
       </Modal>

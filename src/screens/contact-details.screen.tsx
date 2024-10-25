@@ -56,7 +56,8 @@ export function ContactDetailsScreen(): React.JSX.Element {
           <ConfirmationModal
             confirmationModalVisible={confirmationModalVisible}
             setConfirmatioModalVisible={setConfirmatioModalVisible}
-            handleAccept={handleDeleteContact}>
+            handleAccept={handleDeleteContact}
+            requiresCancel={true}>
             <Text>Do you want to delete this contact?</Text>
           </ConfirmationModal>
         </View>
