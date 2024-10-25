@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {FlatList, Text, View} from 'react-native';
 import {SmallButton} from '../components/common/SmallButton';
 import {GoToContacDetailsButton} from '../components/allContacts/';
@@ -6,23 +6,27 @@ import {ButtonsCarrousel} from '../components/common/ButtonsCarrousel.component'
 // import Loader from '../components/loader.component';
 import {ContactsService} from '../services/contacts.service';
 import {IContact} from '../interfaces/contact.interface';
+import {useFocusEffect} from '@react-navigation/native';
 
 export function AllContactsScreen(): React.JSX.Element {
   const [contacts, setContacts] = useState<IContact[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [update, setUpdate] = useState<boolean>(false);
 
-  useEffect(() => {
-    async function fetchAllContacts() {
-      setIsLoading(true);
-      const response = await ContactsService.getAll();
-      if (response) {
-        setContacts(response);
-        setIsLoading(false);
+  useFocusEffect(
+    useCallback(() => {
+      async function fetchAllContacts() {
+        setIsLoading(true);
+        const response = await ContactsService.getAll();
+        if (response) {
+          setContacts(response);
+          setIsLoading(false);
+        }
       }
-    }
-    fetchAllContacts();
-  }, [update]);
+      fetchAllContacts();
+
+      return () => fetchAllContacts();
+    }, []),
+  );
 
   return (
     <View>
