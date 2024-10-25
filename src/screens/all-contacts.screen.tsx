@@ -5,14 +5,7 @@ import {GoToContacDetailsButton} from '../components/allContacts/';
 import {ButtonsCarrousel} from '../components/common/ButtonsCarrousel.component';
 // import Loader from '../components/loader.component';
 import {ContactsService} from '../services/contacts.service';
-
-export interface IContact {
-  id: string;
-  name: string;
-  phoneNumber: number;
-  email: string;
-  picture: string;
-}
+import {IContact} from '../interfaces/contact.interface';
 
 export function AllContactsScreen(): React.JSX.Element {
   const [contacts, setContacts] = useState<IContact[]>([]);
