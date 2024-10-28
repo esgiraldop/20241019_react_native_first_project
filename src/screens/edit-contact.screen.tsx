@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   StyleSheet,
   Text,
@@ -41,7 +41,17 @@ export function EditContactScreen(): React.JSX.Element {
     useContactById(contactId);
   const [addPictureModalVisible, setAddPictureModalVisible] =
     useState<boolean>(false);
-  const [imageUri, setImageUri] = useState<string>('');
+
+  const [imageUri, setImageUri] = useState<string | undefined>(
+    contactInfo?.picture,
+  );
+
+  useEffect(() => {
+    // So the image in the form refreshes
+    if (contactInfo?.picture) {
+      setImageUri(contactInfo.picture);
+    }
+  }, [contactInfo]);
 
   const onSubmit = async (values: IUpdateContact) => {
     await ContactsService.update(contactId, {...values, picture: imageUri});
@@ -62,7 +72,10 @@ export function EditContactScreen(): React.JSX.Element {
     contactInfoNoId = rest;
   }
 
-  const initialValues: InewContactValues = {...contactInfoNoId};
+  const initialValues: InewContactValues = {
+    ...contactInfoNoId,
+    picture: imageUri,
+  };
 
   return (
     <View>
@@ -97,17 +110,8 @@ export function EditContactScreen(): React.JSX.Element {
                   <TouchableOpacity
                     onPress={() => setAddPictureModalVisible(true)}
                     disabled={!isValid || isSubmitting}>
-                    <ContactImage />
+                    <ContactImage pictureUri={imageUri} />
                   </TouchableOpacity>
-                  {/* <TouchableOpacity></TouchableOpacity>
-                  <TextInput
-                    onChangeText={handleChange('picture')}
-                    onBlur={handleBlur('picture')}
-                    value={values.picture}
-                    defaultValue={initialValues.picture}
-                    // placeholder={}
-                    // style={}
-                  /> */}
 
                   <Text>Name</Text>
                   <TextInput

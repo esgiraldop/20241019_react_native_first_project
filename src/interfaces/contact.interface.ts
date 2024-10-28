@@ -3,7 +3,7 @@ export interface IContact {
   name: string;
   phoneNumber: number;
   email: string;
-  picture: string;
+  picture: string | undefined;
 }
 
 export interface IUpdateContact extends Partial<IContact> {}

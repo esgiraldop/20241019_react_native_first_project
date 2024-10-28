@@ -25,6 +25,7 @@ export const AddPictureModal = ({
     if (response.assets && response.assets.length > 0) {
       setImageUri(response.assets[0].uri || '');
     }
+    setAddPictureModalVisible(!addPictureModalVisible);
   };
 
   return (

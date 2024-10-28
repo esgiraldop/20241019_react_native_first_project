@@ -37,7 +37,7 @@ export function AddContactScreen(): React.JSX.Element {
   });
 
   const navigation = useNavigation<AddContactScreenProp>();
-  const [imageUri, setImageUri] = useState<string>('');
+  const [imageUri, setImageUri] = useState<string | undefined>(undefined);
   const [addPictureModalVisible, setAddPictureModalVisible] =
     useState<boolean>(false);
 
@@ -75,7 +75,7 @@ export function AddContactScreen(): React.JSX.Element {
               <TouchableOpacity
                 onPress={() => setAddPictureModalVisible(true)}
                 disabled={!isValid || isSubmitting}>
-                <ContactImage />
+                <ContactImage pictureUri={imageUri} />
               </TouchableOpacity>
 
               <Text>Name</Text>

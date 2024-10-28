@@ -48,6 +48,13 @@
       "phoneNumber": "123",
       "email": "Hola@gmail.com",
       "picture": "file:///data/user/0/com.awesomeproject/cache/rn_image_picker_lib_temp_3f1ac942-75d7-4e3c-8934-78e149db9ffe.jpg"
+    },
+    {
+      "id": "7383",
+      "name": "Erick test 2",
+      "phoneNumber": "1234",
+      "email": "Hola@test.com",
+      "picture": "file:///data/user/0/com.awesomeproject/cache/rn_image_picker_lib_temp_a8f644e0-d76a-4e96-beb5-2d69c8cd3fe5.jpg"
     }
   ]
 }
