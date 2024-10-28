@@ -11,16 +11,16 @@ export default function ContactImage({
   const [imageError, setImageError] = useState<boolean>(false);
   const isDarkMode = useColorScheme() === 'dark'; // TODO: Maybe define this in the main app theme?
   return (
-    <View>
+    <View style={styles.container}>
       {imageError || !pictureUri ? (
         <Icon
           name="person-circle"
-          size={100}
+          size={styles.image.width}
           color={!isDarkMode ? 'grey' : 'white'}
         />
       ) : (
         <FastImage
-          style={style.imageDimensions}
+          style={styles.image}
           source={{
             uri: pictureUri,
             priority: FastImage.priority.normal,
@@ -33,9 +33,24 @@ export default function ContactImage({
   );
 }
 
-const style = StyleSheet.create({
-  imageDimensions: {
-    width: 200,
-    height: 200,
+const styles = StyleSheet.create({
+  container: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  image: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    borderColor: '#ccc', // Optional border
+    borderWidth: 1, // Optional border
+  },
+  icon: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    backgroundColor: '#f0f0f0', // Optional background color for icon
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
