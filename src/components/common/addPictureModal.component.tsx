@@ -28,6 +28,16 @@ export const AddPictureModal = ({
     setAddPictureModalVisible(!addPictureModalVisible);
   };
 
+  const openGallery = async () => {
+    const response = await launchImageLibrary({
+      mediaType: 'photo',
+    });
+    if (response.assets && response.assets.length > 0) {
+      setImageUri(response.assets[0].uri || '');
+    }
+    setAddPictureModalVisible(!addPictureModalVisible);
+  };
+
   return (
     <View>
       <Modal
@@ -47,7 +57,7 @@ export const AddPictureModal = ({
             </TouchableOpacity>
             <TouchableOpacity
               style={[styles.button, styles.buttonClose]}
-              onPress={() => console.log('Gallery opened')}>
+              onPress={openGallery}>
               <Text>Select from gallery</Text>
             </TouchableOpacity>
             <TouchableOpacity
