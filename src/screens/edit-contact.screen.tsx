@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   StyleSheet,
   Text,
@@ -14,6 +14,8 @@ import {IContact, IUpdateContact} from '../interfaces/contact.interface';
 import {ContactsService} from '../services/contacts.service';
 import {RootStackParamList} from '../interfaces';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import ContactImage from '../components/common/contactImage.component';
+import {AddPictureModal} from '../components/common/addPictureModal.component';
 
 const contactSchema = Yup.object().shape({
   name: Yup.string()
@@ -37,9 +39,12 @@ export function EditContactScreen(): React.JSX.Element {
 
   const {contactInfo, isContactLoading, errorLoadingContact} =
     useContactById(contactId);
+  const [addPictureModalVisible, setAddPictureModalVisible] =
+    useState<boolean>(false);
+  const [imageUri, setImageUri] = useState<string>('');
 
   const onSubmit = async (values: IUpdateContact) => {
-    await ContactsService.update(contactId, values);
+    await ContactsService.update(contactId, {...values, picture: imageUri});
     navigation.goBack();
   };
 
@@ -67,75 +72,91 @@ export function EditContactScreen(): React.JSX.Element {
         <Text>No information for the contact could be found</Text>
       ) : (
         <View>
-          <Formik
-            initialValues={initialValues}
-            validationSchema={contactSchema}
-            onSubmit={onSubmit}>
-            {({
-              isSubmitting,
-              handleSubmit,
-              handleChange,
-              handleBlur,
-              values,
-              errors,
-              isValid,
-            }) => (
-              <View>
-                <Text>Name</Text>
-                <TextInput
-                  onChangeText={handleChange('name')}
-                  onBlur={handleBlur('name')}
-                  value={values.name}
-                  defaultValue={initialValues.name}
-                  // placeholder={}
-                  // style={}
-                />
-                {errors.name && <Text style={style.error}>{errors.name}</Text>}
+          <View>
+            <AddPictureModal
+              addPictureModalVisible={addPictureModalVisible}
+              setAddPictureModalVisible={setAddPictureModalVisible}
+              setImageUri={setImageUri}
+            />
+          </View>
+          <View>
+            <Formik
+              initialValues={initialValues}
+              validationSchema={contactSchema}
+              onSubmit={onSubmit}>
+              {({
+                isSubmitting,
+                handleSubmit,
+                handleChange,
+                handleBlur,
+                values,
+                errors,
+                isValid,
+              }) => (
+                <View>
+                  <TouchableOpacity
+                    onPress={() => setAddPictureModalVisible(true)}
+                    disabled={!isValid || isSubmitting}>
+                    <ContactImage />
+                  </TouchableOpacity>
+                  {/* <TouchableOpacity></TouchableOpacity>
+                  <TextInput
+                    onChangeText={handleChange('picture')}
+                    onBlur={handleBlur('picture')}
+                    value={values.picture}
+                    defaultValue={initialValues.picture}
+                    // placeholder={}
+                    // style={}
+                  /> */}
 
-                <Text>Phone number</Text>
-                <TextInput
-                  onChangeText={handleChange('phoneNumber')}
-                  onBlur={handleBlur('phoneNumber')}
-                  value={String(values.phoneNumber)}
-                  defaultValue={String(initialValues.phoneNumber)}
-                  // placeholder={}
-                  // style={}
-                />
-                {errors.phoneNumber && (
-                  <Text style={style.error}>{errors.phoneNumber}</Text>
-                )}
+                  <Text>Name</Text>
+                  <TextInput
+                    onChangeText={handleChange('name')}
+                    onBlur={handleBlur('name')}
+                    value={values.name}
+                    defaultValue={initialValues.name}
+                    // placeholder={}
+                    // style={}
+                  />
+                  {errors.name && (
+                    <Text style={style.error}>{errors.name}</Text>
+                  )}
 
-                <Text>email</Text>
-                <TextInput
-                  onChangeText={handleChange('email')}
-                  onBlur={handleBlur('email')}
-                  value={values.email}
-                  defaultValue={initialValues.email}
-                  // placeholder={}
-                  // style={}
-                />
-                {errors.email && (
-                  <Text style={style.error}>{errors.email}</Text>
-                )}
+                  <Text>Phone number</Text>
+                  <TextInput
+                    onChangeText={handleChange('phoneNumber')}
+                    onBlur={handleBlur('phoneNumber')}
+                    value={String(values.phoneNumber)}
+                    defaultValue={String(initialValues.phoneNumber)}
+                    // placeholder={}
+                    // style={}
+                  />
+                  {errors.phoneNumber && (
+                    <Text style={style.error}>{errors.phoneNumber}</Text>
+                  )}
 
-                <Text>picture</Text>
-                <TextInput
-                  onChangeText={handleChange('picture')}
-                  onBlur={handleBlur('picture')}
-                  value={values.picture}
-                  defaultValue={initialValues.picture}
-                  // placeholder={}
-                  // style={}
-                />
+                  <Text>email</Text>
+                  <TextInput
+                    onChangeText={handleChange('email')}
+                    onBlur={handleBlur('email')}
+                    value={values.email}
+                    defaultValue={initialValues.email}
+                    // placeholder={}
+                    // style={}
+                  />
+                  {errors.email && (
+                    <Text style={style.error}>{errors.email}</Text>
+                  )}
 
-                <TouchableOpacity
-                  onPress={() => handleSubmit()}
-                  disabled={!isValid || isSubmitting}>
-                  <Text>Submit</Text>
-                </TouchableOpacity>
-              </View>
-            )}
-          </Formik>
+                  <TouchableOpacity
+                    onPress={() => handleSubmit()}
+                    disabled={!isValid || isSubmitting}>
+                    <Text>Submit</Text>
+                  </TouchableOpacity>
+                </View>
+              )}
+            </Formik>
+          </View>
         </View>
       )}
     </View>

@@ -13,7 +13,8 @@ import {IUpdateContact} from '../interfaces/contact.interface';
 import {ContactsService} from '../services/contacts.service';
 import {RootStackParamList} from '../interfaces';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+import ContactImage from '../components/common/contactImage.component';
+import {AddPictureModal} from '../components/common/addPictureModal.component';
 // import {styles} from '../styles';
 
 const contactSchema = Yup.object().shape({
@@ -37,95 +38,86 @@ export function AddContactScreen(): React.JSX.Element {
 
   const navigation = useNavigation<AddContactScreenProp>();
   const [imageUri, setImageUri] = useState<string>('');
+  const [addPictureModalVisible, setAddPictureModalVisible] =
+    useState<boolean>(false);
 
   const onSubmit = async (values: IUpdateContact) => {
     await ContactsService.create({...values, picture: imageUri});
     navigation.goBack();
   };
 
-  const openCamera = async () => {
-    const response = await launchCamera({
-      mediaType: 'photo',
-      cameraType: 'front',
-    });
-    if (response.assets && response.assets.length > 0) {
-      setImageUri(response.assets[0].uri || '');
-    }
-  };
-
   const initialValues = {name: '', phoneNumber: -1, email: '', picture: ''};
 
   return (
     <View>
-      <Formik
-        initialValues={initialValues}
-        validationSchema={contactSchema}
-        onSubmit={onSubmit}>
-        {({
-          isSubmitting,
-          handleSubmit,
-          handleChange,
-          handleBlur,
-          values,
-          errors,
-          isValid,
-        }) => (
-          <View>
-            <Text>Name</Text>
-            <TextInput
-              onChangeText={handleChange('name')}
-              onBlur={handleBlur('name')}
-              value={values.name}
-              placeholder={'Name'}
-            />
-            {errors.name && <Text style={styles.error}>{errors.name}</Text>}
+      <View>
+        <AddPictureModal
+          addPictureModalVisible={addPictureModalVisible}
+          setAddPictureModalVisible={setAddPictureModalVisible}
+          setImageUri={setImageUri}
+        />
+      </View>
+      <View>
+        <Formik
+          initialValues={initialValues}
+          validationSchema={contactSchema}
+          onSubmit={onSubmit}>
+          {({
+            isSubmitting,
+            handleSubmit,
+            handleChange,
+            handleBlur,
+            values,
+            errors,
+            isValid,
+          }) => (
+            <View>
+              <TouchableOpacity
+                onPress={() => setAddPictureModalVisible(true)}
+                disabled={!isValid || isSubmitting}>
+                <ContactImage />
+              </TouchableOpacity>
 
-            <Text style={styles.regularText}>Phone number</Text>
-            <TextInput
-              onChangeText={handleChange('phoneNumber')}
-              onBlur={handleBlur('phoneNumber')}
-              value={String(values.phoneNumber)}
-              defaultValue={String(initialValues.phoneNumber)}
-              placeholder={'123456789'}
-            />
-            {errors.phoneNumber && (
-              <Text style={styles.error}>{errors.phoneNumber}</Text>
-            )}
+              <Text>Name</Text>
+              <TextInput
+                onChangeText={handleChange('name')}
+                onBlur={handleBlur('name')}
+                value={values.name}
+                placeholder={'Name'}
+              />
+              {errors.name && <Text style={styles.error}>{errors.name}</Text>}
 
-            <Text style={styles.regularText}>email</Text>
-            <TextInput
-              onChangeText={handleChange('email')}
-              onBlur={handleBlur('email')}
-              value={values.email}
-              defaultValue={initialValues.email}
-              placeholder={'email@example.com'}
-            />
-            {errors.email && <Text style={styles.error}>{errors.email}</Text>}
+              <Text style={styles.regularText}>Phone number</Text>
+              <TextInput
+                onChangeText={handleChange('phoneNumber')}
+                onBlur={handleBlur('phoneNumber')}
+                value={String(values.phoneNumber)}
+                defaultValue={String(initialValues.phoneNumber)}
+                placeholder={'123456789'}
+              />
+              {errors.phoneNumber && (
+                <Text style={styles.error}>{errors.phoneNumber}</Text>
+              )}
 
-            <Text style={styles.regularText}>picture</Text>
-            {/* <TextInput
-              onChangeText={handleChange('picture')}
-              onBlur={handleBlur('picture')}
-              value={values.picture}
-              defaultValue={initialValues.picture}
-              placeholder={'picture'}
-              style={styles.regularText}
-            /> */}
+              <Text style={styles.regularText}>email</Text>
+              <TextInput
+                onChangeText={handleChange('email')}
+                onBlur={handleBlur('email')}
+                value={values.email}
+                defaultValue={initialValues.email}
+                placeholder={'email@example.com'}
+              />
+              {errors.email && <Text style={styles.error}>{errors.email}</Text>}
 
-            <TouchableOpacity
-              onPress={openCamera}
-              disabled={!isValid || isSubmitting}>
-              <Text>Open camera</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              onPress={() => handleSubmit()}
-              disabled={!isValid || isSubmitting}>
-              <Text>Submit</Text>
-            </TouchableOpacity>
-          </View>
-        )}
-      </Formik>
+              <TouchableOpacity
+                onPress={() => handleSubmit()}
+                disabled={!isValid || isSubmitting}>
+                <Text>Submit</Text>
+              </TouchableOpacity>
+            </View>
+          )}
+        </Formik>
+      </View>
     </View>
   );
 }
