@@ -3,7 +3,7 @@ import {StyleSheet, useColorScheme, View} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-export default function ContactImage() {
+export default function ContactImage({pictureUri}: {pictureUri: string}) {
   const [imageError, setImageError] = useState<boolean>(false);
   const isDarkMode = useColorScheme() === 'dark'; // TODO: Maybe define this in the main app theme?
   return (
@@ -18,7 +18,7 @@ export default function ContactImage() {
         <FastImage
           style={style.imageDimensions}
           source={{
-            uri: 'https:....png',
+            uri: pictureUri,
             priority: FastImage.priority.normal,
           }}
           resizeMode={FastImage.resizeMode.contain}

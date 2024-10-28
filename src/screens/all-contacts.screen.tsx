@@ -45,7 +45,11 @@ export function AllContactsScreen(): React.JSX.Element {
             data={contacts.sort((a, b) => a.name.localeCompare(b.name))}
             keyExtractor={item => item.id}
             renderItem={({item}) => (
-              <GoToContacDetailsButton name={item.name} id={item.id} />
+              <GoToContacDetailsButton
+                name={item.name}
+                id={item.id}
+                picture={item.picture}
+              />
             )}
           />
         </View>

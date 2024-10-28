@@ -38,7 +38,7 @@ export function ContactDetailsScreen(): React.JSX.Element {
         <Text>No information for the contact could be found</Text>
       ) : (
         <View>
-          <ContactImage />
+          <ContactImage pictureUri={contactInfo.picture} />
           <Text>{contactInfo.name}</Text>
           <Text>{contactInfo.phoneNumber}</Text>
           <Text>{contactInfo.email}</Text>

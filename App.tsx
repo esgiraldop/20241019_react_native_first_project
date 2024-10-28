@@ -1,6 +1,6 @@
-if (__DEV__) {
-  require('./ReactotronConfig');
-}
+// if (__DEV__) {
+//   require('./ReactotronConfig');
+// }
 
 import React from 'react';
 import {StatusBar, useColorScheme} from 'react-native';
