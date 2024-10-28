@@ -90,6 +90,7 @@ export function EditContactScreen(): React.JSX.Element {
               addPictureModalVisible={addPictureModalVisible}
               setAddPictureModalVisible={setAddPictureModalVisible}
               setImageUri={setImageUri}
+              pictureUri={imageUri}
             />
           </View>
           <View>
