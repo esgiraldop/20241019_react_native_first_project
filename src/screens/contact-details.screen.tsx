@@ -1,12 +1,13 @@
-import {Text, TouchableOpacity, View} from 'react-native';
+import React, {useState} from 'react';
+import {Text, TouchableOpacity, View, StyleSheet} from 'react-native';
 import {NativeStackNavigationProp} from 'react-native-screens/lib/typescript/native-stack/types';
 import {RootStackParamList} from '../interfaces';
 import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
 import ContactImage from '../components/common/contactImage.component';
 import {useContactById} from '../hooks/useContactById.hook';
-import React, {useState} from 'react';
 import {ContactsService} from '../services/contacts.service';
 import {ConfirmationModal} from '../components/common/confirmation-modal.component';
+import {theme} from '../theme/main.theme';
 
 type ContactDetailsScreenProp = NativeStackNavigationProp<
   RootStackParamList,
@@ -16,13 +17,12 @@ type ContactDetailsScreenProp = NativeStackNavigationProp<
 export function ContactDetailsScreen(): React.JSX.Element {
   const {params} = useRoute<RouteProp<RootStackParamList, 'EditContact'>>();
   const contactId = params.contactId;
-
   const navigation = useNavigation<ContactDetailsScreenProp>();
 
   const {contactInfo, isContactLoading, errorLoadingContact} =
     useContactById(contactId);
 
-  const [confirmationModalVisible, setConfirmatioModalVisible] =
+  const [confirmationModalVisible, setConfirmationModalVisible] =
     useState<boolean>(false);
 
   const handleDeleteContact = async () => {
@@ -31,31 +31,35 @@ export function ContactDetailsScreen(): React.JSX.Element {
   };
 
   return (
-    <View>
+    <View style={styles.container}>
       {isContactLoading ? (
-        <Text>Loading contact information...</Text>
+        <Text style={styles.loadingText}>Loading contact information...</Text>
       ) : errorLoadingContact || !contactInfo ? (
-        <Text>No information for the contact could be found</Text>
+        <Text style={styles.errorText}>
+          No information for the contact could be found
+        </Text>
       ) : (
-        <View>
+        <View style={styles.contactContainer}>
           <ContactImage pictureUri={contactInfo.picture} />
-          <Text>{contactInfo.name}</Text>
-          <Text>{contactInfo.phoneNumber}</Text>
-          <Text>{contactInfo.email}</Text>
+          <Text style={styles.nameText}>{contactInfo.name}</Text>
+          <Text style={styles.phoneText}>{contactInfo.phoneNumber}</Text>
+          <Text style={styles.emailText}>{contactInfo.email}</Text>
+
           <TouchableOpacity
-            onPress={() =>
-              navigation.navigate('EditContact', {
-                contactId,
-              })
-            }>
-            <Text>Edit contact</Text>
+            style={[styles.button]}
+            onPress={() => navigation.navigate('EditContact', {contactId})}>
+            <Text style={styles.buttonText}>Edit Contact</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => setConfirmatioModalVisible(true)}>
-            <Text>Delete contact</Text>
+
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => setConfirmationModalVisible(true)}>
+            <Text style={styles.buttonText}>Delete Contact</Text>
           </TouchableOpacity>
+
           <ConfirmationModal
             confirmationModalVisible={confirmationModalVisible}
-            setConfirmatioModalVisible={setConfirmatioModalVisible}
+            setConfirmationModalVisible={setConfirmationModalVisible}
             handleAccept={handleDeleteContact}
             requiresCancel={true}>
             <Text>Do you want to delete this contact?</Text>
@@ -65,3 +69,47 @@ export function ContactDetailsScreen(): React.JSX.Element {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: theme.colors.background,
+    padding: theme.spacing.medium,
+  },
+  contactContainer: {
+    alignItems: 'center',
+    borderBottomColor: theme.colors.borderColor,
+    borderBottomWidth: 1,
+    paddingBottom: theme.spacing.large,
+  },
+  loadingText: {
+    color: theme.colors.textSecondary,
+  },
+  errorText: {
+    color: theme.colors.textSecondary,
+  },
+  nameText: {
+    fontSize: theme.fontSizes.title,
+    color: theme.colors.textPrimary,
+    marginTop: theme.spacing.small,
+  },
+  phoneText: {
+    fontSize: theme.fontSizes.text,
+    color: theme.colors.textSecondary,
+    marginVertical: theme.spacing.small,
+  },
+  emailText: {
+    fontSize: theme.fontSizes.text,
+    color: theme.colors.textSecondary,
+  },
+  button: {
+    backgroundColor: theme.colors.buttonBackground,
+    padding: theme.spacing.medium,
+    marginTop: theme.spacing.medium,
+    borderRadius: theme.spacing.small,
+    alignItems: 'center',
+  },
+  buttonText: {
+    color: theme.colors.textPrimary,
+  },
+});

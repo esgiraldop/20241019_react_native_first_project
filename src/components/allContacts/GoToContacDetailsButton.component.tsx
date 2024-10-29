@@ -1,6 +1,6 @@
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import React from 'react';
-import {TouchableOpacity, View, StyleSheet} from 'react-native';
+import {TouchableOpacity, StyleSheet} from 'react-native';
 import {RootStackParamList} from '../../interfaces';
 import {useNavigation} from '@react-navigation/native';
 import {Text} from 'react-native-elements';
