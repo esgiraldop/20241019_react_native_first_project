@@ -16,6 +16,7 @@ import {
 } from './src/screens';
 import {RootStackParamList} from './src/interfaces/navigation.interface';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
+import {theme} from './src/theme/main.theme';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -32,15 +33,39 @@ function App(): React.JSX.Element {
         backgroundColor={backgroundStyle.backgroundColor}
       />
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Contacts">
+        <Stack.Navigator
+          initialRouteName="Contacts"
+          screenOptions={{
+            headerStyle: {
+              backgroundColor: theme.colors.background,
+            },
+            headerTintColor: theme.colors.textPrimary,
+            headerTitleStyle: {
+              fontSize: theme.fontSizes.title,
+              color: theme.colors.textPrimary,
+            },
+          }}>
           {/* <Stack.Screen name="Demo" component={DemoScreen} /> */}
-          <Stack.Screen name="Contacts" component={AllContactsScreen} />
+          <Stack.Screen
+            name="Contacts"
+            component={AllContactsScreen}
+            options={{title: 'Contacts'}}
+          />
           <Stack.Screen
             name="ContactDetails"
             component={ContactDetailsScreen}
+            options={{title: 'Contact details'}}
           />
-          <Stack.Screen name="AddContact" component={AddContactScreen} />
-          <Stack.Screen name="EditContact" component={EditContactScreen} />
+          <Stack.Screen
+            name="AddContact"
+            component={AddContactScreen}
+            options={{title: 'Add new contact'}}
+          />
+          <Stack.Screen
+            name="EditContact"
+            component={EditContactScreen}
+            options={{title: 'Edit contact'}}
+          />
         </Stack.Navigator>
       </NavigationContainer>
     </SafeAreaProvider>

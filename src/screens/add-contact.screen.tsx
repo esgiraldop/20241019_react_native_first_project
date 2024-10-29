@@ -114,6 +114,7 @@ export function AddContactScreen(): React.JSX.Element {
 
               <View style={formStyles.buttonContainer}>
                 <TouchableOpacity
+                  style={formStyles.saveButton}
                   onPress={() => handleSubmit()}
                   disabled={!isValid || isSubmitting}>
                   <Text>Submit</Text>
