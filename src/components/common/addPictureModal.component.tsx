@@ -3,6 +3,7 @@ import {Modal, StyleSheet, TouchableOpacity, View} from 'react-native';
 import {Text} from 'react-native-elements';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import ContactImage from './contactImage.component';
+import {theme} from '../../theme/main.theme';
 
 interface IAddPictureModal {
   addPictureModalVisible: boolean;
@@ -50,22 +51,21 @@ export const AddPictureModal = ({
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
             <ContactImage pictureUri={pictureUri} />
-            <TouchableOpacity
-              style={[styles.button, styles.buttonClose]}
-              onPress={openCamera}>
-              <Text>Open Camera</Text>
+
+            <TouchableOpacity style={styles.button} onPress={openCamera}>
+              <Text style={styles.buttonText}>Open Camera</Text>
             </TouchableOpacity>
-            <TouchableOpacity
-              style={[styles.button, styles.buttonClose]}
-              onPress={openGallery}>
-              <Text>Select from gallery</Text>
+
+            <TouchableOpacity style={styles.button} onPress={openGallery}>
+              <Text style={styles.buttonText}>Select from Gallery</Text>
             </TouchableOpacity>
+
             <TouchableOpacity
-              style={[styles.button, styles.buttonClose]}
-              onPress={() => {
-                setAddPictureModalVisible(!addPictureModalVisible);
-              }}>
-              <Text>Cancel</Text>
+              style={styles.cancelButton}
+              onPress={() =>
+                setAddPictureModalVisible(!addPictureModalVisible)
+              }>
+              <Text style={styles.cancelButtonText}>Cancel</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -79,14 +79,14 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)', // Semi-transparent background for the modal overlay
   },
   modalView: {
-    margin: 20,
-    backgroundColor: 'white',
-    borderRadius: 20,
-    padding: 35,
+    backgroundColor: theme.colors.buttonBackground,
+    borderRadius: theme.spacing.small,
+    padding: theme.spacing.large,
     alignItems: 'center',
-    shadowColor: '#000',
+    shadowColor: theme.colors.borderColor,
     shadowOffset: {
       width: 0,
       height: 2,
@@ -94,25 +94,35 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
+    width: '80%', // Centering the modal width
   },
   button: {
-    borderRadius: 20,
-    padding: 10,
-    elevation: 2,
+    backgroundColor: theme.colors.accent,
+    paddingVertical: theme.spacing.medium,
+    paddingHorizontal: theme.spacing.large,
+    borderRadius: theme.spacing.small,
+    width: '100%',
+    alignItems: 'center',
+    marginVertical: theme.spacing.small,
   },
-  buttonOpen: {
-    backgroundColor: '#F194FF',
-  },
-  buttonClose: {
-    backgroundColor: '#2196F3',
-  },
-  textStyle: {
-    color: 'white',
+  buttonText: {
+    color: theme.colors.textPrimary,
     fontWeight: 'bold',
-    textAlign: 'center',
+    fontSize: theme.fontSizes.text,
   },
-  modalText: {
-    marginBottom: 15,
-    textAlign: 'center',
+  cancelButton: {
+    backgroundColor: theme.colors.buttonBackground,
+    paddingVertical: theme.spacing.medium,
+    paddingHorizontal: theme.spacing.large,
+    borderRadius: theme.spacing.small,
+    width: '100%',
+    alignItems: 'center',
+    marginVertical: theme.spacing.small,
+    borderWidth: 1,
+    borderColor: theme.colors.borderColor,
+  },
+  cancelButtonText: {
+    color: theme.colors.textSecondary,
+    fontSize: theme.fontSizes.text,
   },
 });

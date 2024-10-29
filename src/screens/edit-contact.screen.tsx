@@ -79,11 +79,11 @@ export function EditContactScreen(): React.JSX.Element {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={formStyles.container}>
       {isContactLoading ? (
-        <Text style={styles.loadingText}>Loading...</Text>
+        <Text style={formStyles.loadingText}>Loading...</Text>
       ) : errorLoadingContact ? (
-        <Text style={styles.errorText}>
+        <Text style={formStyles.errorText}>
           No information for the contact could be found
         </Text>
       ) : (
@@ -110,30 +110,30 @@ export function EditContactScreen(): React.JSX.Element {
                 errors,
                 isValid,
               }) => (
-                <View style={styles.formContainer}>
+                <View style={formStyles.formContainer}>
                   <TouchableOpacity
                     onPress={() => setAddPictureModalVisible(true)}
                     disabled={!isValid || isSubmitting}>
                     <ContactImage pictureUri={imageUri} />
                   </TouchableOpacity>
 
-                  <Text style={styles.label}>Name</Text>
+                  <Text style={formStyles.label}>Name</Text>
                   <TextInput
-                    style={styles.input}
+                    style={formStyles.input}
                     onChangeText={handleChange('name')}
                     onBlur={handleBlur('name')}
                     value={values.name}
                     defaultValue={initialValues.name}
-                    // placeholder={}
-                    // style={}
+                    placeholder="Enter name"
+                    placeholderTextColor={theme.colors.textSecondary}
                   />
                   {errors.name && (
-                    <Text style={styles.error}>{errors.name}</Text>
+                    <Text style={formStyles.error}>{errors.name}</Text>
                   )}
 
-                  <Text style={styles.label}>Phone number</Text>
+                  <Text style={formStyles.label}>Phone number</Text>
                   <TextInput
-                    style={styles.input}
+                    style={formStyles.input}
                     onChangeText={handleChange('phoneNumber')}
                     onBlur={handleBlur('phoneNumber')}
                     value={String(values.phoneNumber)}
@@ -143,12 +143,12 @@ export function EditContactScreen(): React.JSX.Element {
                     keyboardType="phone-pad"
                   />
                   {errors.phoneNumber && (
-                    <Text style={styles.error}>{errors.phoneNumber}</Text>
+                    <Text style={formStyles.error}>{errors.phoneNumber}</Text>
                   )}
 
-                  <Text style={styles.label}>email</Text>
+                  <Text style={formStyles.label}>email</Text>
                   <TextInput
-                    style={styles.input}
+                    style={formStyles.input}
                     onChangeText={handleChange('email')}
                     onBlur={handleBlur('email')}
                     value={values.email}
@@ -158,15 +158,15 @@ export function EditContactScreen(): React.JSX.Element {
                     keyboardType="email-address"
                   />
                   {errors.email && (
-                    <Text style={styles.error}>{errors.email}</Text>
+                    <Text style={formStyles.error}>{errors.email}</Text>
                   )}
 
-                  <View style={styles.buttonContainer}>
+                  <View style={formStyles.buttonContainer}>
                     <TouchableOpacity
-                      style={styles.saveButton}
+                      style={formStyles.saveButton}
                       onPress={() => handleSubmit()}
                       disabled={!isValid || isSubmitting}>
-                      <Text style={styles.buttonText}>Submit</Text>
+                      <Text style={formStyles.buttonText}>Submit</Text>
                     </TouchableOpacity>
                   </View>
                 </View>
@@ -179,7 +179,7 @@ export function EditContactScreen(): React.JSX.Element {
   );
 }
 
-const styles = StyleSheet.create({
+export const formStyles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: theme.colors.background,
