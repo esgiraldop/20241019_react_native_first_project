@@ -40,7 +40,7 @@ export function ContactDetailsScreen(): React.JSX.Element {
         </Text>
       ) : (
         <View style={styles.contactContainer}>
-          <ContactImage pictureUri={contactInfo.picture} />
+          <ContactImage pictureUri={contactInfo.picture} size={150} />
           <Text style={styles.nameText}>{contactInfo.name}</Text>
           <Text style={styles.phoneText}>{contactInfo.phoneNumber}</Text>
           <Text style={styles.emailText}>{contactInfo.email}</Text>

@@ -50,7 +50,7 @@ export const AddPictureModal = ({
         }}>
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <ContactImage pictureUri={pictureUri} />
+            <ContactImage pictureUri={pictureUri} size={250} />
 
             <TouchableOpacity style={styles.button} onPress={openCamera}>
               <Text style={styles.buttonText}>Open Camera</Text>

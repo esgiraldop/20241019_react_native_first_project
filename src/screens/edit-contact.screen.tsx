@@ -114,7 +114,7 @@ export function EditContactScreen(): React.JSX.Element {
                   <TouchableOpacity
                     onPress={() => setAddPictureModalVisible(true)}
                     disabled={!isValid || isSubmitting}>
-                    <ContactImage pictureUri={imageUri} />
+                    <ContactImage pictureUri={imageUri} size={150} />
                   </TouchableOpacity>
 
                   <Text style={formStyles.label}>Name</Text>

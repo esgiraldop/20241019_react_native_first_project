@@ -3,11 +3,15 @@ import {StyleSheet, useColorScheme, View} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import Icon from 'react-native-vector-icons/Ionicons';
 
+interface IContactImage {
+  pictureUri?: string | undefined;
+  size?: number | undefined;
+}
+
 export default function ContactImage({
   pictureUri,
-}: {
-  pictureUri?: string | undefined;
-}) {
+  size = undefined,
+}: IContactImage) {
   const [imageError, setImageError] = useState<boolean>(false);
   const isDarkMode = useColorScheme() === 'dark'; // TODO: Maybe define this in the main app theme?
   return (
@@ -15,12 +19,17 @@ export default function ContactImage({
       {imageError || !pictureUri ? (
         <Icon
           name="person-circle"
-          size={styles.image.width}
+          size={size ? size : styles.image.width}
           color={!isDarkMode ? 'grey' : 'white'}
         />
       ) : (
         <FastImage
-          style={styles.image}
+          style={{
+            ...styles.image,
+            width: size ? size : styles.image.width,
+            height: size ? size : styles.image.height,
+            borderRadius: size ? size : styles.image.borderRadius,
+          }}
           source={{
             uri: pictureUri,
             priority: FastImage.priority.normal,
