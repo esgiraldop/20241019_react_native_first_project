@@ -1,5 +1,11 @@
 import React, {useState} from 'react';
-import {Text, TextInput, TouchableOpacity, View} from 'react-native';
+import {
+  ScrollView,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
 import {useNavigation} from '@react-navigation/native';
@@ -11,6 +17,7 @@ import ContactImage from '../components/common/contactImage.component';
 import {AddPictureModal} from '../components/common/addPictureModal.component';
 import {theme} from '../theme/main.theme';
 import {formStyles} from './edit-contact.screen';
+import {GoogleMap} from '../components/common/googleMap.component';
 // import {styles} from '../styles';
 
 const contactSchema = Yup.object().shape({
@@ -40,7 +47,7 @@ export function AddContactScreen(): React.JSX.Element {
   const initialValues = {name: '', phoneNumber: -1, email: '', picture: ''};
 
   return (
-    <View style={formStyles.container}>
+    <ScrollView style={formStyles.container}>
       <View>
         <AddPictureModal
           addPictureModalVisible={addPictureModalVisible}
@@ -112,6 +119,9 @@ export function AddContactScreen(): React.JSX.Element {
                 <Text style={formStyles.error}>{errors.email}</Text>
               )}
 
+              <Text style={formStyles.label}>Add the contact's location</Text>
+              <GoogleMap />
+
               <View style={formStyles.buttonContainer}>
                 <TouchableOpacity
                   style={formStyles.saveButton}
@@ -124,6 +134,6 @@ export function AddContactScreen(): React.JSX.Element {
           )}
         </Formik>
       </View>
-    </View>
+    </ScrollView>
   );
 }
