@@ -16,6 +16,7 @@ import {RootStackParamList} from '../interfaces';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import ContactImage from '../components/common/contactImage.component';
 import {AddPictureModal} from '../components/common/addPictureModal.component';
+import {theme} from '../theme/main.theme';
 
 const contactSchema = Yup.object().shape({
   name: Yup.string()
@@ -78,11 +79,13 @@ export function EditContactScreen(): React.JSX.Element {
   };
 
   return (
-    <View>
+    <View style={styles.container}>
       {isContactLoading ? (
-        <Text>Loading...</Text>
+        <Text style={styles.loadingText}>Loading...</Text>
       ) : errorLoadingContact ? (
-        <Text>No information for the contact could be found</Text>
+        <Text style={styles.errorText}>
+          No information for the contact could be found
+        </Text>
       ) : (
         <View>
           <View>
@@ -107,15 +110,16 @@ export function EditContactScreen(): React.JSX.Element {
                 errors,
                 isValid,
               }) => (
-                <View>
+                <View style={styles.formContainer}>
                   <TouchableOpacity
                     onPress={() => setAddPictureModalVisible(true)}
                     disabled={!isValid || isSubmitting}>
                     <ContactImage pictureUri={imageUri} />
                   </TouchableOpacity>
 
-                  <Text>Name</Text>
+                  <Text style={styles.label}>Name</Text>
                   <TextInput
+                    style={styles.input}
                     onChangeText={handleChange('name')}
                     onBlur={handleBlur('name')}
                     value={values.name}
@@ -124,40 +128,47 @@ export function EditContactScreen(): React.JSX.Element {
                     // style={}
                   />
                   {errors.name && (
-                    <Text style={style.error}>{errors.name}</Text>
+                    <Text style={styles.error}>{errors.name}</Text>
                   )}
 
-                  <Text>Phone number</Text>
+                  <Text style={styles.label}>Phone number</Text>
                   <TextInput
+                    style={styles.input}
                     onChangeText={handleChange('phoneNumber')}
                     onBlur={handleBlur('phoneNumber')}
                     value={String(values.phoneNumber)}
                     defaultValue={String(initialValues.phoneNumber)}
-                    // placeholder={}
-                    // style={}
+                    placeholder="Enter phone number"
+                    placeholderTextColor={theme.colors.textSecondary}
+                    keyboardType="phone-pad"
                   />
                   {errors.phoneNumber && (
-                    <Text style={style.error}>{errors.phoneNumber}</Text>
+                    <Text style={styles.error}>{errors.phoneNumber}</Text>
                   )}
 
-                  <Text>email</Text>
+                  <Text style={styles.label}>email</Text>
                   <TextInput
+                    style={styles.input}
                     onChangeText={handleChange('email')}
                     onBlur={handleBlur('email')}
                     value={values.email}
                     defaultValue={initialValues.email}
-                    // placeholder={}
-                    // style={}
+                    placeholder="Enter email"
+                    placeholderTextColor={theme.colors.textSecondary}
+                    keyboardType="email-address"
                   />
                   {errors.email && (
-                    <Text style={style.error}>{errors.email}</Text>
+                    <Text style={styles.error}>{errors.email}</Text>
                   )}
 
-                  <TouchableOpacity
-                    onPress={() => handleSubmit()}
-                    disabled={!isValid || isSubmitting}>
-                    <Text>Submit</Text>
-                  </TouchableOpacity>
+                  <View style={styles.buttonContainer}>
+                    <TouchableOpacity
+                      style={styles.saveButton}
+                      onPress={() => handleSubmit()}
+                      disabled={!isValid || isSubmitting}>
+                      <Text style={styles.buttonText}>Submit</Text>
+                    </TouchableOpacity>
+                  </View>
                 </View>
               )}
             </Formik>
@@ -168,6 +179,68 @@ export function EditContactScreen(): React.JSX.Element {
   );
 }
 
-const style = StyleSheet.create({
-  error: {fontSize: 10, color: 'red'},
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: theme.colors.background,
+    padding: theme.spacing.medium,
+  },
+  loadingText: {
+    color: theme.colors.textSecondary,
+    textAlign: 'center',
+  },
+  errorText: {
+    color: theme.colors.textSecondary,
+    textAlign: 'center',
+  },
+  formContainer: {
+    alignItems: 'center',
+  },
+  imageContainer: {
+    marginBottom: theme.spacing.large,
+  },
+  label: {
+    color: theme.colors.textPrimary,
+    fontSize: theme.fontSizes.text,
+    marginBottom: theme.spacing.small,
+  },
+  input: {
+    backgroundColor: theme.colors.buttonBackground,
+    color: theme.colors.textPrimary,
+    padding: theme.spacing.small,
+    borderRadius: theme.spacing.small,
+    width: '100%',
+    marginBottom: theme.spacing.medium,
+  },
+  error: {
+    fontSize: 12,
+    color: 'red',
+    marginBottom: theme.spacing.small,
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '100%',
+  },
+  cancelButton: {
+    flex: 1,
+    backgroundColor: theme.colors.buttonBackground,
+    padding: theme.spacing.medium,
+    borderRadius: theme.spacing.small,
+    alignItems: 'center',
+    marginRight: theme.spacing.small,
+  },
+  saveButton: {
+    flex: 1,
+    backgroundColor: theme.colors.accent,
+    padding: theme.spacing.medium,
+    borderRadius: theme.spacing.small,
+    alignItems: 'center',
+    marginLeft: theme.spacing.small,
+  },
+  buttonText: {
+    color: theme.colors.textPrimary,
+    fontSize: theme.fontSizes.text,
+    fontWeight: 'bold',
+  },
 });
