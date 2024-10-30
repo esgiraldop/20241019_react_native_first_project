@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {
+  ScrollView,
   StyleSheet,
   Text,
   TextInput,
@@ -17,6 +18,10 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import ContactImage from '../components/common/contactImage.component';
 import {AddPictureModal} from '../components/common/addPictureModal.component';
 import {theme} from '../theme/main.theme';
+import {
+  GoogleMap,
+  IMarkerCoordinates,
+} from '../components/common/googleMap.component';
 
 const contactSchema = Yup.object().shape({
   name: Yup.string()
@@ -47,6 +52,18 @@ export function EditContactScreen(): React.JSX.Element {
     contactInfo?.picture,
   );
 
+  const [marker, setMarker] = useState<IMarkerCoordinates | null>(null);
+
+  useEffect(() => {
+    if (contactInfo?.latitude && contactInfo?.longitude) {
+      setMarker({
+        latitude: contactInfo?.latitude,
+        longitude: contactInfo?.longitude,
+      });
+    }
+  }, [contactInfo]);
+
+  console.log('marker: ', marker);
   useEffect(() => {
     // So the image in the form refreshes
     if (contactInfo?.picture) {
@@ -55,11 +72,16 @@ export function EditContactScreen(): React.JSX.Element {
   }, [contactInfo]);
 
   const onSubmit = async (values: IUpdateContact) => {
-    await ContactsService.update(contactId, {...values, picture: imageUri});
+    await ContactsService.update(contactId, {
+      ...values,
+      picture: imageUri,
+      latitude: marker?.latitude,
+      longitude: marker?.longitude,
+    });
     navigation.goBack();
   };
 
-  let contactInfoNoId;
+  let contactInfoNoId: InewContactValues;
 
   if (!contactInfo) {
     contactInfoNoId = {
@@ -67,6 +89,8 @@ export function EditContactScreen(): React.JSX.Element {
       phoneNumber: -1,
       email: '',
       picture: '',
+      latitude: 0,
+      longitude: 0,
     };
   } else {
     const {id, ...rest} = contactInfo;
@@ -79,7 +103,7 @@ export function EditContactScreen(): React.JSX.Element {
   };
 
   return (
-    <View style={formStyles.container}>
+    <ScrollView style={formStyles.container}>
       {isContactLoading ? (
         <Text style={formStyles.loadingText}>Loading...</Text>
       ) : errorLoadingContact ? (
@@ -161,6 +185,11 @@ export function EditContactScreen(): React.JSX.Element {
                     <Text style={formStyles.error}>{errors.email}</Text>
                   )}
 
+                  <Text style={formStyles.label}>
+                    Add the contact's current location
+                  </Text>
+                  <GoogleMap marker={marker} setMarker={setMarker} />
+
                   <View style={formStyles.buttonContainer}>
                     <TouchableOpacity
                       style={formStyles.saveButton}
@@ -175,7 +204,7 @@ export function EditContactScreen(): React.JSX.Element {
           </View>
         </View>
       )}
-    </View>
+    </ScrollView>
   );
 }
 

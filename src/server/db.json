@@ -5,56 +5,81 @@
       "name": "Erick hola",
       "phoneNumber": "123456",
       "email": "erick@email.com",
-      "picture": "picture here"
+      "picture": "picture here",
+      "latitude": 0,
+      "longitude": 0
     },
     {
       "id": "3",
       "name": "Mari",
       "phoneNumber": 123,
       "email": "mari@email.com",
-      "picture": "picture here"
+      "picture": "picture here",
+      "latitude": 0,
+      "longitude": 0
     },
     {
       "id": "4",
       "name": "Esteban",
       "phoneNumber": 123,
       "email": "esteban@email.com",
-      "picture": "picture here"
+      "picture": "picture here",
+      "latitude": 0,
+      "longitude": 0
     },
     {
       "id": "1af2",
       "name": "Erick nuevo",
       "phoneNumber": "123",
       "email": "erick@otrotest.com",
-      "picture": ""
+      "picture": "",
+      "latitude": 0,
+      "longitude": 0
     },
     {
       "id": "6b24",
       "name": "Erick con imagen",
       "phoneNumber": "123",
       "email": "erick@gmail.com",
-      "picture": "file:///data/user/0/com.awesomeproject/cache/rn_image_picker_lib_temp_c3b8d938-399d-4421-9363-19df994d428e.jpg"
+      "picture": "file:///data/user/0/com.awesomeproject/cache/rn_image_picker_lib_temp_c3b8d938-399d-4421-9363-19df994d428e.jpg",
+      "latitude": 0,
+      "longitude": 0
     },
     {
       "id": "5945",
       "name": "Eri k",
       "phoneNumber": "123",
       "email": "Hola@gmail.com",
-      "picture": "file:///data/user/0/com.awesomeproject/cache/rn_image_picker_lib_temp_3f1ac942-75d7-4e3c-8934-78e149db9ffe.jpg"
+      "picture": "file:///data/user/0/com.awesomeproject/cache/rn_image_picker_lib_temp_3f1ac942-75d7-4e3c-8934-78e149db9ffe.jpg",
+      "latitude": 6.276462781441544,
+      "longitude": -75.55912982672453
     },
     {
       "id": "7383",
       "name": "Erick test 2",
       "phoneNumber": "1234",
       "email": "Hola@test.com",
-      "picture": "file:///data/user/0/com.awesomeproject/cache/rn_image_picker_lib_temp_72099702-e29a-456c-8e8d-a8cc2f727e2e.jpg"
+      "picture": "file:///data/user/0/com.awesomeproject/cache/rn_image_picker_lib_temp_72099702-e29a-456c-8e8d-a8cc2f727e2e.jpg",
+      "latitude": 0,
+      "longitude": 0
     },
     {
       "id": "733d",
       "name": "Madre",
       "phoneNumber": "-1456",
       "email": "Madre@fmail.com",
-      "picture": "file:///data/user/0/com.awesomeproject/cache/rn_image_picker_lib_temp_95867f18-ed8d-4787-9a83-84508472d5fb.jpg"
+      "picture": "file:///data/user/0/com.awesomeproject/cache/rn_image_picker_lib_temp_95867f18-ed8d-4787-9a83-84508472d5fb.jpg",
+      "latitude": 0,
+      "longitude": 0
+    },
+    {
+      "id": "c260",
+      "name": "User with location updated",
+      "phoneNumber": "123456",
+      "email": "User@lication.com",
+      "picture": "file:///data/user/0/com.awesomeproject/cache/rn_image_picker_lib_temp_f0a982fa-5cbc-4a56-9ee1-b2a43504d209.jpg",
+      "latitude": 6.239389569859163,
+      "longitude": -75.5928498879075
     }
   ]
 }

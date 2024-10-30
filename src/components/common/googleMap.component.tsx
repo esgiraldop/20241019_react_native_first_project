@@ -3,28 +3,56 @@ import {StyleSheet, View} from 'react-native';
 import {ScreenHeight, ScreenWidth} from 'react-native-elements/dist/helpers';
 import MapView, {Marker} from 'react-native-maps';
 
-export const GoogleMap = () => {
+export interface IMarkerCoordinates {
+  latitude: number;
+  longitude: number;
+}
+
+export interface IInitialRegion extends IMarkerCoordinates {
+  latitudeDelta: number;
+  longitudeDelta: number;
+}
+
+interface IGoogleMap {
+  marker?: IMarkerCoordinates | null;
+  setMarker?: (marker: IMarkerCoordinates | null) => void | undefined;
+  onEdit?: boolean;
+}
+
+export const GoogleMap = ({marker, setMarker, onEdit = true}: IGoogleMap) => {
   return (
     <View style={styles.container}>
       <MapView
         style={styles.mapStyle}
-        initialRegion={{
-          latitude: 37.78825,
-          longitude: -122.4324,
-          latitudeDelta: 0.0922,
-          longitudeDelta: 0.0421,
-        }}
-        customMapStyle={mapStyle}>
-        <Marker
-          draggable
-          coordinate={{
-            latitude: 37.78825,
-            longitude: -122.4324,
-          }}
-          onDragEnd={e => console.log(JSON.stringify(e.nativeEvent.coordinate))}
-          title={'Test Marker'}
-          description={'This is a description of the marker'}
-        />
+        initialRegion={
+          !marker
+            ? {
+                // Medallo by default
+                latitude: 6.25089,
+                longitude: -75.574628,
+                latitudeDelta: 0.2,
+                longitudeDelta: 0.2,
+              }
+            : {
+                ...marker,
+                latitudeDelta: 0.2,
+                longitudeDelta: 0.2,
+              }
+        }
+        customMapStyle={mapStyle}
+        onPress={e =>
+          typeof setMarker !== 'undefined' && onEdit
+            ? setMarker(e.nativeEvent.coordinate)
+            : null
+        }>
+        {marker && (
+          <Marker
+            draggable
+            coordinate={marker}
+            title={'Current location'}
+            description={"This is the contact's current location"}
+          />
+        )}
       </MapView>
     </View>
   );

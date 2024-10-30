@@ -4,6 +4,8 @@ export interface IContact {
   phoneNumber: number;
   email: string;
   picture: string | undefined;
+  latitude: number;
+  longitude: number;
 }
 
 export interface IUpdateContact extends Partial<IContact> {}

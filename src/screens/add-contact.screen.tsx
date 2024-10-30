@@ -17,8 +17,10 @@ import ContactImage from '../components/common/contactImage.component';
 import {AddPictureModal} from '../components/common/addPictureModal.component';
 import {theme} from '../theme/main.theme';
 import {formStyles} from './edit-contact.screen';
-import {GoogleMap} from '../components/common/googleMap.component';
-// import {styles} from '../styles';
+import {
+  GoogleMap,
+  IMarkerCoordinates,
+} from '../components/common/googleMap.component';
 
 const contactSchema = Yup.object().shape({
   name: Yup.string()
@@ -38,13 +40,26 @@ export function AddContactScreen(): React.JSX.Element {
   const [imageUri, setImageUri] = useState<string | undefined>(undefined);
   const [addPictureModalVisible, setAddPictureModalVisible] =
     useState<boolean>(false);
+  const [marker, setMarker] = useState<IMarkerCoordinates | null>(null);
 
   const onSubmit = async (values: IUpdateContact) => {
-    await ContactsService.create({...values, picture: imageUri});
+    await ContactsService.create({
+      ...values,
+      picture: imageUri,
+      latitude: marker?.latitude,
+      longitude: marker?.longitude,
+    });
     navigation.goBack();
   };
-
-  const initialValues = {name: '', phoneNumber: -1, email: '', picture: ''};
+  console.log('marker: ', marker);
+  const initialValues = {
+    name: '',
+    phoneNumber: -1,
+    email: '',
+    picture: '',
+    latitude: 0,
+    longitude: 0,
+  };
 
   return (
     <ScrollView style={formStyles.container}>
@@ -119,8 +134,10 @@ export function AddContactScreen(): React.JSX.Element {
                 <Text style={formStyles.error}>{errors.email}</Text>
               )}
 
-              <Text style={formStyles.label}>Add the contact's location</Text>
-              <GoogleMap />
+              <Text style={formStyles.label}>
+                Add the contact's current location
+              </Text>
+              <GoogleMap marker={marker} setMarker={setMarker} />
 
               <View style={formStyles.buttonContainer}>
                 <TouchableOpacity

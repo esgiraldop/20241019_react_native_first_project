@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Text, TouchableOpacity, View, StyleSheet} from 'react-native';
 import {NativeStackNavigationProp} from 'react-native-screens/lib/typescript/native-stack/types';
 import {RootStackParamList} from '../interfaces';
@@ -8,6 +8,10 @@ import {useContactById} from '../hooks/useContactById.hook';
 import {ContactsService} from '../services/contacts.service';
 import {ConfirmationModal} from '../components/common/confirmation-modal.component';
 import {theme} from '../theme/main.theme';
+import {
+  GoogleMap,
+  IMarkerCoordinates,
+} from '../components/common/googleMap.component';
 
 type ContactDetailsScreenProp = NativeStackNavigationProp<
   RootStackParamList,
@@ -24,6 +28,17 @@ export function ContactDetailsScreen(): React.JSX.Element {
 
   const [confirmationModalVisible, setConfirmationModalVisible] =
     useState<boolean>(false);
+
+  const [marker, setMarker] = useState<IMarkerCoordinates | null>(null);
+
+  useEffect(() => {
+    if (contactInfo?.latitude && contactInfo?.longitude) {
+      setMarker({
+        latitude: contactInfo?.latitude,
+        longitude: contactInfo?.longitude,
+      });
+    }
+  }, [contactInfo]);
 
   const handleDeleteContact = async () => {
     await ContactsService.delete(contactId);
@@ -44,6 +59,9 @@ export function ContactDetailsScreen(): React.JSX.Element {
           <Text style={styles.nameText}>{contactInfo.name}</Text>
           <Text style={styles.phoneText}>{contactInfo.phoneNumber}</Text>
           <Text style={styles.emailText}>{contactInfo.email}</Text>
+
+          <Text style={styles.emailText}>Contact's current location</Text>
+          <GoogleMap marker={marker} setMarker={setMarker} onEdit={false} />
 
           <TouchableOpacity
             style={[styles.button]}
