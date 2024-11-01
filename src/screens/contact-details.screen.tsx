@@ -1,5 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import {Text, TouchableOpacity, View, StyleSheet} from 'react-native';
+import {
+  Text,
+  TouchableOpacity,
+  View,
+  StyleSheet,
+  ScrollView,
+} from 'react-native';
 import {NativeStackNavigationProp} from 'react-native-screens/lib/typescript/native-stack/types';
 import {RootStackParamList} from '../interfaces';
 import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
@@ -12,6 +18,7 @@ import {
   GoogleMap,
   IMarkerCoordinates,
 } from '../components/common/googleMap.component';
+import WeatherCard from '../components/common/weatherCard.component';
 
 type ContactDetailsScreenProp = NativeStackNavigationProp<
   RootStackParamList,
@@ -46,7 +53,7 @@ export function ContactDetailsScreen(): React.JSX.Element {
   };
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       {isContactLoading ? (
         <Text style={styles.loadingText}>Loading contact information...</Text>
       ) : errorLoadingContact || !contactInfo ? (
@@ -62,6 +69,13 @@ export function ContactDetailsScreen(): React.JSX.Element {
 
           <Text style={styles.emailText}>Contact's current location</Text>
           <GoogleMap marker={marker} setMarker={setMarker} onEdit={false} />
+
+          {!!marker && (
+            <View>
+              <Text style={styles.emailText}>Local weather</Text>
+              <WeatherCard lat={marker?.latitude} lon={marker?.longitude} />
+            </View>
+          )}
 
           <TouchableOpacity
             style={[styles.button]}
@@ -84,7 +98,7 @@ export function ContactDetailsScreen(): React.JSX.Element {
           </ConfirmationModal>
         </View>
       )}
-    </View>
+    </ScrollView>
   );
 }
 

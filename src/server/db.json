@@ -1,15 +1,6 @@
 {
   "contacts": [
     {
-      "id": "1",
-      "name": "Erick hola",
-      "phoneNumber": "123456",
-      "email": "erick@email.com",
-      "picture": "picture here",
-      "latitude": 0,
-      "longitude": 0
-    },
-    {
       "id": "3",
       "name": "Mari",
       "phoneNumber": 123,
@@ -37,22 +28,13 @@
       "longitude": 0
     },
     {
-      "id": "6b24",
-      "name": "Erick con imagen",
-      "phoneNumber": "123",
-      "email": "erick@gmail.com",
-      "picture": "file:///data/user/0/com.awesomeproject/cache/rn_image_picker_lib_temp_c3b8d938-399d-4421-9363-19df994d428e.jpg",
-      "latitude": 0,
-      "longitude": 0
-    },
-    {
       "id": "5945",
-      "name": "Eri k",
-      "phoneNumber": "123",
+      "name": "Zzzzzz",
+      "phoneNumber": "123456",
       "email": "Hola@gmail.com",
       "picture": "file:///data/user/0/com.awesomeproject/cache/rn_image_picker_lib_temp_3f1ac942-75d7-4e3c-8934-78e149db9ffe.jpg",
-      "latitude": 6.276462781441544,
-      "longitude": -75.55912982672453
+      "latitude": 6.255924497841965,
+      "longitude": -75.61595376580954
     },
     {
       "id": "7383",
@@ -78,8 +60,33 @@
       "phoneNumber": "123456",
       "email": "User@lication.com",
       "picture": "file:///data/user/0/com.awesomeproject/cache/rn_image_picker_lib_temp_f0a982fa-5cbc-4a56-9ee1-b2a43504d209.jpg",
-      "latitude": 6.239389569859163,
-      "longitude": -75.5928498879075
+      "latitude": 6.338750546611737,
+      "longitude": -75.56027881801128
+    },
+    {
+      "id": "4b00",
+      "name": "Erick nuevo para video",
+      "phoneNumber": "123456789",
+      "email": "Ejemplo@email.com",
+      "latitude": 6.283365683983757,
+      "longitude": -75.44519998133183
+    },
+    {
+      "id": "fb7c",
+      "name": "Samuel",
+      "phoneNumber": "185046154840",
+      "email": "Wgevdg@rjwbwbw.com",
+      "picture": "file:///data/user/0/com.awesomeproject/cache/rn_image_picker_lib_temp_ec61b293-2d2f-4f55-ae9a-7445838db0fb.jpg",
+      "latitude": 6.341372032197549,
+      "longitude": -75.55942889302969
+    },
+    {
+      "id": "0868",
+      "name": "Sgagsydg",
+      "phoneNumber": "1978787",
+      "email": "Erick@wjfbahs.com",
+      "latitude": 6.250142065101089,
+      "longitude": -75.60169849544764
     }
   ]
 }
