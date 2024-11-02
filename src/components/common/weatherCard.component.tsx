@@ -7,13 +7,6 @@ import {useFocusEffect} from '@react-navigation/native';
 import {IWeatherResponse} from '../../interfaces/weather-response.interface';
 
 const WeatherCard: React.FC<IGetWeather> = ({lat, lon}) => {
-  console.log(`lat, lon: ${lat}, ${lon}`);
-  const temperature = 17;
-  const maxTemperature = 19;
-  const minTemperature = 15;
-  const condition = 'rain';
-  const description = 'There is some rain';
-
   const [weatherData, setWeatherData] = useState<IWeatherResponse | null>();
 
   useFocusEffect(
@@ -36,18 +29,31 @@ const WeatherCard: React.FC<IGetWeather> = ({lat, lon}) => {
     <View style={styles.card}>
       <FastImage
         source={{
-          uri: 'https://openweathermap.org/img/wn/09n@2x.png',
+          uri: `https://openweathermap.org/img/wn/${weatherData?.weather[0].icon}@2x.png`,
           priority: FastImage.priority.high,
         }}
         style={styles.icon}
         resizeMode={FastImage.resizeMode.contain}
       />
 
-      <Text style={styles.temperature}>{temperature}°</Text>
-      <Text style={styles.condition}>{condition}</Text>
-      <Text style={styles.condition}>{description}</Text>
+      <Text style={styles.temperature}>{weatherData?.main.temp}°</Text>
       <Text style={styles.temperatures}>
-        Max: {maxTemperature}° Min: {minTemperature}°
+        Max: {weatherData?.main.temp_max}° Min: {weatherData?.main.temp_min}°
+      </Text>
+      <Text style={styles.condition}>{weatherData?.weather[0].main}</Text>
+      <Text style={styles.condition}>
+        {' '}
+        {weatherData?.weather[0].description}
+      </Text>
+      <Text style={styles.condition}> dt: {weatherData?.dt}</Text>
+      <Text style={styles.condition}> timezone: {weatherData?.timezone}</Text>
+      <Text style={styles.condition}>
+        {' '}
+        windspeed: {weatherData?.wind.speed}
+      </Text>
+      <Text style={styles.condition}>
+        {' '}
+        wind direction: {weatherData?.wind.deg}
       </Text>
     </View>
   );

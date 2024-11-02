@@ -23,9 +23,9 @@
       "name": "Erick nuevo",
       "phoneNumber": "123",
       "email": "erick@otrotest.com",
-      "picture": "",
-      "latitude": 0,
-      "longitude": 0
+      "picture": "file:///data/user/0/com.closetoyou/cache/rn_image_picker_lib_temp_8d8d1ca9-b879-4173-a054-59335c5ff632.jpg",
+      "latitude": 6.302403596310188,
+      "longitude": -75.33246539533138
     },
     {
       "id": "5945",
@@ -33,15 +33,15 @@
       "phoneNumber": "123456",
       "email": "Hola@gmail.com",
       "picture": "file:///data/user/0/com.awesomeproject/cache/rn_image_picker_lib_temp_3f1ac942-75d7-4e3c-8934-78e149db9ffe.jpg",
-      "latitude": 6.255924497841965,
-      "longitude": -75.61595376580954
+      "latitude": 4.682423872893871,
+      "longitude": -74.09627214074135
     },
     {
       "id": "7383",
       "name": "Erick test 2",
       "phoneNumber": "1234",
       "email": "Hola@test.com",
-      "picture": "file:///data/user/0/com.awesomeproject/cache/rn_image_picker_lib_temp_72099702-e29a-456c-8e8d-a8cc2f727e2e.jpg",
+      "picture": "file:///data/user/0/com.closetoyou/cache/rn_image_picker_lib_temp_72099702-e29a-456c-8e8d-a8cc2f727e2e.jpg",
       "latitude": 0,
       "longitude": 0
     },
@@ -50,7 +50,7 @@
       "name": "Madre",
       "phoneNumber": "-1456",
       "email": "Madre@fmail.com",
-      "picture": "file:///data/user/0/com.awesomeproject/cache/rn_image_picker_lib_temp_95867f18-ed8d-4787-9a83-84508472d5fb.jpg",
+      "picture": "file:///data/user/0/com.closetoyou/cache/rn_image_picker_lib_temp_95867f18-ed8d-4787-9a83-84508472d5fb.jpg",
       "latitude": 0,
       "longitude": 0
     },
@@ -59,7 +59,7 @@
       "name": "User with location updated",
       "phoneNumber": "123456",
       "email": "User@lication.com",
-      "picture": "file:///data/user/0/com.awesomeproject/cache/rn_image_picker_lib_temp_f0a982fa-5cbc-4a56-9ee1-b2a43504d209.jpg",
+      "picture": "file:///data/user/0/com.closetoyou/cache/rn_image_picker_lib_temp_f0a982fa-5cbc-4a56-9ee1-b2a43504d209.jpg",
       "latitude": 6.338750546611737,
       "longitude": -75.56027881801128
     },
@@ -76,7 +76,7 @@
       "name": "Samuel",
       "phoneNumber": "185046154840",
       "email": "Wgevdg@rjwbwbw.com",
-      "picture": "file:///data/user/0/com.awesomeproject/cache/rn_image_picker_lib_temp_ec61b293-2d2f-4f55-ae9a-7445838db0fb.jpg",
+      "picture": "file:///data/user/0/com.closetoyou/cache/rn_image_picker_lib_temp_ec61b293-2d2f-4f55-ae9a-7445838db0fb.jpg",
       "latitude": 6.341372032197549,
       "longitude": -75.55942889302969
     },
