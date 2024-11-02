@@ -8,7 +8,6 @@ import {IWeatherResponse} from '../../interfaces/weather-response.interface';
 
 const WeatherCard: React.FC<IGetWeather> = ({lat, lon}) => {
   const [weatherData, setWeatherData] = useState<IWeatherResponse | null>();
-
   useFocusEffect(
     useCallback(() => {
       async function getWeatherData(latitude: number, longitude: number) {
@@ -24,7 +23,6 @@ const WeatherCard: React.FC<IGetWeather> = ({lat, lon}) => {
     }, [lat, lon]),
   );
 
-  console.log('\n\nweatherData: ', weatherData);
   return (
     <View style={styles.card}>
       <FastImage
@@ -37,13 +35,11 @@ const WeatherCard: React.FC<IGetWeather> = ({lat, lon}) => {
       />
 
       <Text style={styles.temperature}>{weatherData?.main.temp}°</Text>
+      <Text style={styles.condition}>
+        {weatherData?.weather[0].description}
+      </Text>
       <Text style={styles.temperatures}>
         Max: {weatherData?.main.temp_max}° Min: {weatherData?.main.temp_min}°
-      </Text>
-      <Text style={styles.condition}>{weatherData?.weather[0].main}</Text>
-      <Text style={styles.condition}>
-        {' '}
-        {weatherData?.weather[0].description}
       </Text>
       <Text style={styles.condition}> dt: {weatherData?.dt}</Text>
       <Text style={styles.condition}> timezone: {weatherData?.timezone}</Text>

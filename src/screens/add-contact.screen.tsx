@@ -51,7 +51,7 @@ export function AddContactScreen(): React.JSX.Element {
     });
     navigation.goBack();
   };
-  console.log('marker: ', marker);
+
   const initialValues = {
     name: '',
     phoneNumber: -1,

@@ -8,7 +8,6 @@ function processAxiosResponse<T>(
       (response.data as {error?: string})?.error || 'Unknown error';
     return Promise.reject(errorMessage);
   }
-  console.log('\n\n\n\nresponse.data: ', response.data);
   return Promise.resolve(response.data);
 }
 
@@ -26,11 +25,6 @@ export async function handleAxiosResponse<T>(
 ): Promise<T | never> {
   try {
     const response = await axiosCall();
-    console.log('\n\n\nresponse: ', response);
-    console.log(
-      '\n\n\nprocessAxiosResponse(response): ',
-      processAxiosResponse(response),
-    );
     return processAxiosResponse(response);
   } catch (error) {
     return processAxiosError(error);

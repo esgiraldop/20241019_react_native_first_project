@@ -63,7 +63,6 @@ export function EditContactScreen(): React.JSX.Element {
     }
   }, [contactInfo]);
 
-  console.log('marker: ', marker);
   useEffect(() => {
     // So the image in the form refreshes
     if (contactInfo?.picture) {

@@ -22,6 +22,3 @@ export class WeatherService {
     );
   }
 }
-
-// Boilerplate for getting icons
-('https://openweathermap.org/img/wn/${weatherData.weather[0]icon}@2x.png');
