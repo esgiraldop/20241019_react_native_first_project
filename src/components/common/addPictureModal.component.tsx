@@ -4,6 +4,8 @@ import {Text} from 'react-native-elements';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import ContactImage from './contactImage.component';
 import {theme} from '../../theme/main.theme';
+import {checkPermission} from '../../utilities/check-camera-permission.utility';
+import {PermissionEnum} from '../../interfaces/permissions.interface';
 
 interface IAddPictureModal {
   addPictureModalVisible: boolean;
@@ -19,6 +21,7 @@ export const AddPictureModal = ({
   pictureUri = undefined,
 }: IAddPictureModal): React.JSX.Element => {
   const openCamera = async () => {
+    checkPermission(PermissionEnum.CAMERA);
     const response = await launchCamera({
       mediaType: 'photo',
       cameraType: 'front',
