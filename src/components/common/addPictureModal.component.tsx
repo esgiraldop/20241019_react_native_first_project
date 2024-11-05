@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Modal, StyleSheet, TouchableOpacity, View} from 'react-native';
 import {Text} from 'react-native-elements';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
@@ -6,6 +6,7 @@ import ContactImage from './contactImage.component';
 import {theme} from '../../theme/main.theme';
 import {checkPermission} from '../../utilities/check-camera-permission.utility';
 import {PermissionEnum} from '../../interfaces/permissions.interface';
+import {NotifyUserPermissionModal} from './notifyUserPermissionModal.component';
 
 interface IAddPictureModal {
   addPictureModalVisible: boolean;
@@ -20,14 +21,21 @@ export const AddPictureModal = ({
   setImageUri,
   pictureUri = undefined,
 }: IAddPictureModal): React.JSX.Element => {
+  const [permissionModalOpen, setPermissionModalopen] =
+    useState<boolean>(false);
+
   const openCamera = async () => {
-    checkPermission(PermissionEnum.CAMERA);
-    const response = await launchCamera({
-      mediaType: 'photo',
-      cameraType: 'front',
-    });
-    if (response.assets && response.assets.length > 0) {
-      setImageUri(response.assets[0].uri || '');
+    const permissionResponse = await checkPermission(PermissionEnum.CAMERA);
+    if (permissionResponse) {
+      const response = await launchCamera({
+        mediaType: 'photo',
+        cameraType: 'front',
+      });
+      if (response.assets && response.assets.length > 0) {
+        setImageUri(response.assets[0].uri || '');
+      }
+    } else {
+      setPermissionModalopen(true);
     }
     setAddPictureModalVisible(!addPictureModalVisible);
   };
@@ -51,33 +59,39 @@ export const AddPictureModal = ({
         onRequestClose={() => {
           setAddPictureModalVisible(!addPictureModalVisible);
         }}>
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
+        <View style={modalStyles.centeredView}>
+          <View style={modalStyles.modalView}>
             <ContactImage pictureUri={pictureUri} size={250} />
 
-            <TouchableOpacity style={styles.button} onPress={openCamera}>
-              <Text style={styles.buttonText}>Open Camera</Text>
+            <TouchableOpacity style={modalStyles.button} onPress={openCamera}>
+              <Text style={modalStyles.buttonText}>Open Camera</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.button} onPress={openGallery}>
-              <Text style={styles.buttonText}>Select from Gallery</Text>
+            <TouchableOpacity style={modalStyles.button} onPress={openGallery}>
+              <Text style={modalStyles.buttonText}>Select from Gallery</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
-              style={styles.cancelButton}
+              style={modalStyles.cancelButton}
               onPress={() =>
                 setAddPictureModalVisible(!addPictureModalVisible)
               }>
-              <Text style={styles.cancelButtonText}>Cancel</Text>
+              <Text style={modalStyles.cancelButtonText}>Cancel</Text>
             </TouchableOpacity>
           </View>
         </View>
       </Modal>
+      {permissionModalOpen && (
+        <NotifyUserPermissionModal
+          modalOpen={permissionModalOpen}
+          setModalopen={setPermissionModalopen}
+        />
+      )}
     </View>
   );
 };
 
-const styles = StyleSheet.create({
+export const modalStyles = StyleSheet.create({
   centeredView: {
     flex: 1,
     justifyContent: 'center',
@@ -126,6 +140,10 @@ const styles = StyleSheet.create({
   },
   cancelButtonText: {
     color: theme.colors.textSecondary,
+    fontSize: theme.fontSizes.text,
+  },
+  bigText: {
+    color: theme.colors.textPrimary,
     fontSize: theme.fontSizes.text,
   },
 });

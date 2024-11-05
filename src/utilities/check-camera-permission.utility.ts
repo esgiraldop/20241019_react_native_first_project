@@ -12,44 +12,46 @@ import {
 
 export const checkPermission = async (
   permissionKey: PermissionEnum,
-): Promise<void> => {
+): Promise<boolean> => {
   const permission = permissionMap[permissionKey]; // Use PERMISSIONS.IOS.CAMERA for iOS
 
   const result: PermissionStatus = await check(permission);
   switch (result) {
     case RESULTS.UNAVAILABLE:
       console.log(`${permissionKey} is not available on this device`);
-      break;
+      return false;
     case RESULTS.DENIED:
       console.log(`${permissionKey} permission is denied but requestable`);
-      requestPermission(permissionKey); // Request permission if it's denied
-      break;
+      const response = await requestPermission(permissionKey); // Request permission if it's denied
+      return !response ? false : true;
     case RESULTS.LIMITED:
       console.log(`${permissionKey} permission is limited`);
-      break;
+      return true;
     case RESULTS.GRANTED:
       console.log(`${permissionKey} permission is granted`);
-      break;
+      return true;
     case RESULTS.BLOCKED:
       console.log(
         `${permissionKey} permission is blocked and cannot be requested`,
       );
       // Inform the user they need to enable permissions in settings
-      break;
+      return false;
   }
 };
 
 const requestPermission = async (
   permissionKey: PermissionEnum,
-): Promise<void> => {
+): Promise<boolean | void> => {
   try {
     const result: PermissionStatus = await request(PERMISSIONS.ANDROID.CAMERA);
     if (result === RESULTS.GRANTED) {
       console.log(`${permissionKey} permission granted`);
+      return true;
     } else {
       console.log(`${permissionKey} permission not granted`);
+      return false;
     }
   } catch (error) {
-    console.error(`Error requesting ${permissionKey} permission:`, error);
+    throw new Error(`Error requesting ${permissionKey} permission:, ${error}`);
   }
 };
