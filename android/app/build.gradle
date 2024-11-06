@@ -1,6 +1,8 @@
 apply plugin: "com.android.application"
 apply plugin: "org.jetbrains.kotlin.android"
 apply plugin: "com.facebook.react"
+apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.gradle"
+
 
 // project.ext.vectoricons = [
 //     iconFontNames: [ 'Ionicons.tff' ] // Name of the font files you want to copy
@@ -77,6 +79,12 @@ def enableProguardInReleaseBuilds = false
  */
 def jscFlavor = 'org.webkit:android-jsc:+'
 
+def dotenvFile = new File(rootProject.projectDir.parent, '.env')
+Properties properties = new Properties()
+if (dotenvFile.exists()) {
+    dotenvFile.withInputStream { properties.load(it) }
+}
+
 android {
     ndkVersion rootProject.ext.ndkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
@@ -89,7 +97,7 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
-        manifestPlaceholders = [GOOGLE_MAPS_API_KEY: "AIzaSyCssoEpgbEKKy42TMwlK-SuFN7ntDSSXmg"]
+        manifestPlaceholders = [GOOGLE_MAPS_API_KEY: properties.getProperty("GOOGLE_MAPS_API_KEY")]
     }
     signingConfigs {
         debug {
