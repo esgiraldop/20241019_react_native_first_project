@@ -7,21 +7,43 @@ import {ContactsService} from '../services/contacts.service';
 import {IContact} from '../interfaces/contact.interface';
 import {useFocusEffect} from '@react-navigation/native';
 import {theme} from '../theme/main.theme';
+import {PermissionEnum} from '../interfaces/permissions.interface';
+import {checkPermission} from '../utilities/check-permissions.utility';
+import {NotifyUserPermissionModal} from '../components/common/notifyUserPermissionModal.component';
 
 export function AllContactsScreen(): React.JSX.Element {
   const [contacts, setContacts] = useState<IContact[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [errorLoading, setErrorLoading] = useState<boolean | null>(null);
+  const [permissionModalOpen, setPermissionModalopen] =
+    useState<boolean>(false);
 
   useFocusEffect(
     useCallback(() => {
       async function fetchAllContacts() {
         setIsLoading(true);
-        const response = await ContactsService.getAll();
-        if (response) {
-          setContacts(response);
+
+        const contactsPermissionResponse = await checkPermission(
+          PermissionEnum.READ_CONTACTS,
+        );
+        const cellphonesPermissionResponse = await checkPermission(
+          PermissionEnum.READ_PHONE_NUMBERS,
+        );
+
+        if (contactsPermissionResponse && cellphonesPermissionResponse) {
+          const response = await ContactsService.getAll();
+          if (response) {
+            setContacts(response);
+            setIsLoading(false);
+            setErrorLoading(false);
+          }
+        } else {
           setIsLoading(false);
+          setErrorLoading(true);
+          setPermissionModalopen(true);
         }
       }
+
       fetchAllContacts();
 
       return () => fetchAllContacts();
@@ -32,6 +54,8 @@ export function AllContactsScreen(): React.JSX.Element {
     <View style={styles.container}>
       {isLoading ? (
         <Text style={styles.loadingText}>Loading...</Text>
+      ) : errorLoading ? (
+        <Text style={styles.loadingText}>Error loading contacts</Text>
       ) : (
         <FlatList
           ListHeaderComponent={
@@ -49,6 +73,12 @@ export function AllContactsScreen(): React.JSX.Element {
               picture={item.picture}
             />
           )}
+        />
+      )}
+      {permissionModalOpen && (
+        <NotifyUserPermissionModal
+          modalOpen={permissionModalOpen}
+          setModalopen={setPermissionModalopen}
         />
       )}
     </View>

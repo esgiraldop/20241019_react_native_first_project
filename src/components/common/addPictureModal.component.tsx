@@ -4,7 +4,7 @@ import {Text} from 'react-native-elements';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import ContactImage from './contactImage.component';
 import {theme} from '../../theme/main.theme';
-import {checkPermission} from '../../utilities/check-camera-permission.utility';
+import {checkPermission} from '../../utilities/check-permissions.utility';
 import {PermissionEnum} from '../../interfaces/permissions.interface';
 import {NotifyUserPermissionModal} from './notifyUserPermissionModal.component';
 
@@ -26,6 +26,7 @@ export const AddPictureModal = ({
 
   const openCamera = async () => {
     const permissionResponse = await checkPermission(PermissionEnum.CAMERA);
+    console.log('permissionResponse: ', permissionResponse);
     if (permissionResponse) {
       const response = await launchCamera({
         mediaType: 'photo',
@@ -41,11 +42,18 @@ export const AddPictureModal = ({
   };
 
   const openGallery = async () => {
-    const response = await launchImageLibrary({
-      mediaType: 'photo',
-    });
-    if (response.assets && response.assets.length > 0) {
-      setImageUri(response.assets[0].uri || '');
+    const permissionResponse = await checkPermission(
+      PermissionEnum.READ_MEDIA_IMAGES,
+    );
+    if (permissionResponse) {
+      const response = await launchImageLibrary({
+        mediaType: 'photo',
+      });
+      if (response.assets && response.assets.length > 0) {
+        setImageUri(response.assets[0].uri || '');
+      }
+    } else {
+      setPermissionModalopen(true);
     }
     setAddPictureModalVisible(!addPictureModalVisible);
   };

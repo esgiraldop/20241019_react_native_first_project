@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {Modal, TouchableOpacity, View} from 'react-native';
 import {Text} from 'react-native-elements';
 import {modalStyles} from './addPictureModal.component';
@@ -24,7 +24,7 @@ export const NotifyUserPermissionModal = ({
         <View style={modalStyles.centeredView}>
           <View style={modalStyles.modalView}>
             <Text style={modalStyles.bigText}>
-              Please enable the app permissions from the setting to be able to
+              Please enable the app permissions from the settings to be able to
               use this feature
             </Text>
 
