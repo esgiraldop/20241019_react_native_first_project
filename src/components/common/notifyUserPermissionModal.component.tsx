@@ -6,11 +6,13 @@ import {modalStyles} from './addPictureModal.component';
 interface INotifyUserPermissionModal {
   modalOpen: boolean;
   setModalopen: (modalOpen: boolean) => void;
+  message: string;
 }
 
 export const NotifyUserPermissionModal = ({
   modalOpen,
   setModalopen,
+  message,
 }: INotifyUserPermissionModal) => {
   return (
     <View>
@@ -23,10 +25,7 @@ export const NotifyUserPermissionModal = ({
         }}>
         <View style={modalStyles.centeredView}>
           <View style={modalStyles.modalView}>
-            <Text style={modalStyles.bigText}>
-              Please enable the app permissions from the settings to be able to
-              use this feature
-            </Text>
+            <Text style={modalStyles.bigText}>{message}</Text>
 
             <TouchableOpacity
               style={modalStyles.button}

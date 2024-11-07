@@ -93,6 +93,9 @@ export const AddPictureModal = ({
         <NotifyUserPermissionModal
           modalOpen={permissionModalOpen}
           setModalopen={setPermissionModalopen}
+          message={
+            'Please enable the app permissions from the settings to be able to use this feature'
+          }
         />
       )}
     </View>

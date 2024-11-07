@@ -36,6 +36,9 @@ export function AllContactsScreen(): React.JSX.Element {
             setContacts(response);
             setIsLoading(false);
             setErrorLoading(false);
+          } else {
+            setIsLoading(false);
+            setErrorLoading(true);
           }
         } else {
           setIsLoading(false);
@@ -79,6 +82,9 @@ export function AllContactsScreen(): React.JSX.Element {
         <NotifyUserPermissionModal
           modalOpen={permissionModalOpen}
           setModalopen={setPermissionModalopen}
+          message={
+            'Please enable the app permissions from the settings to be able to use this feature'
+          }
         />
       )}
     </View>

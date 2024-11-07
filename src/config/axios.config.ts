@@ -12,7 +12,7 @@ export const weatherBaseURL = 'https://api.openweathermap.org/data/2.5/weather';
 
 export const axiosInstance: AxiosInstance = axios.create({
   baseURL,
-  timeout: 10000,
+  timeout: 5000,
   headers: {
     'Content-Type': 'application/json',
   },

@@ -1,4 +1,4 @@
-import {useCallback, useEffect, useState} from 'react';
+import {useCallback, useState} from 'react';
 import {IContact} from '../interfaces/contact.interface';
 import {ContactsService} from '../services/contacts.service';
 import {useFocusEffect} from '@react-navigation/native';
@@ -8,8 +8,9 @@ export function useContactById(contactId: number) {
   const [isContactLoading, setIsContactLoading] = useState<boolean | null>(
     false,
   );
-  const [errorLoadingContact, setErrorLoadingContact] =
-    useState<boolean>(false);
+  const [errorLoadingContact, setErrorLoadingContact] = useState<
+    boolean | null
+  >(null);
 
   useFocusEffect(
     useCallback(() => {
@@ -19,6 +20,9 @@ export function useContactById(contactId: number) {
         if (contactInfoResponse) {
           setContactInfo(contactInfoResponse);
           setIsContactLoading(false);
+        } else {
+          setIsContactLoading(false);
+          setErrorLoadingContact(true);
         }
       }
 
@@ -26,16 +30,6 @@ export function useContactById(contactId: number) {
       return () => getContactInfo(contactId);
     }, [contactId]),
   );
-
-  useEffect(() => {
-    if (!contactInfo) {
-      setErrorLoadingContact(true);
-    } else {
-      setErrorLoadingContact(false);
-    }
-
-    setIsContactLoading(false);
-  }, [contactInfo, setIsContactLoading]);
 
   return {
     contactInfo,
