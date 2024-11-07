@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {FlatList, Text, View, StyleSheet} from 'react-native';
 import {SmallButton} from '../components/common/SmallButton';
 import {GoToContacDetailsButton} from '../components/allContacts';
@@ -32,6 +32,8 @@ export function AllContactsScreen(): React.JSX.Element {
 
         if (contactsPermissionResponse && cellphonesPermissionResponse) {
           const response = await ContactsService.getAll();
+          const allContactsResponse = await ContactsService.sync();
+          console.log('allContactsResponse[0]: ', allContactsResponse[0]);
           if (response) {
             setContacts(response);
             setIsLoading(false);

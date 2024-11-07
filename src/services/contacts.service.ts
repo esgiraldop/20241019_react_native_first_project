@@ -1,6 +1,9 @@
+import Snackbar from 'react-native-snackbar';
 import {axiosInstance} from '../config/axios.config';
 import {IContact, IUpdateContact} from '../interfaces/contact.interface';
 import {handleAxiosResponse} from '../utilities/handle-axios-response.utility';
+import Contacts from 'react-native-contacts';
+import {Contact} from 'react-native-contacts/type';
 
 export type IHandleError = (
   isErrorModalOpen: boolean,
@@ -63,5 +66,30 @@ export class ContactsService {
         await axiosInstance.delete<IContact>(`${this.resource}/${id}`),
       // handleError,
     );
+  }
+
+  static async sync(): Promise<Contact[] | null> {
+    //TODO: To replace the "any" for the actual data type
+    try {
+      return await Contacts.getAll();
+    } catch (error) {
+      let errorMessage =
+        'There was a problem getting the contacts from the cellphone';
+      errorMessage += error instanceof Error ? error.message : '';
+      Snackbar.show({
+        text: errorMessage,
+        // textColor: 'black',
+        // backgroundColor: 'black',
+        duration: Snackbar.LENGTH_INDEFINITE,
+        numberOfLines: 5,
+        marginBottom: 10,
+        action: {
+          text: 'Accept',
+          textColor: 'red',
+          // onPress: {handleError},
+        },
+      });
+      return Promise.resolve(null);
+    }
   }
 }
