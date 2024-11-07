@@ -23,6 +23,7 @@
     "react-native-config": "^1.5.3",
     "react-native-elements": "^3.4.3",
     "react-native-fast-image": "^8.6.3",
+    "react-native-image-crop-picker": "^0.41.4",
     "react-native-image-picker": "^7.1.2",
     "react-native-macos": "^0.75.10",
     "react-native-maps": "^1.18.2",

@@ -13,7 +13,7 @@ import {NotifyUserPermissionModal} from '../components/common/notifyUserPermissi
 
 export function AllContactsScreen(): React.JSX.Element {
   const [contacts, setContacts] = useState<IContact[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState<boolean | null>(null);
   const [errorLoading, setErrorLoading] = useState<boolean | null>(null);
   const [permissionModalOpen, setPermissionModalopen] =
     useState<boolean>(false);

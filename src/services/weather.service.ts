@@ -10,7 +10,7 @@ export interface IGetWeather {
 export class WeatherService {
   static resource = '';
 
-  static async get({lat, lon}: IGetWeather): Promise<IWeatherResponse> {
+  static async get({lat, lon}: IGetWeather): Promise<IWeatherResponse | null> {
     return handleAxiosResponse<IWeatherResponse>(
       async () =>
         await weatherAxiosInstance.get<IWeatherResponse>(`${this.resource}`, {

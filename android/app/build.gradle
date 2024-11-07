@@ -98,6 +98,7 @@ android {
         versionCode 1
         versionName "1.0"
         manifestPlaceholders = [GOOGLE_MAPS_API_KEY: properties.getProperty("GOOGLE_MAPS_API_KEY")]
+        multiDexEnabled true
     }
     signingConfigs {
         debug {
@@ -132,4 +133,6 @@ dependencies {
     }
 
     implementation project(':react-native-vector-icons')
+
+    implementation project(':react-native-image-crop-picker')
 }

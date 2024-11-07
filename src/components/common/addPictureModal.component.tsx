@@ -1,12 +1,12 @@
 import React, {useState} from 'react';
 import {Modal, StyleSheet, TouchableOpacity, View} from 'react-native';
 import {Text} from 'react-native-elements';
-import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import ContactImage from './contactImage.component';
 import {theme} from '../../theme/main.theme';
 import {checkPermission} from '../../utilities/check-permissions.utility';
 import {PermissionEnum} from '../../interfaces/permissions.interface';
 import {NotifyUserPermissionModal} from './notifyUserPermissionModal.component';
+import {ImagePickerService} from '../../services/gallery.service';
 
 interface IAddPictureModal {
   addPictureModalVisible: boolean;
@@ -23,18 +23,13 @@ export const AddPictureModal = ({
 }: IAddPictureModal): React.JSX.Element => {
   const [permissionModalOpen, setPermissionModalopen] =
     useState<boolean>(false);
-
+  const imageSize = 250;
   const openCamera = async () => {
     const permissionResponse = await checkPermission(PermissionEnum.CAMERA);
     console.log('permissionResponse: ', permissionResponse);
     if (permissionResponse) {
-      const response = await launchCamera({
-        mediaType: 'photo',
-        cameraType: 'front',
-      });
-      if (response.assets && response.assets.length > 0) {
-        setImageUri(response.assets[0].uri || '');
-      }
+      const response = await ImagePickerService.pickImageFromCamera(imageSize);
+      if (response && response.path) setImageUri(response.path);
     } else {
       setPermissionModalopen(true);
     }
@@ -46,12 +41,8 @@ export const AddPictureModal = ({
       PermissionEnum.READ_MEDIA_IMAGES,
     );
     if (permissionResponse) {
-      const response = await launchImageLibrary({
-        mediaType: 'photo',
-      });
-      if (response.assets && response.assets.length > 0) {
-        setImageUri(response.assets[0].uri || '');
-      }
+      const response = await ImagePickerService.pickImageFromGallery(imageSize);
+      if (response && response.path) setImageUri(response.path);
     } else {
       setPermissionModalopen(true);
     }
@@ -69,7 +60,7 @@ export const AddPictureModal = ({
         }}>
         <View style={modalStyles.centeredView}>
           <View style={modalStyles.modalView}>
-            <ContactImage pictureUri={pictureUri} size={250} />
+            <ContactImage pictureUri={pictureUri} size={imageSize} />
 
             <TouchableOpacity style={modalStyles.button} onPress={openCamera}>
               <Text style={modalStyles.buttonText}>Open Camera</Text>

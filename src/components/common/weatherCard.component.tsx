@@ -8,6 +8,12 @@ import {IWeatherResponse} from '../../interfaces/weather-response.interface';
 
 const WeatherCard: React.FC<IGetWeather> = ({lat, lon}) => {
   const [weatherData, setWeatherData] = useState<IWeatherResponse | null>();
+  const [isWeatherDataLoading, setIsWeatherDataLoading] = useState<
+    boolean | null
+  >(null);
+  const [errorWeatherData, setErrorWeatherData] = useState<boolean | null>(
+    null,
+  );
   useFocusEffect(
     useCallback(() => {
       async function getWeatherData(latitude: number, longitude: number) {
@@ -15,9 +21,16 @@ const WeatherCard: React.FC<IGetWeather> = ({lat, lon}) => {
           lat: latitude,
           lon: longitude,
         });
-        setWeatherData(weatherResponse);
+        setIsWeatherDataLoading(true);
+        if (weatherResponse) {
+          setWeatherData(weatherResponse);
+          setIsWeatherDataLoading(false);
+          setErrorWeatherData(false);
+        } else {
+          setIsWeatherDataLoading(false);
+          setErrorWeatherData(true);
+        }
       }
-
       getWeatherData(lat, lon);
       return () => getWeatherData(lat, lon);
     }, [lat, lon]),
@@ -25,32 +38,44 @@ const WeatherCard: React.FC<IGetWeather> = ({lat, lon}) => {
 
   return (
     <View style={styles.card}>
-      <FastImage
-        source={{
-          uri: `https://openweathermap.org/img/wn/${weatherData?.weather[0].icon}@2x.png`,
-          priority: FastImage.priority.high,
-        }}
-        style={styles.icon}
-        resizeMode={FastImage.resizeMode.contain}
-      />
+      {isWeatherDataLoading ? (
+        <Text>Weather data is loading...</Text>
+      ) : errorWeatherData ? (
+        <Text>Weather data could not be loaded</Text>
+      ) : (
+        <View style={styles.card}>
+          <FastImage
+            source={{
+              uri: `https://openweathermap.org/img/wn/${weatherData?.weather[0].icon}@2x.png`,
+              priority: FastImage.priority.high,
+            }}
+            style={styles.icon}
+            resizeMode={FastImage.resizeMode.contain}
+          />
 
-      <Text style={styles.temperature}>{weatherData?.main.temp}°</Text>
-      <Text style={styles.condition}>
-        {weatherData?.weather[0].description}
-      </Text>
-      <Text style={styles.temperatures}>
-        Max: {weatherData?.main.temp_max}° Min: {weatherData?.main.temp_min}°
-      </Text>
-      <Text style={styles.condition}> dt: {weatherData?.dt}</Text>
-      <Text style={styles.condition}> timezone: {weatherData?.timezone}</Text>
-      <Text style={styles.condition}>
-        {' '}
-        windspeed: {weatherData?.wind.speed}
-      </Text>
-      <Text style={styles.condition}>
-        {' '}
-        wind direction: {weatherData?.wind.deg}
-      </Text>
+          <Text style={styles.temperature}>{weatherData?.main.temp}°</Text>
+          <Text style={styles.condition}>
+            {weatherData?.weather[0].description}
+          </Text>
+          <Text style={styles.temperatures}>
+            Max: {weatherData?.main.temp_max}° Min: {weatherData?.main.temp_min}
+            °
+          </Text>
+          <Text style={styles.condition}> dt: {weatherData?.dt}</Text>
+          <Text style={styles.condition}>
+            {' '}
+            timezone: {weatherData?.timezone}
+          </Text>
+          <Text style={styles.condition}>
+            {' '}
+            windspeed: {weatherData?.wind.speed}
+          </Text>
+          <Text style={styles.condition}>
+            {' '}
+            wind direction: {weatherData?.wind.deg}
+          </Text>
+        </View>
+      )}
     </View>
   );
 };
