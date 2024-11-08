@@ -1,7 +1,7 @@
 import {AxiosResponse} from 'axios';
 // import {Alert} from 'react-native';
 // import {IHandleError} from '../services/contacts.service';
-import Snackbar from 'react-native-snackbar';
+import {showSnackbar} from './snackbar.utility';
 // import {IHandleError} from '../services/contacts.service';
 
 function processAxiosResponse<T>(
@@ -20,23 +20,10 @@ function processAxiosError(
   // handleError?: IHandleError
 ) {
   let errorMessage =
-    'There was an error related to a bad axios/network connection or an undefined error';
+    'There was an error related to a bad axios/network connection or an undefined error.';
 
-  if (error instanceof Error) errorMessage += `: ${error.message}`;
-
-  Snackbar.show({
-    text: errorMessage,
-    // textColor: 'black',
-    // backgroundColor: 'black',
-    duration: Snackbar.LENGTH_INDEFINITE,
-    numberOfLines: 5,
-    marginBottom: 10,
-    action: {
-      text: 'Accept',
-      textColor: 'red',
-      // onPress: {handleError},
-    },
-  });
+  errorMessage += error instanceof Error ? error.message : '';
+  showSnackbar(errorMessage);
 
   // return Promise.reject(errorMessage);
   return Promise.resolve(null);

@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import {FlatList, Text, View, StyleSheet} from 'react-native';
 import {SmallButton} from '../components/common/SmallButton';
 import {GoToContacDetailsButton} from '../components/allContacts';
@@ -10,6 +10,17 @@ import {theme} from '../theme/main.theme';
 import {PermissionEnum} from '../interfaces/permissions.interface';
 import {checkPermission} from '../utilities/check-permissions.utility';
 import {NotifyUserPermissionModal} from '../components/common/notifyUserPermissionModal.component';
+import {
+  getContactsToSync,
+  syncContacts,
+} from '../utilities/check-contacts-to-sync.utility';
+import {ConfirmationModal} from '../components/common/confirmation-modal.component';
+import {Contact} from 'react-native-contacts/type';
+
+interface IAskUserSyncModalOpen {
+  isModalOpen: boolean;
+  numNewContacts: number;
+}
 
 export function AllContactsScreen(): React.JSX.Element {
   const [contacts, setContacts] = useState<IContact[]>([]);
@@ -17,35 +28,61 @@ export function AllContactsScreen(): React.JSX.Element {
   const [errorLoading, setErrorLoading] = useState<boolean | null>(null);
   const [permissionModalOpen, setPermissionModalopen] =
     useState<boolean>(false);
+  const [askUserSyncModalOpen, setAskUserSyncModalOpen] =
+    useState<IAskUserSyncModalOpen>({isModalOpen: false, numNewContacts: 0});
+  const [contacts2Sync, setcontacts2Sync] = useState<Contact[] | null>(null);
+
+  const handleSyncContacts = () => {
+    if (contacts2Sync) {
+      setContacts(syncContacts(contacts, contacts2Sync));
+    }
+  };
 
   useFocusEffect(
     useCallback(() => {
       async function fetchAllContacts() {
         setIsLoading(true);
 
-        const contactsPermissionResponse = await checkPermission(
-          PermissionEnum.READ_CONTACTS,
-        );
-        const cellphonesPermissionResponse = await checkPermission(
-          PermissionEnum.READ_PHONE_NUMBERS,
-        );
+        // Contacts saved in the app's database do not need permission for reading contacts/phone numbers from the phone
+        const response = await ContactsService.getAll();
 
-        if (contactsPermissionResponse && cellphonesPermissionResponse) {
-          const response = await ContactsService.getAll();
-          const allContactsResponse = await ContactsService.sync();
-          console.log('allContactsResponse[0]: ', allContactsResponse[0]);
-          if (response) {
-            setContacts(response);
+        if (response) {
+          setContacts(response);
+
+          //If app's contacts could be loaded, ask permission for reading phone's contacts and numbers
+
+          const contactsPermissionResponse = await checkPermission(
+            PermissionEnum.READ_CONTACTS,
+          );
+          const cellphonesPermissionResponse = await checkPermission(
+            PermissionEnum.READ_PHONE_NUMBERS,
+          );
+          if (contactsPermissionResponse && cellphonesPermissionResponse) {
+            // If user gave permissions for contacts and numbers, get phone's contacts and sync them
+            const phoneContactsResponse = await ContactsService.sync();
+            if (phoneContactsResponse) {
+              setcontacts2Sync(
+                getContactsToSync(response, phoneContactsResponse),
+              );
+              // Call modal for asking user to sync contacts
+              if (contacts2Sync && contacts2Sync.length > 0) {
+                setAskUserSyncModalOpen({
+                  isModalOpen: true,
+                  numNewContacts: contacts2Sync.length,
+                });
+              }
+            }
+            // If there was an error getting the contacs, a snackbar is shown from the service, and the application continues as normal
             setIsLoading(false);
             setErrorLoading(false);
           } else {
             setIsLoading(false);
-            setErrorLoading(true);
+            // setErrorLoading(true);
+            setPermissionModalopen(true);
           }
         } else {
           setIsLoading(false);
           setErrorLoading(true);
-          setPermissionModalopen(true);
         }
       }
 
@@ -85,9 +122,21 @@ export function AllContactsScreen(): React.JSX.Element {
           modalOpen={permissionModalOpen}
           setModalopen={setPermissionModalopen}
           message={
-            'Please enable the app permissions from the settings to be able to use this feature'
+            "Please enable the app permissions from the settings to be able to syncronize the phone's contacts with Close To You app"
           }
         />
+      )}
+      {permissionModalOpen && (
+        <ConfirmationModal
+          confirmationModalVisible={permissionModalOpen}
+          setConfirmationModalVisible={setPermissionModalopen}
+          handleAccept={handleSyncContacts}
+          requiresCancel={true}>
+          <Text>
+            {askUserSyncModalOpen.numNewContacts} new contacts have been found.
+            Do you want to syncronize them?
+          </Text>
+        </ConfirmationModal>
       )}
     </View>
   );
