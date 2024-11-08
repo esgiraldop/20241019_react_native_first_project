@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {FlatList, Text, View, StyleSheet} from 'react-native';
 import {SmallButton} from '../components/common/SmallButton';
 import {GoToContacDetailsButton} from '../components/allContacts';
@@ -17,7 +17,7 @@ import {
 import {ConfirmationModal} from '../components/common/confirmation-modal.component';
 import {Contact} from 'react-native-contacts/type';
 
-interface IAskUserSyncModalOpen {
+export interface IAskUserSyncModalOpen {
   isModalOpen: boolean;
   numNewContacts: number;
 }
@@ -32,12 +32,17 @@ export function AllContactsScreen(): React.JSX.Element {
     useState<IAskUserSyncModalOpen>({isModalOpen: false, numNewContacts: 0});
   const [contacts2Sync, setcontacts2Sync] = useState<Contact[] | null>(null);
 
-  const handleSyncContacts = () => {
+  const handleSyncContacts = useCallback(() => {
     if (contacts2Sync) {
       setContacts(syncContacts(contacts, contacts2Sync));
+      // Close the modal after syncing
+      setAskUserSyncModalOpen({
+        isModalOpen: false,
+        numNewContacts: 0,
+      });
     }
-  };
-
+  }, [contacts, contacts2Sync]);
+  ('');
   useFocusEffect(
     useCallback(() => {
       async function fetchAllContacts() {
@@ -57,38 +62,40 @@ export function AllContactsScreen(): React.JSX.Element {
           const cellphonesPermissionResponse = await checkPermission(
             PermissionEnum.READ_PHONE_NUMBERS,
           );
+
           if (contactsPermissionResponse && cellphonesPermissionResponse) {
             // If user gave permissions for contacts and numbers, get phone's contacts and sync them
             const phoneContactsResponse = await ContactsService.sync();
+
             if (phoneContactsResponse) {
-              setcontacts2Sync(
-                getContactsToSync(response, phoneContactsResponse),
+              const contactsToSync = getContactsToSync(
+                response,
+                phoneContactsResponse,
               );
+
               // Call modal for asking user to sync contacts
-              if (contacts2Sync && contacts2Sync.length > 0) {
+              if (contactsToSync.length > 0) {
+                setcontacts2Sync(contactsToSync);
                 setAskUserSyncModalOpen({
                   isModalOpen: true,
-                  numNewContacts: contacts2Sync.length,
+                  numNewContacts: contactsToSync.length,
                 });
               }
             }
             // If there was an error getting the contacs, a snackbar is shown from the service, and the application continues as normal
-            setIsLoading(false);
             setErrorLoading(false);
           } else {
-            setIsLoading(false);
-            // setErrorLoading(true);
             setPermissionModalopen(true);
           }
+          setIsLoading(false);
         } else {
           setIsLoading(false);
           setErrorLoading(true);
         }
       }
-
       fetchAllContacts();
 
-      return () => fetchAllContacts();
+      return () => {};
     }, []),
   );
 
@@ -126,10 +133,10 @@ export function AllContactsScreen(): React.JSX.Element {
           }
         />
       )}
-      {permissionModalOpen && (
+      {askUserSyncModalOpen.isModalOpen && (
         <ConfirmationModal
-          confirmationModalVisible={permissionModalOpen}
-          setConfirmationModalVisible={setPermissionModalopen}
+          confirmationModalVisible={askUserSyncModalOpen}
+          setConfirmationModalVisible={setAskUserSyncModalOpen}
           handleAccept={handleSyncContacts}
           requiresCancel={true}>
           <Text>

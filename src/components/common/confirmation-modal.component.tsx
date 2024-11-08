@@ -2,30 +2,64 @@ import React from 'react';
 import {Modal, StyleSheet, TouchableOpacity, View} from 'react-native';
 import {Text} from 'react-native-elements';
 import {theme} from '../../theme/main.theme';
+import {IAskUserSyncModalOpen} from '../../screens';
 
-interface IConfirmationModal {
+interface IConfirmationModal<T> {
   children: React.ReactNode;
-  confirmationModalVisible: boolean;
-  setConfirmationModalVisible: (confirmationModalVisible: boolean) => void;
+  confirmationModalVisible: T;
+  setConfirmationModalVisible: (confirmationModalVisible: T) => void;
   handleAccept: () => void;
   requiresCancel: boolean;
 }
 
-export const ConfirmationModal = ({
+// Type guard to check if T is IAskUserSyncModalOpen
+function isAskUserSyncModalOpen(
+  value: unknown,
+): value is IAskUserSyncModalOpen {
+  return (
+    typeof value === 'object' &&
+    value !== null &&
+    'isModalOpen' in value &&
+    typeof (value as IAskUserSyncModalOpen).isModalOpen === 'boolean'
+  );
+}
+
+export const ConfirmationModal = <T,>({
   children,
   confirmationModalVisible,
   setConfirmationModalVisible,
   handleAccept,
   requiresCancel,
-}: IConfirmationModal): React.JSX.Element => {
+}: IConfirmationModal<T>): React.JSX.Element => {
+  const evalConfirmationModalVisible = (): boolean => {
+    return typeof confirmationModalVisible === 'boolean'
+      ? confirmationModalVisible
+      : isAskUserSyncModalOpen(confirmationModalVisible)
+      ? confirmationModalVisible.isModalOpen
+      : false;
+  };
+  console.log('confirmationModalVisible: ', confirmationModalVisible);
+  console.log(
+    'evalConfirmationModalVisible(): ',
+    evalConfirmationModalVisible(),
+  );
+  const handleClose = () => {
+    if (typeof confirmationModalVisible === 'boolean') {
+      setConfirmationModalVisible(false as T);
+    } else {
+      setConfirmationModalVisible({
+        ...confirmationModalVisible,
+        isModalOpen: false,
+      } as T);
+    }
+  };
+
   return (
     <Modal
       animationType="slide"
       transparent={true}
-      visible={confirmationModalVisible}
-      onRequestClose={() =>
-        setConfirmationModalVisible(!confirmationModalVisible)
-      }>
+      visible={evalConfirmationModalVisible()}
+      onRequestClose={handleClose}>
       <View style={styles.centeredView}>
         <View style={styles.modalView}>
           <Text style={styles.modalText}>{children}</Text>
@@ -37,9 +71,7 @@ export const ConfirmationModal = ({
           {requiresCancel && (
             <TouchableOpacity
               style={[styles.button, styles.cancelButton]}
-              onPress={() =>
-                setConfirmationModalVisible(!confirmationModalVisible)
-              }>
+              onPress={handleClose}>
               <Text style={styles.buttonText}>Cancel</Text>
             </TouchableOpacity>
           )}
