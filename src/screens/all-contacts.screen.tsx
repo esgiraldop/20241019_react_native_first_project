@@ -41,7 +41,7 @@ export function AllContactsScreen(): React.JSX.Element {
     if (contacts2Sync) {
       setIsLoading(true);
       setErrorLoading(null);
-      const insertResponse = await syncContacts(contacts2Sync);
+      const insertResponse = await syncContacts(contacts2Sync.slice(0, 10));
       if (
         insertResponse &&
         insertResponse.length !== askUserSyncModalOpen.numNewContacts
@@ -129,7 +129,7 @@ export function AllContactsScreen(): React.JSX.Element {
           ListHeaderComponent={
             <ButtonsCarrousel>
               <SmallButton text={'Add new contact'} />
-              <SmallButton text={'Search a contact'} />
+              {/* <SmallButton text={'Search a contact'} /> */}
             </ButtonsCarrousel>
           }
           data={contacts.sort((a, b) => a.name.localeCompare(b.name))}
@@ -160,7 +160,8 @@ export function AllContactsScreen(): React.JSX.Element {
           requiresCancel={true}>
           <Text>
             {askUserSyncModalOpen.numNewContacts} new contacts have been found.
-            Do you want to syncronize them?
+            Do you want to syncronize them? (Only 10 contacts will be
+            syncronized)
           </Text>
         </ConfirmationModal>
       )}
