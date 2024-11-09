@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import {FlatList, Text, View, StyleSheet} from 'react-native';
 import {SmallButton} from '../components/common/SmallButton';
 import {GoToContacDetailsButton} from '../components/allContacts';
@@ -32,17 +32,36 @@ export function AllContactsScreen(): React.JSX.Element {
     useState<IAskUserSyncModalOpen>({isModalOpen: false, numNewContacts: 0});
   const [contacts2Sync, setcontacts2Sync] = useState<Contact[] | null>(null);
 
-  const handleSyncContacts = useCallback(() => {
+  const handleSyncContacts = useCallback(async () => {
+    // Close the modal after user hits ok
+    setAskUserSyncModalOpen({
+      isModalOpen: false,
+      numNewContacts: 0,
+    });
     if (contacts2Sync) {
-      setContacts(syncContacts(contacts, contacts2Sync));
-      // Close the modal after syncing
-      setAskUserSyncModalOpen({
-        isModalOpen: false,
-        numNewContacts: 0,
-      });
+      setIsLoading(true);
+      setErrorLoading(null);
+      const insertResponse = await syncContacts(contacts2Sync);
+      if (
+        insertResponse &&
+        insertResponse.length !== askUserSyncModalOpen.numNewContacts
+      ) {
+        console.log(
+          'The number of contacts inserted in the database and the number contacts to be syncronized are not the same, so probably there was an error',
+        );
+      }
+      const response = await ContactsService.getAll();
+      if (response) {
+        setContacts(response);
+        setIsLoading(false);
+        setErrorLoading(false);
+      } else {
+        setIsLoading(false);
+        setErrorLoading(true);
+      }
     }
   }, [contacts, contacts2Sync]);
-  ('');
+
   useFocusEffect(
     useCallback(() => {
       async function fetchAllContacts() {

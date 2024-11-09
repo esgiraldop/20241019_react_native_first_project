@@ -42,6 +42,31 @@ export class ContactsService {
     );
   }
 
+  static async createMultiple(
+    contactData: IUpdateContact[],
+    // handleError?: IHandleError,
+  ): Promise<IContact[] | null> {
+    const promises = contactData.map(contact =>
+      handleAxiosResponse<IContact>(() =>
+        axiosInstance.post<IContact>(`${this.resource}`, contact),
+      ),
+    );
+    try {
+      const results = await Promise.all(promises);
+      const successfulResults = results.filter(
+        (result): result is IContact => result !== null,
+      );
+
+      if (successfulResults.length !== contactData.length) {
+        return null;
+      }
+
+      return successfulResults;
+    } catch {
+      return null;
+    }
+  }
+
   static async update(
     id: number,
     contactData: IUpdateContact,

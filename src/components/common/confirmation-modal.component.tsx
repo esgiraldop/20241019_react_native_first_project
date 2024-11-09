@@ -38,11 +38,6 @@ export const ConfirmationModal = <T,>({
       ? confirmationModalVisible.isModalOpen
       : false;
   };
-  console.log('confirmationModalVisible: ', confirmationModalVisible);
-  console.log(
-    'evalConfirmationModalVisible(): ',
-    evalConfirmationModalVisible(),
-  );
   const handleClose = () => {
     if (typeof confirmationModalVisible === 'boolean') {
       setConfirmationModalVisible(false as T);
