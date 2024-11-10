@@ -6,7 +6,7 @@ import {
   StyleSheet,
   ScrollView,
 } from 'react-native';
-import {NativeStackNavigationProp} from 'react-native-screens/lib/typescript/native-stack/types';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../interfaces';
 import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
 import ContactImage from '../components/common/contactImage.component';
@@ -32,17 +32,16 @@ export function ContactDetailsScreen(): React.JSX.Element {
 
   const {contactInfo, isContactLoading, errorLoadingContact} =
     useContactById(contactId);
-
   const [confirmationModalVisible, setConfirmationModalVisible] =
     useState<boolean>(false);
 
   const [marker, setMarker] = useState<IMarkerCoordinates | null>(null);
-
+  console.log('marker: ', marker);
   useEffect(() => {
-    if (contactInfo?.latitude && contactInfo?.longitude) {
+    if (contactInfo?.data.latitude && contactInfo?.data.longitude) {
       setMarker({
-        latitude: contactInfo?.latitude,
-        longitude: contactInfo?.longitude,
+        latitude: contactInfo?.data.latitude,
+        longitude: contactInfo?.data.longitude,
       });
     }
   }, [contactInfo]);
@@ -64,19 +63,21 @@ export function ContactDetailsScreen(): React.JSX.Element {
         </Text>
       ) : (
         <View style={contactDetailsStyles.contactContainer}>
-          <ContactImage pictureUri={contactInfo.picture} size={150} />
-          <Text style={contactDetailsStyles.nameText}>{contactInfo.name}</Text>
+          <ContactImage pictureUri={contactInfo.data.imageUri} size={150} />
+          <Text style={contactDetailsStyles.nameText}>
+            {contactInfo.data.name}
+          </Text>
           <Text style={contactDetailsStyles.phoneText}>
-            {contactInfo.phoneNumber}
+            {contactInfo.data.phone}
           </Text>
           <Text style={contactDetailsStyles.emailText}>
-            {contactInfo.email}
+            {contactInfo.data.email}
           </Text>
 
-          <Text style={contactDetailsStyles.emailText}>
+          {/* <Text style={contactDetailsStyles.emailText}>
             Contact's current location
           </Text>
-          <GoogleMap marker={marker} setMarker={setMarker} onEdit={false} />
+          <GoogleMap marker={marker} setMarker={setMarker} onEdit={false} /> */}
 
           {!!marker && (
             <View>

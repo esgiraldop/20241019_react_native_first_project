@@ -28,7 +28,7 @@ const contactSchema = Yup.object().shape({
     .required()
     .min(3, 'Name must contain at least 3 characters'),
   email: Yup.string().required('Email is required').email('Invalid email'),
-  phoneNumber: Yup.number().required('Phone number is required'),
+  phone: Yup.number().required('Phone number is required'),
 });
 
 interface InewContactValues extends Omit<IContact, 'id'> {}
@@ -48,8 +48,8 @@ export function EditContactScreen(): React.JSX.Element {
   const [addPictureModalVisible, setAddPictureModalVisible] =
     useState<boolean>(false);
 
-  const [imageUri, setImageUri] = useState<string | undefined>(
-    contactInfo?.picture,
+  const [imageUri, setImageUri] = useState<string>(
+    contactInfo ? contactInfo.imageUri : '',
   );
 
   const [marker, setMarker] = useState<IMarkerCoordinates | null>(null);
@@ -65,15 +65,15 @@ export function EditContactScreen(): React.JSX.Element {
 
   useEffect(() => {
     // So the image in the form refreshes
-    if (contactInfo?.picture) {
-      setImageUri(contactInfo.picture);
+    if (contactInfo?.imageUri) {
+      setImageUri(contactInfo.imageUri);
     }
   }, [contactInfo]);
 
   const onSubmit = async (values: IUpdateContact) => {
     await ContactsService.update(contactId, {
       ...values,
-      picture: imageUri,
+      imageUri: imageUri,
       latitude: marker?.latitude,
       longitude: marker?.longitude,
     });
@@ -85,9 +85,9 @@ export function EditContactScreen(): React.JSX.Element {
   if (!contactInfo) {
     contactInfoNoId = {
       name: '',
-      phoneNumber: -1,
+      phone: '',
       email: '',
-      picture: '',
+      imageUri: '',
       latitude: 0,
       longitude: 0,
     };
@@ -98,7 +98,7 @@ export function EditContactScreen(): React.JSX.Element {
 
   const initialValues: InewContactValues = {
     ...contactInfoNoId,
-    picture: imageUri,
+    imageUri,
   };
 
   return (
@@ -157,16 +157,16 @@ export function EditContactScreen(): React.JSX.Element {
                   <Text style={formStyles.label}>Phone number</Text>
                   <TextInput
                     style={formStyles.input}
-                    onChangeText={handleChange('phoneNumber')}
-                    onBlur={handleBlur('phoneNumber')}
-                    value={String(values.phoneNumber)}
-                    defaultValue={String(initialValues.phoneNumber)}
+                    onChangeText={handleChange('phone')}
+                    onBlur={handleBlur('phone')}
+                    value={String(values.phone)}
+                    defaultValue={String(initialValues.phone)}
                     placeholder="Enter phone number"
                     placeholderTextColor={theme.colors.textSecondary}
                     keyboardType="phone-pad"
                   />
-                  {errors.phoneNumber && (
-                    <Text style={formStyles.error}>{errors.phoneNumber}</Text>
+                  {errors.phone && (
+                    <Text style={formStyles.error}>{errors.phone}</Text>
                   )}
 
                   <Text style={formStyles.label}>email</Text>

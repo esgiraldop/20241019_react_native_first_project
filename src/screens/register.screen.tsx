@@ -40,12 +40,10 @@ export function RegistrationScreen(): React.JSX.Element {
     setIsSubmitting(true);
     const response = await AuthService.register(values);
     if (response) {
-      console.log('register sucessful: ', response);
       setIsSubmitting(false);
       setErrorSubmitting(false);
       navigation.navigate('Login');
     } else {
-      console.log('There was an error registering');
       setIsSubmitting(false);
       setErrorSubmitting(true);
     }

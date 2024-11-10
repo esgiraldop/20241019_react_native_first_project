@@ -37,10 +37,8 @@ export function LoginScreen(): React.JSX.Element {
 
   const onSubmit = async (values: IUser) => {
     setIsSubmitting(true);
-    console.log('values: ', values);
     const response = await AuthService.login(values);
     if (response) {
-      console.log('login sucessful: ', response);
       const asyncStorageResponse = await setValueAsyncStorage(
         'token',
         response.data.accessToken,
@@ -48,14 +46,9 @@ export function LoginScreen(): React.JSX.Element {
       if (asyncStorageResponse) {
         setIsSubmitting(false);
         setErrorSubmitting(false);
-        console.log(
-          'Async storage contents: ',
-          await getAsyncStorageContents(),
-        );
       } else {
         setIsSubmitting(false);
         setErrorSubmitting(true);
-        console.log('Error setting token to async storage');
       }
       navigation.dispatch(
         CommonActions.reset({
@@ -64,7 +57,6 @@ export function LoginScreen(): React.JSX.Element {
         }),
       );
     } else {
-      console.log('There was an error singing in');
       setIsSubmitting(false);
       setErrorSubmitting(true);
     }

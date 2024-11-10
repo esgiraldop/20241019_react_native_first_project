@@ -27,7 +27,7 @@ const contactSchema = Yup.object().shape({
     .required()
     .min(3, 'Name must contain at least 3 characters'),
   email: Yup.string().required('Email is required').email('Invalid email'),
-  phoneNumber: Yup.number().required('Phone number is required'),
+  phone: Yup.number().required('Phone number is required'),
 });
 
 type AddContactScreenProp = NativeStackNavigationProp<
@@ -45,7 +45,7 @@ export function AddContactScreen(): React.JSX.Element {
   const onSubmit = async (values: IUpdateContact) => {
     await ContactsService.create({
       ...values,
-      picture: imageUri,
+      imageUri,
       latitude: marker?.latitude,
       longitude: marker?.longitude,
     });
@@ -54,7 +54,7 @@ export function AddContactScreen(): React.JSX.Element {
 
   const initialValues = {
     name: '',
-    phoneNumber: -1,
+    phone: '',
     email: '',
     picture: '',
     latitude: 0,
@@ -107,16 +107,16 @@ export function AddContactScreen(): React.JSX.Element {
               <Text style={formStyles.label}>Phone number</Text>
               <TextInput
                 style={formStyles.input}
-                onChangeText={handleChange('phoneNumber')}
-                onBlur={handleBlur('phoneNumber')}
-                value={String(values.phoneNumber)}
-                defaultValue={String(initialValues.phoneNumber)}
+                onChangeText={handleChange('phone')}
+                onBlur={handleBlur('phone')}
+                value={values.phone}
+                defaultValue={initialValues.phone}
                 placeholder="Enter phone number"
                 placeholderTextColor={theme.colors.textSecondary}
                 keyboardType="phone-pad"
               />
-              {errors.phoneNumber && (
-                <Text style={formStyles.error}>{errors.phoneNumber}</Text>
+              {errors.phone && (
+                <Text style={formStyles.error}>{errors.phone}</Text>
               )}
 
               <Text style={formStyles.label}>email</Text>

@@ -9,12 +9,12 @@ import {IContact} from '../../interfaces/contact.interface';
 import {theme} from '../../theme/main.theme';
 
 interface IContactDetailsButton
-  extends Pick<IContact, 'name' | 'id' | 'picture'> {}
+  extends Pick<IContact, 'name' | 'id' | 'imageUri'> {}
 
 export function GoToContacDetailsButton({
   name,
   id,
-  picture,
+  imageUri,
 }: IContactDetailsButton) {
   type ContactDetailsScreenNavigationProp = NativeStackNavigationProp<
     RootStackParamList,
@@ -27,7 +27,7 @@ export function GoToContacDetailsButton({
     <TouchableOpacity
       style={styles.container}
       onPress={() => navigation.navigate('ContactDetails', {contactId: id})}>
-      <ContactImage pictureUri={picture} />
+      <ContactImage pictureUri={imageUri} />
       <Text style={styles.nameText}>{name}</Text>
     </TouchableOpacity>
   );

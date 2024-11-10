@@ -18,3 +18,15 @@ export const getAsyncStorageContents = async (): Promise<{
     return {};
   }
 };
+
+export const getAsyncStorageValue = async (
+  key: string,
+): Promise<string | null> => {
+  try {
+    const value = await AsyncStorage.getItem(key);
+    return value;
+  } catch (error) {
+    console.error(`Error retrieving value for key "${key}":`, error);
+    return null;
+  }
+};

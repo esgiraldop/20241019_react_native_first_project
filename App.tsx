@@ -46,6 +46,8 @@ function App(): React.JSX.Element {
               fontSize: theme.fontSizes.title,
               color: theme.colors.textPrimary,
             },
+            animation: 'slide_from_right',
+            freezeOnBlur: true,
           }}>
           {/* <Stack.Screen name="Demo" component={DemoScreen} /> */}
           <Stack.Screen

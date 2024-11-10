@@ -8,7 +8,7 @@ export const showSnackbar = (
     text: message,
     // textColor: 'black',
     // backgroundColor: 'black',
-    duration: Snackbar.LENGTH_LONG,
+    duration: Snackbar.LENGTH_INDEFINITE,
     numberOfLines: 5,
     marginBottom: 10,
     action: {

@@ -1,5 +1,10 @@
-import {axiosInstance} from '../config/axios.config';
-import {IContact, IUpdateContact} from '../interfaces/contact.interface';
+import {privateAxiosInstance} from '../config/axios.config';
+import {
+  IContact,
+  IContactsSucessfullResponse,
+  ISingleContactSucessfullResponse,
+  IUpdateContact,
+} from '../interfaces/contact.interface';
 import {handleAxiosResponse} from '../utilities/handle-axios-response.utility';
 import Contacts from 'react-native-contacts';
 import {Contact} from 'react-native-contacts/type';
@@ -13,42 +18,44 @@ export type IHandleError = (
 export class ContactsService {
   static resource = 'contacts';
 
-  static async getAll(): // handleError?: IHandleError
-  Promise<IContact[] | null> {
-    return handleAxiosResponse<IContact[]>(
-      async () => await axiosInstance.get<IContact[]>(`${this.resource}`),
-      // handleError,
+  static async getAll(): Promise<IContactsSucessfullResponse | null> {
+    return handleAxiosResponse<IContactsSucessfullResponse>(
+      async () =>
+        await privateAxiosInstance.get<IContactsSucessfullResponse>(
+          `${this.resource}`,
+        ),
     );
   }
 
   static async getById(
     id: number,
-    // handleError?: IHandleError,
-  ): Promise<IContact | null> {
-    return handleAxiosResponse<IContact>(
-      async () => await axiosInstance.get<IContact>(`${this.resource}/${id}`),
-      // handleError,
+  ): Promise<ISingleContactSucessfullResponse | null> {
+    return handleAxiosResponse<ISingleContactSucessfullResponse>(
+      async () =>
+        await privateAxiosInstance.get<ISingleContactSucessfullResponse>(
+          `${this.resource}/${id}`,
+        ),
     );
   }
 
   static async create(
     contactData: IUpdateContact,
-    // handleError?: IHandleError,
-  ): Promise<IContact | null> {
-    return handleAxiosResponse<IContact>(
+  ): Promise<IContactsSucessfullResponse | null> {
+    return handleAxiosResponse<IContactsSucessfullResponse>(
       async () =>
-        await axiosInstance.post<IContact>(`${this.resource}`, contactData),
-      // handleError,
+        await privateAxiosInstance.post<IContactsSucessfullResponse>(
+          `${this.resource}`,
+          contactData,
+        ),
     );
   }
 
   static async createMultiple(
     contactData: IUpdateContact[],
-    // handleError?: IHandleError,
   ): Promise<IContact[] | null> {
     const promises = contactData.map(contact =>
       handleAxiosResponse<IContact>(() =>
-        axiosInstance.post<IContact>(`${this.resource}`, contact),
+        privateAxiosInstance.post<IContact>(`${this.resource}`, contact),
       ),
     );
     try {
@@ -70,26 +77,22 @@ export class ContactsService {
   static async update(
     id: number,
     contactData: IUpdateContact,
-    // handleError?: IHandleError,
-  ): Promise<IContact | null> {
-    return handleAxiosResponse<IContact>(
+  ): Promise<IContactsSucessfullResponse | null> {
+    return handleAxiosResponse<IContactsSucessfullResponse>(
       async () =>
-        await axiosInstance.patch<IContact>(
+        await privateAxiosInstance.patch<IContactsSucessfullResponse>(
           `${this.resource}/${id}`,
           contactData,
         ),
-      // handleError,
     );
   }
 
-  static async delete(
-    id: number,
-    // handleError?: IHandleError,
-  ): Promise<IContact | null> {
-    return handleAxiosResponse<IContact>(
+  static async delete(id: number): Promise<IContactsSucessfullResponse | null> {
+    return handleAxiosResponse<IContactsSucessfullResponse>(
       async () =>
-        await axiosInstance.delete<IContact>(`${this.resource}/${id}`),
-      // handleError,
+        await privateAxiosInstance.delete<IContactsSucessfullResponse>(
+          `${this.resource}/${id}`,
+        ),
     );
   }
 

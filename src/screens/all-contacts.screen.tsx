@@ -52,7 +52,7 @@ export function AllContactsScreen(): React.JSX.Element {
       }
       const response = await ContactsService.getAll();
       if (response) {
-        setContacts(response);
+        setContacts(response.data);
         setIsLoading(false);
         setErrorLoading(false);
       } else {
@@ -71,7 +71,7 @@ export function AllContactsScreen(): React.JSX.Element {
         const response = await ContactsService.getAll();
 
         if (response) {
-          setContacts(response);
+          setContacts(response.data);
 
           //If app's contacts could be loaded, ask permission for reading phone's contacts and numbers
 
@@ -88,7 +88,7 @@ export function AllContactsScreen(): React.JSX.Element {
 
             if (phoneContactsResponse) {
               const contactsToSync = getContactsToSync(
-                response,
+                response.data,
                 phoneContactsResponse,
               );
 
@@ -138,7 +138,7 @@ export function AllContactsScreen(): React.JSX.Element {
             <GoToContacDetailsButton
               name={item.name}
               id={item.id}
-              picture={item.picture}
+              imageUri={item.imageUri}
             />
           )}
         />
