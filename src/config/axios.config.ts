@@ -6,7 +6,8 @@ import {WEATHER_API_KEY} from '@env';
 // export const baseURL = 'http://192.168.0.102:3000'; // --> Elizeth
 // export const baseURL = 'http://192.168.1.13:3000'; // --> Nala
 // export const baseURL = 'http://192.168.89.190:3000'; // --> Riwi
-export const baseURL = 'http://192.168.20.45:3000'; // --> Pospin 5G
+// export const baseURL = 'http://192.168.20.45:3000'; // --> Pospin 5G
+export const baseURL = 'https://closetoyoureactnativebackend.onrender.com/api/'; // --> cloud
 
 export const weatherBaseURL = 'https://api.openweathermap.org/data/2.5/weather';
 

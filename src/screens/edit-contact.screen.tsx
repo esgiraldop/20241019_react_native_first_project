@@ -218,7 +218,11 @@ export const formStyles = StyleSheet.create({
     textAlign: 'center',
   },
   errorText: {
-    color: theme.colors.textSecondary,
+    color: theme.colors.error,
+    textAlign: 'center',
+  },
+  sucessText: {
+    color: theme.colors.success,
     textAlign: 'center',
   },
   formContainer: {

@@ -53,40 +53,48 @@ export function ContactDetailsScreen(): React.JSX.Element {
   };
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView style={contactDetailsStyles.container}>
       {isContactLoading ? (
-        <Text style={styles.loadingText}>Loading contact information...</Text>
+        <Text style={contactDetailsStyles.loadingText}>
+          Loading contact information...
+        </Text>
       ) : errorLoadingContact || !contactInfo ? (
-        <Text style={styles.errorText}>
+        <Text style={contactDetailsStyles.errorText}>
           No information for the contact could be found
         </Text>
       ) : (
-        <View style={styles.contactContainer}>
+        <View style={contactDetailsStyles.contactContainer}>
           <ContactImage pictureUri={contactInfo.picture} size={150} />
-          <Text style={styles.nameText}>{contactInfo.name}</Text>
-          <Text style={styles.phoneText}>{contactInfo.phoneNumber}</Text>
-          <Text style={styles.emailText}>{contactInfo.email}</Text>
+          <Text style={contactDetailsStyles.nameText}>{contactInfo.name}</Text>
+          <Text style={contactDetailsStyles.phoneText}>
+            {contactInfo.phoneNumber}
+          </Text>
+          <Text style={contactDetailsStyles.emailText}>
+            {contactInfo.email}
+          </Text>
 
-          <Text style={styles.emailText}>Contact's current location</Text>
+          <Text style={contactDetailsStyles.emailText}>
+            Contact's current location
+          </Text>
           <GoogleMap marker={marker} setMarker={setMarker} onEdit={false} />
 
           {!!marker && (
             <View>
-              <Text style={styles.emailText}>Local weather</Text>
+              <Text style={contactDetailsStyles.emailText}>Local weather</Text>
               <WeatherCard lat={marker?.latitude} lon={marker?.longitude} />
             </View>
           )}
 
           <TouchableOpacity
-            style={[styles.button]}
+            style={[contactDetailsStyles.button]}
             onPress={() => navigation.navigate('EditContact', {contactId})}>
-            <Text style={styles.buttonText}>Edit Contact</Text>
+            <Text style={contactDetailsStyles.buttonText}>Edit Contact</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
-            style={styles.button}
+            style={contactDetailsStyles.button}
             onPress={() => setConfirmationModalVisible(true)}>
-            <Text style={styles.buttonText}>Delete Contact</Text>
+            <Text style={contactDetailsStyles.buttonText}>Delete Contact</Text>
           </TouchableOpacity>
 
           <ConfirmationModal
@@ -102,7 +110,7 @@ export function ContactDetailsScreen(): React.JSX.Element {
   );
 }
 
-const styles = StyleSheet.create({
+export const contactDetailsStyles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: theme.colors.background,

@@ -6,6 +6,8 @@ export const theme = {
     accent: '#BB86FC',
     buttonBackground: '#2C2C2C',
     borderColor: '#3A3A3A',
+    error: '#de0a26',
+    success: '#3b8132',
   },
   fontSizes: {
     title: 24,

@@ -17,6 +17,8 @@ import {
 import {RootStackParamList} from './src/interfaces/navigation.interface';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {theme} from './src/theme/main.theme';
+import {RegistrationScreen} from './src/screens/register.screen';
+import {LoginScreen} from './src/screens/login.screen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -34,7 +36,7 @@ function App(): React.JSX.Element {
       />
       <NavigationContainer>
         <Stack.Navigator
-          initialRouteName="Contacts"
+          initialRouteName="Register"
           screenOptions={{
             headerStyle: {
               backgroundColor: theme.colors.background,
@@ -46,6 +48,16 @@ function App(): React.JSX.Element {
             },
           }}>
           {/* <Stack.Screen name="Demo" component={DemoScreen} /> */}
+          <Stack.Screen
+            name="Register"
+            component={RegistrationScreen}
+            options={{title: 'User registration'}}
+          />
+          <Stack.Screen
+            name="Login"
+            component={LoginScreen}
+            options={{title: 'User login'}}
+          />
           <Stack.Screen
             name="Contacts"
             component={AllContactsScreen}
