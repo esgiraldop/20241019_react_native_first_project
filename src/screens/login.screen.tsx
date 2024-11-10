@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
-import {useNavigation} from '@react-navigation/native';
+import {CommonActions, useNavigation} from '@react-navigation/native';
 import {theme} from '../theme/main.theme';
 import {formStyles} from './edit-contact.screen';
 import {AuthService} from '../services/auth.service';
@@ -57,7 +57,12 @@ export function LoginScreen(): React.JSX.Element {
         setErrorSubmitting(true);
         console.log('Error setting token to async storage');
       }
-      navigation.navigate('Contacts');
+      navigation.dispatch(
+        CommonActions.reset({
+          index: 0,
+          routes: [{name: 'Contacts'}],
+        }),
+      );
     } else {
       console.log('There was an error singing in');
       setIsSubmitting(false);
