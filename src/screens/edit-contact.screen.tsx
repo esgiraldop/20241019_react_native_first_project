@@ -49,24 +49,24 @@ export function EditContactScreen(): React.JSX.Element {
     useState<boolean>(false);
 
   const [imageUri, setImageUri] = useState<string>(
-    contactInfo ? contactInfo.imageUri : '',
+    contactInfo ? contactInfo.data.imageUri : '',
   );
 
   const [marker, setMarker] = useState<IMarkerCoordinates | null>(null);
 
   useEffect(() => {
-    if (contactInfo?.latitude && contactInfo?.longitude) {
+    if (contactInfo?.data?.latitude && contactInfo?.data?.longitude) {
       setMarker({
-        latitude: contactInfo?.latitude,
-        longitude: contactInfo?.longitude,
+        latitude: contactInfo?.data?.latitude,
+        longitude: contactInfo?.data?.longitude,
       });
     }
   }, [contactInfo]);
 
   useEffect(() => {
     // So the image in the form refreshes
-    if (contactInfo?.imageUri) {
-      setImageUri(contactInfo.imageUri);
+    if (contactInfo?.data.imageUri) {
+      setImageUri(contactInfo.data.imageUri);
     }
   }, [contactInfo]);
 
@@ -92,7 +92,7 @@ export function EditContactScreen(): React.JSX.Element {
       longitude: 0,
     };
   } else {
-    const {id, ...rest} = contactInfo;
+    const {id, ...rest} = contactInfo.data;
     contactInfoNoId = rest;
   }
 
@@ -187,7 +187,7 @@ export function EditContactScreen(): React.JSX.Element {
                   <Text style={formStyles.label}>
                     Add the contact's current location
                   </Text>
-                  <GoogleMap marker={marker} setMarker={setMarker} />
+                  {/* <GoogleMap marker={marker} setMarker={setMarker} /> */}
 
                   <View style={formStyles.buttonContainer}>
                     <TouchableOpacity
