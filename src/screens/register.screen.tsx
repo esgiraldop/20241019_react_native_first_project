@@ -26,19 +26,18 @@ const registrationSchema = Yup.object().shape({
     .min(8, 'Password must contain at least 8 characters'),
 });
 
-type LoginScreenProp = NativeStackNavigationProp<
+type registerScreenProp = NativeStackNavigationProp<
   RootStackParamList,
   'Register'
 >;
 
 export function RegistrationScreen(): React.JSX.Element {
-  const navigation = useNavigation<LoginScreenProp>();
+  const navigation = useNavigation<registerScreenProp>();
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [errorSubmitting, setErrorSubmitting] = useState<boolean | null>(null);
 
   const onSubmit = async (values: IUser) => {
     setIsSubmitting(true);
-    console.log('values: ', values);
     const response = await AuthService.register(values);
     if (response) {
       console.log('register sucessful: ', response);

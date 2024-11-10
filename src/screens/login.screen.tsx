@@ -15,6 +15,8 @@ import {AuthService} from '../services/auth.service';
 import {IUser} from '../interfaces/user.interface';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../interfaces';
+import {setValueAsyncStorage} from '../utilities/set-variable-async-storage.utility';
+import {getAsyncStorageContents} from '../utilities/get-async-storage-contents.utility';
 
 // Validation schema for the registration form
 const registrationSchema = Yup.object().shape({
@@ -31,21 +33,35 @@ type LoginScreenProp = NativeStackNavigationProp<RootStackParamList, 'Login'>;
 export function LoginScreen(): React.JSX.Element {
   const navigation = useNavigation<LoginScreenProp>();
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-  const [errorSubmitting, serErrorSubmitting] = useState<boolean>(false);
+  const [errorSubmitting, setErrorSubmitting] = useState<boolean | null>(null);
 
   const onSubmit = async (values: IUser) => {
     setIsSubmitting(true);
     console.log('values: ', values);
-    const response = await AuthService.register(values);
+    const response = await AuthService.login(values);
     if (response) {
-      console.log('register sucessful: ', response);
-      setIsSubmitting(false);
-      serErrorSubmitting(false);
-      navigation.goBack();
+      console.log('login sucessful: ', response);
+      const asyncStorageResponse = await setValueAsyncStorage(
+        'token',
+        response.data.accessToken,
+      );
+      if (asyncStorageResponse) {
+        setIsSubmitting(false);
+        setErrorSubmitting(false);
+        console.log(
+          'Async storage contents: ',
+          await getAsyncStorageContents(),
+        );
+      } else {
+        setIsSubmitting(false);
+        setErrorSubmitting(true);
+        console.log('Error setting token to async storage');
+      }
+      navigation.navigate('Contacts');
     } else {
-      console.log('There was an error registering');
+      console.log('There was an error singing in');
       setIsSubmitting(false);
-      serErrorSubmitting(true);
+      setErrorSubmitting(true);
     }
   };
 
@@ -102,17 +118,20 @@ export function LoginScreen(): React.JSX.Element {
                 style={formStyles.saveButton}
                 onPress={() => handleSubmit()}
                 disabled={!isValid || isSubmitting}>
-                <Text>Register</Text>
+                <Text>Sign in</Text>
               </TouchableOpacity>
             </View>
           </View>
         )}
       </Formik>
-      {errorSubmitting && (
-        <Text style={formStyles.errorText}>
-          There was an error submitting. Please try again later
-        </Text>
-      )}
+      {errorSubmitting !== null &&
+        (errorSubmitting ? (
+          <Text style={formStyles.errorText}>
+            There was an error logging in. Please try again later
+          </Text>
+        ) : (
+          <Text style={formStyles.sucessText}>Log in sucessful</Text>
+        ))}
     </ScrollView>
   );
 }
