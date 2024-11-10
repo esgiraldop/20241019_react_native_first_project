@@ -50,6 +50,7 @@ export class ContactsService {
     );
   }
 
+  //TODO: To fix the back in order it supports batch insertion
   static async createMultiple(
     contactData: IUpdateContact[],
   ): Promise<IContact[] | null> {

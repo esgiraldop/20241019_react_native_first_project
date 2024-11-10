@@ -15,7 +15,7 @@ import {ContactsService} from '../services/contacts.service';
 import {ConfirmationModal} from '../components/common/confirmation-modal.component';
 import {theme} from '../theme/main.theme';
 import {
-  GoogleMap,
+  // GoogleMap,
   IMarkerCoordinates,
 } from '../components/common/googleMap.component';
 import WeatherCard from '../components/common/weatherCard.component';
