@@ -36,7 +36,6 @@ export function ContactDetailsScreen(): React.JSX.Element {
     useState<boolean>(false);
 
   const [marker, setMarker] = useState<IMarkerCoordinates | null>(null);
-  console.log('marker: ', marker);
   useEffect(() => {
     if (contactInfo?.data.latitude && contactInfo?.data.longitude) {
       setMarker({

@@ -17,6 +17,7 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../interfaces';
 import {setValueAsyncStorage} from '../utilities/set-variable-async-storage.utility';
 import {getAsyncStorageContents} from '../utilities/get-async-storage-contents.utility';
+import {axiosInstance} from '../config/axios.config';
 
 // Validation schema for the registration form
 const registrationSchema = Yup.object().shape({

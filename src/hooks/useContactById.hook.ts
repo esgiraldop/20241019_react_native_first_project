@@ -17,7 +17,6 @@ export function useContactById(contactId: number) {
     useCallback(() => {
       async function getContactInfo(id: number) {
         const contactInfoResponse = await ContactsService.getById(id);
-        console.log('contact by id: ', contactInfoResponse);
         setIsContactLoading(true);
         if (contactInfoResponse) {
           setContactInfo(contactInfoResponse);

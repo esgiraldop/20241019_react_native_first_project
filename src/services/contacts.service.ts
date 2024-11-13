@@ -1,6 +1,5 @@
 import {privateAxiosInstance} from '../config/axios.config';
 import {
-  IContact,
   IContactsSucessfullResponse,
   ISingleContactSucessfullResponse,
   IUpdateContact,
@@ -40,39 +39,26 @@ export class ContactsService {
 
   static async create(
     contactData: IUpdateContact,
-  ): Promise<IContactsSucessfullResponse | null> {
-    return handleAxiosResponse<IContactsSucessfullResponse>(
+  ): Promise<ISingleContactSucessfullResponse | null> {
+    return handleAxiosResponse<ISingleContactSucessfullResponse>(
       async () =>
-        await privateAxiosInstance.post<IContactsSucessfullResponse>(
+        await privateAxiosInstance.post<ISingleContactSucessfullResponse>(
           `${this.resource}`,
           contactData,
         ),
     );
   }
 
-  //TODO: To fix the back in order it supports batch insertion
   static async createMultiple(
     contactData: IUpdateContact[],
-  ): Promise<IContact[] | null> {
-    const promises = contactData.map(contact =>
-      handleAxiosResponse<IContact>(() =>
-        privateAxiosInstance.post<IContact>(`${this.resource}`, contact),
-      ),
+  ): Promise<IContactsSucessfullResponse | null> {
+    return handleAxiosResponse<IContactsSucessfullResponse>(
+      async () =>
+        await privateAxiosInstance.post<IContactsSucessfullResponse>(
+          `${this.resource}/batch`,
+          contactData,
+        ),
     );
-    try {
-      const results = await Promise.all(promises);
-      const successfulResults = results.filter(
-        (result): result is IContact => result !== null,
-      );
-
-      if (successfulResults.length !== contactData.length) {
-        return null;
-      }
-
-      return successfulResults;
-    } catch {
-      return null;
-    }
   }
 
   static async update(

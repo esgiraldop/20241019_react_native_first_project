@@ -44,7 +44,7 @@ export function AllContactsScreen(): React.JSX.Element {
       const insertResponse = await syncContacts(contacts2Sync.slice(0, 10));
       if (
         insertResponse &&
-        insertResponse.length !== askUserSyncModalOpen.numNewContacts
+        insertResponse.data.length !== askUserSyncModalOpen.numNewContacts
       ) {
         console.log(
           'The number of contacts inserted in the database and the number contacts to be syncronized are not the same, so probably there was an error',

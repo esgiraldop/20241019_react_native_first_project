@@ -6,9 +6,9 @@ import {getAsyncStorageValue} from '../utilities/get-async-storage-contents.util
 // export const baseURL = 'http://192.168.0.244:3000'; // --> Danubio
 // export const baseURL = 'http://192.168.0.102:3000'; // --> Elizeth
 // export const baseURL = 'http://192.168.1.13:3000'; // --> Nala
-// export const baseURL = 'http://192.168.89.190:3000'; // --> Riwi
+export const baseURL = 'http://192.168.88.51:3000/api'; // --> test back hernancho local
 // export const baseURL = 'http://192.168.20.45:3000'; // --> Pospin 5G
-export const baseURL = 'https://closetoyoureactnativebackend.onrender.com/api/'; // --> cloud
+// export const baseURL = 'https://closetoyoureactnativebackend.onrender.com/api/'; // --> cloud
 
 export const weatherBaseURL = 'https://api.openweathermap.org/data/2.5/weather';
 
