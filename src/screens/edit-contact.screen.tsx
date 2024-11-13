@@ -57,8 +57,8 @@ export function EditContactScreen(): React.JSX.Element {
   useEffect(() => {
     if (contactInfo?.data?.latitude && contactInfo?.data?.longitude) {
       setMarker({
-        latitude: contactInfo?.data?.latitude,
-        longitude: contactInfo?.data?.longitude,
+        latitude: +contactInfo?.data?.latitude,
+        longitude: +contactInfo?.data?.longitude,
       });
     }
   }, [contactInfo]);
@@ -187,7 +187,7 @@ export function EditContactScreen(): React.JSX.Element {
                   <Text style={formStyles.label}>
                     Add the contact's current location
                   </Text>
-                  {/* <GoogleMap marker={marker} setMarker={setMarker} /> */}
+                  <GoogleMap marker={marker} setMarker={setMarker} />
 
                   <View style={formStyles.buttonContainer}>
                     <TouchableOpacity

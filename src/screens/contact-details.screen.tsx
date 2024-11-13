@@ -15,7 +15,7 @@ import {ContactsService} from '../services/contacts.service';
 import {ConfirmationModal} from '../components/common/confirmation-modal.component';
 import {theme} from '../theme/main.theme';
 import {
-  // GoogleMap,
+  GoogleMap,
   IMarkerCoordinates,
 } from '../components/common/googleMap.component';
 import WeatherCard from '../components/common/weatherCard.component';
@@ -40,8 +40,8 @@ export function ContactDetailsScreen(): React.JSX.Element {
   useEffect(() => {
     if (contactInfo?.data.latitude && contactInfo?.data.longitude) {
       setMarker({
-        latitude: contactInfo?.data.latitude,
-        longitude: contactInfo?.data.longitude,
+        latitude: +contactInfo?.data.latitude, //It's vital the coordinate gets here as a number
+        longitude: +contactInfo?.data.longitude,
       });
     }
   }, [contactInfo]);
@@ -74,10 +74,10 @@ export function ContactDetailsScreen(): React.JSX.Element {
             {contactInfo.data.email}
           </Text>
 
-          {/* <Text style={contactDetailsStyles.emailText}>
+          <Text style={contactDetailsStyles.emailText}>
             Contact's current location
           </Text>
-          <GoogleMap marker={marker} setMarker={setMarker} onEdit={false} /> */}
+          <GoogleMap marker={marker} setMarker={setMarker} onEdit={false} />
 
           {!!marker && (
             <View>

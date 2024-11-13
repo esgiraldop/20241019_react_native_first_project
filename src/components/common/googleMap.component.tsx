@@ -21,7 +21,6 @@ interface IGoogleMap {
 
 export const GoogleMap = ({marker, setMarker, onEdit = true}: IGoogleMap) => {
   return (
-    //TODO: To figure out why this component is making the app to crash when I try to load the marker position
     <View style={styles.container}>
       <MapView
         style={styles.mapStyle}
