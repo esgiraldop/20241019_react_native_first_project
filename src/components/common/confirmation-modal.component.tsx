@@ -2,7 +2,8 @@ import React from 'react';
 import {Modal, StyleSheet, TouchableOpacity, View} from 'react-native';
 import {Text} from 'react-native-elements';
 import {theme} from '../../theme/main.theme';
-import {IAskUserSyncModalOpen} from '../../screens';
+import {IAskUserSyncModalOpen} from '../../contexts/contacts-syncronization.context';
+import {isNull} from '../../utilities/checkIsNull.utility';
 
 interface IConfirmationModal<T> {
   children: React.ReactNode;
@@ -10,6 +11,7 @@ interface IConfirmationModal<T> {
   setConfirmationModalVisible: (confirmationModalVisible: T) => void;
   handleAccept: () => void;
   requiresCancel: boolean;
+  handleCancel?: () => void;
 }
 
 // Type guard to check if T is IAskUserSyncModalOpen
@@ -20,7 +22,8 @@ function isAskUserSyncModalOpen(
     typeof value === 'object' &&
     value !== null &&
     'isModalOpen' in value &&
-    typeof (value as IAskUserSyncModalOpen).isModalOpen === 'boolean'
+    (typeof (value as IAskUserSyncModalOpen).isModalOpen === 'boolean' ||
+      isNull((value as IAskUserSyncModalOpen).isModalOpen))
   );
 }
 
@@ -30,15 +33,27 @@ export const ConfirmationModal = <T,>({
   setConfirmationModalVisible,
   handleAccept,
   requiresCancel,
+  handleCancel = () => null,
 }: IConfirmationModal<T>): React.JSX.Element => {
   const evalConfirmationModalVisible = (): boolean => {
-    return typeof confirmationModalVisible === 'boolean'
-      ? confirmationModalVisible
-      : isAskUserSyncModalOpen(confirmationModalVisible)
-      ? confirmationModalVisible.isModalOpen
-      : false;
+    if (typeof confirmationModalVisible === 'boolean') {
+      return confirmationModalVisible;
+    } else if (isAskUserSyncModalOpen(confirmationModalVisible)) {
+      if (!isNull(confirmationModalVisible.isModalOpen)) {
+        return !!confirmationModalVisible.isModalOpen;
+      }
+      return false;
+    } else {
+      return false;
+    }
+    // return typeof confirmationModalVisible === 'boolean'
+    //   ? confirmationModalVisible
+    //   : isAskUserSyncModalOpen(confirmationModalVisible)
+    //   ? confirmationModalVisible.isModalOpen
+    //   : false;
   };
   const handleClose = () => {
+    handleCancel();
     if (typeof confirmationModalVisible === 'boolean') {
       setConfirmationModalVisible(false as T);
     } else {

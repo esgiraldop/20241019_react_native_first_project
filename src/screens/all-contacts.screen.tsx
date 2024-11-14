@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {FlatList, Text, View, StyleSheet} from 'react-native';
 import {SmallButton} from '../components/common/SmallButton';
 import {GoToContacDetailsButton} from '../components/allContacts';
@@ -16,11 +16,8 @@ import {
 } from '../utilities/check-contacts-to-sync.utility';
 import {ConfirmationModal} from '../components/common/confirmation-modal.component';
 import {Contact} from 'react-native-contacts/type';
-
-export interface IAskUserSyncModalOpen {
-  isModalOpen: boolean;
-  numNewContacts: number;
-}
+import {useSyncContext} from '../contexts/contacts-syncronization.context';
+import {isNull} from '../utilities/checkIsNull.utility';
 
 export function AllContactsScreen(): React.JSX.Element {
   const [contacts, setContacts] = useState<IContact[]>([]);
@@ -28,9 +25,18 @@ export function AllContactsScreen(): React.JSX.Element {
   const [errorLoading, setErrorLoading] = useState<boolean | null>(null);
   const [permissionModalOpen, setPermissionModalopen] =
     useState<boolean>(false);
-  const [askUserSyncModalOpen, setAskUserSyncModalOpen] =
-    useState<IAskUserSyncModalOpen>({isModalOpen: false, numNewContacts: 0});
+  const {
+    askUserSyncModalOpen,
+    setAskUserSyncModalOpen,
+    hasUserResponded,
+    setHasUserResponded,
+  } = useSyncContext();
   const [contacts2Sync, setcontacts2Sync] = useState<Contact[] | null>(null);
+
+  useEffect(() => {
+    console.log('\nhasUserResponded 1: ', hasUserResponded);
+    console.log('askUserSyncModalOpen 1: ', askUserSyncModalOpen);
+  }, [hasUserResponded, askUserSyncModalOpen]);
 
   const handleSyncContacts = useCallback(async () => {
     // Close the modal after user hits ok
@@ -38,6 +44,7 @@ export function AllContactsScreen(): React.JSX.Element {
       isModalOpen: false,
       numNewContacts: 0,
     });
+    setHasUserResponded(true);
     if (contacts2Sync) {
       setIsLoading(true);
       setErrorLoading(null);
@@ -92,8 +99,14 @@ export function AllContactsScreen(): React.JSX.Element {
                 phoneContactsResponse,
               );
 
-              // Call modal for asking user to sync contacts
-              if (contactsToSync.length > 0) {
+              // Call modal for asking user to sync contacts. If the modal was already called this is never executed unless the user closes the app and opens it again
+              console.log('\nhasUserResponded 2: ', hasUserResponded);
+              console.log('askUserSyncModalOpen 2: ', askUserSyncModalOpen);
+              if (
+                contactsToSync.length > 0 &&
+                !hasUserResponded &&
+                isNull(askUserSyncModalOpen.isModalOpen)
+              ) {
                 setcontacts2Sync(contactsToSync);
                 setAskUserSyncModalOpen({
                   isModalOpen: true,
@@ -115,7 +128,7 @@ export function AllContactsScreen(): React.JSX.Element {
       fetchAllContacts();
 
       return () => {};
-    }, []),
+    }, [hasUserResponded, setHasUserResponded, setAskUserSyncModalOpen]),
   );
 
   return (
@@ -157,7 +170,8 @@ export function AllContactsScreen(): React.JSX.Element {
           confirmationModalVisible={askUserSyncModalOpen}
           setConfirmationModalVisible={setAskUserSyncModalOpen}
           handleAccept={handleSyncContacts}
-          requiresCancel={true}>
+          requiresCancel={true}
+          handleCancel={() => setHasUserResponded(true)}>
           <Text>
             {askUserSyncModalOpen.numNewContacts} new contacts have been found.
             Do you want to syncronize them? (Only 10 contacts will be
