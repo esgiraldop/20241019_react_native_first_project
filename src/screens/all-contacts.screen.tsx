@@ -12,7 +12,7 @@ import {checkPermission} from '../utilities/check-permissions.utility';
 import {NotifyUserPermissionModal} from '../components/common/notifyUserPermissionModal.component';
 import {
   getContactsToSync,
-  syncContacts,
+  postNewContacts,
 } from '../utilities/check-contacts-to-sync.utility';
 import {ConfirmationModal} from '../components/common/confirmation-modal.component';
 import {Contact} from 'react-native-contacts/type';
@@ -34,8 +34,49 @@ export function AllContactsScreen(): React.JSX.Element {
   const [contacts2Sync, setcontacts2Sync] = useState<Contact[] | null>(null);
 
   useEffect(() => {
-    console.log('\nhasUserResponded 1: ', hasUserResponded);
-    console.log('askUserSyncModalOpen 1: ', askUserSyncModalOpen);
+    const syncContacts = async () => {
+      const response = await ContactsService.getAll();
+      if (response) {
+        //If app's contacts could be loaded, ask permission for reading phone's contacts and numbers
+
+        const contactsPermissionResponse = await checkPermission(
+          PermissionEnum.READ_CONTACTS,
+        );
+        const cellphonesPermissionResponse = await checkPermission(
+          PermissionEnum.READ_PHONE_NUMBERS,
+        );
+
+        if (contactsPermissionResponse && cellphonesPermissionResponse) {
+          // If user gave permissions for contacts and numbers, get phone's contacts and sync them
+          const phoneContactsResponse = await ContactsService.sync();
+
+          if (phoneContactsResponse) {
+            const contactsToSync = getContactsToSync(
+              response.data,
+              phoneContactsResponse,
+            );
+
+            // Call modal for asking user to sync contacts. If the modal was already called this is never executed unless the user closes the app and opens it again
+            if (
+              contactsToSync.length > 0 &&
+              !hasUserResponded &&
+              isNull(askUserSyncModalOpen.isModalOpen)
+            ) {
+              setcontacts2Sync(contactsToSync);
+              setAskUserSyncModalOpen({
+                isModalOpen: true,
+                numNewContacts: contactsToSync.length,
+              });
+            }
+          }
+          // If there was an error getting the contacs, a snackbar is shown from the service, and the application continues as normal
+        } else {
+          setPermissionModalopen(true);
+        }
+      }
+    };
+    syncContacts();
+    return () => {};
   }, [hasUserResponded, askUserSyncModalOpen]);
 
   const handleSyncContacts = useCallback(async () => {
@@ -48,7 +89,7 @@ export function AllContactsScreen(): React.JSX.Element {
     if (contacts2Sync) {
       setIsLoading(true);
       setErrorLoading(null);
-      const insertResponse = await syncContacts(contacts2Sync.slice(0, 10));
+      const insertResponse = await postNewContacts(contacts2Sync.slice(0, 10));
       if (
         insertResponse &&
         insertResponse.data.length !== askUserSyncModalOpen.numNewContacts
@@ -79,56 +120,16 @@ export function AllContactsScreen(): React.JSX.Element {
 
         if (response) {
           setContacts(response.data);
-
-          //If app's contacts could be loaded, ask permission for reading phone's contacts and numbers
-
-          const contactsPermissionResponse = await checkPermission(
-            PermissionEnum.READ_CONTACTS,
-          );
-          const cellphonesPermissionResponse = await checkPermission(
-            PermissionEnum.READ_PHONE_NUMBERS,
-          );
-
-          if (contactsPermissionResponse && cellphonesPermissionResponse) {
-            // If user gave permissions for contacts and numbers, get phone's contacts and sync them
-            const phoneContactsResponse = await ContactsService.sync();
-
-            if (phoneContactsResponse) {
-              const contactsToSync = getContactsToSync(
-                response.data,
-                phoneContactsResponse,
-              );
-
-              // Call modal for asking user to sync contacts. If the modal was already called this is never executed unless the user closes the app and opens it again
-              console.log('\nhasUserResponded 2: ', hasUserResponded);
-              console.log('askUserSyncModalOpen 2: ', askUserSyncModalOpen);
-              if (
-                contactsToSync.length > 0 &&
-                !hasUserResponded &&
-                isNull(askUserSyncModalOpen.isModalOpen)
-              ) {
-                setcontacts2Sync(contactsToSync);
-                setAskUserSyncModalOpen({
-                  isModalOpen: true,
-                  numNewContacts: contactsToSync.length,
-                });
-              }
-            }
-            // If there was an error getting the contacs, a snackbar is shown from the service, and the application continues as normal
-            setErrorLoading(false);
-          } else {
-            setPermissionModalopen(true);
-          }
-          setIsLoading(false);
+          setErrorLoading(false);
         } else {
-          setIsLoading(false);
           setErrorLoading(true);
         }
+        setIsLoading(false);
       }
       fetchAllContacts();
 
       return () => {};
-    }, [hasUserResponded, setHasUserResponded, setAskUserSyncModalOpen]),
+    }, []),
   );
 
   return (

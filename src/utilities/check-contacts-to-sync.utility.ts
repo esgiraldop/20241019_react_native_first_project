@@ -21,7 +21,7 @@ export const getContactsToSync = (
   return newContacts;
 };
 
-export const syncContacts = async (
+export const postNewContacts = async (
   phoneContacts2Sync: Contact[],
 ): Promise<IContactsSucessfullResponse | null> => {
   const phoneContacts2SyncAdapted = phoneContactsAdapter(phoneContacts2Sync);
