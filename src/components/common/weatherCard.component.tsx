@@ -5,6 +5,8 @@ import {IGetWeather, WeatherService} from '../../services/weather.service';
 import FastImage from 'react-native-fast-image';
 import {useFocusEffect} from '@react-navigation/native';
 import {IWeatherResponse} from '../../interfaces/weather-response.interface';
+import {containerStyles} from '../../styles/container.styles';
+import {imageStyles} from '../../styles/image.styles';
 
 const WeatherCard: React.FC<IGetWeather> = ({lat, lon}) => {
   const [weatherData, setWeatherData] = useState<IWeatherResponse | null>();
@@ -37,19 +39,19 @@ const WeatherCard: React.FC<IGetWeather> = ({lat, lon}) => {
   );
 
   return (
-    <View style={styles.card}>
+    <View style={containerStyles.card}>
       {isWeatherDataLoading ? (
         <Text>Weather data is loading...</Text>
       ) : errorWeatherData ? (
         <Text>Weather data could not be loaded</Text>
       ) : (
-        <View style={styles.card}>
+        <View style={containerStyles.card}>
           <FastImage
             source={{
               uri: `https://openweathermap.org/img/wn/${weatherData?.weather[0].icon}@2x.png`,
               priority: FastImage.priority.high,
             }}
-            style={styles.icon}
+            style={imageStyles.icon2}
             resizeMode={FastImage.resizeMode.contain}
           />
 
@@ -81,21 +83,6 @@ const WeatherCard: React.FC<IGetWeather> = ({lat, lon}) => {
 };
 
 const styles = StyleSheet.create({
-  card: {
-    backgroundColor: theme.colors.buttonBackground,
-    padding: theme.spacing.large,
-    borderRadius: 16,
-    alignItems: 'center',
-    shadowColor: theme.colors.borderColor,
-    shadowOffset: {width: 0, height: 4},
-    shadowOpacity: 0.2,
-    shadowRadius: 6,
-  },
-  icon: {
-    width: 50,
-    height: 50,
-    marginBottom: theme.spacing.medium,
-  },
   temperature: {
     fontSize: theme.fontSizes.title,
     color: theme.colors.textPrimary,

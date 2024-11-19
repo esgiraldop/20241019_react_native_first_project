@@ -10,11 +10,13 @@ import {Formik} from 'formik';
 import * as Yup from 'yup';
 import {useNavigation} from '@react-navigation/native';
 import {theme} from '../theme/main.theme';
-import {formStyles} from './edit-contact.screen';
 import {AuthService} from '../services/auth.service';
 import {IUser} from '../interfaces/user.interface';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../interfaces';
+import {formStyles} from '../styles/form.styles';
+import {textStyles} from '../styles/text.styles';
+import {buttonStyle} from '../styles/buttons.style';
 
 // Validation schema for the registration form
 const registrationSchema = Yup.object().shape({
@@ -69,9 +71,9 @@ export function RegistrationScreen(): React.JSX.Element {
           isValid,
         }) => (
           <View style={formStyles.formContainer}>
-            <Text style={formStyles.label}>Email</Text>
+            <Text style={textStyles.label}>Email</Text>
             <TextInput
-              style={formStyles.input}
+              style={textStyles.input}
               onChangeText={handleChange('email')}
               onBlur={handleBlur('email')}
               value={values.email}
@@ -83,9 +85,9 @@ export function RegistrationScreen(): React.JSX.Element {
               <Text style={formStyles.error}>{errors.email}</Text>
             )}
 
-            <Text style={formStyles.label}>Password</Text>
+            <Text style={textStyles.label}>Password</Text>
             <TextInput
-              style={formStyles.input}
+              style={textStyles.input}
               onChangeText={handleChange('password')}
               onBlur={handleBlur('password')}
               value={values.password}
@@ -99,14 +101,14 @@ export function RegistrationScreen(): React.JSX.Element {
 
             <View style={formStyles.buttonContainer}>
               <TouchableOpacity
-                style={formStyles.saveButton}
+                style={buttonStyle.saveButton}
                 onPress={() => handleSubmit()}
                 disabled={!isValid || isSubmitting}>
                 <Text>Register</Text>
               </TouchableOpacity>
 
               <TouchableOpacity
-                style={formStyles.saveButton}
+                style={buttonStyle.saveButton}
                 onPress={() => navigation.navigate('Login')}>
                 <Text>Sign in</Text>
               </TouchableOpacity>
@@ -116,11 +118,11 @@ export function RegistrationScreen(): React.JSX.Element {
       </Formik>
       {errorSubmitting !== null &&
         (errorSubmitting ? (
-          <Text style={formStyles.errorText}>
+          <Text style={textStyles.errorText}>
             There was an error registering. Please try again later
           </Text>
         ) : (
-          <Text style={formStyles.sucessText}>Registration sucessful</Text>
+          <Text style={textStyles.sucessText}>Registration sucessful</Text>
         ))}
     </ScrollView>
   );

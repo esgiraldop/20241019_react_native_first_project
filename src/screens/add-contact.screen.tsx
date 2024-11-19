@@ -16,11 +16,13 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import ContactImage from '../components/common/contactImage.component';
 import {AddPictureModal} from '../components/common/addPictureModal.component';
 import {theme} from '../theme/main.theme';
-import {formStyles} from './edit-contact.screen';
 import {
   GoogleMap,
   IMarkerCoordinates,
 } from '../components/common/googleMap.component';
+import {formStyles} from '../styles/form.styles';
+import {textStyles} from '../styles/text.styles';
+import {buttonStyle} from '../styles/buttons.style';
 
 const contactSchema = Yup.object().shape({
   name: Yup.string()
@@ -91,9 +93,9 @@ export function AddContactScreen(): React.JSX.Element {
                 <ContactImage pictureUri={imageUri} size={150} />
               </TouchableOpacity>
 
-              <Text style={formStyles.label}>Name</Text>
+              <Text style={textStyles.label}>Name</Text>
               <TextInput
-                style={formStyles.input}
+                style={textStyles.input}
                 onChangeText={handleChange('name')}
                 onBlur={handleBlur('name')}
                 value={values.name}
@@ -104,9 +106,9 @@ export function AddContactScreen(): React.JSX.Element {
                 <Text style={formStyles.error}>{errors.name}</Text>
               )}
 
-              <Text style={formStyles.label}>Phone number</Text>
+              <Text style={textStyles.label}>Phone number</Text>
               <TextInput
-                style={formStyles.input}
+                style={textStyles.input}
                 onChangeText={handleChange('phone')}
                 onBlur={handleBlur('phone')}
                 value={values.phone}
@@ -119,9 +121,9 @@ export function AddContactScreen(): React.JSX.Element {
                 <Text style={formStyles.error}>{errors.phone}</Text>
               )}
 
-              <Text style={formStyles.label}>email</Text>
+              <Text style={textStyles.label}>email</Text>
               <TextInput
-                style={formStyles.input}
+                style={textStyles.input}
                 onChangeText={handleChange('email')}
                 onBlur={handleBlur('email')}
                 value={values.email}
@@ -134,14 +136,14 @@ export function AddContactScreen(): React.JSX.Element {
                 <Text style={formStyles.error}>{errors.email}</Text>
               )}
 
-              <Text style={formStyles.label}>
+              <Text style={textStyles.label}>
                 Add the contact's current location
               </Text>
               <GoogleMap marker={marker} setMarker={setMarker} />
 
               <View style={formStyles.buttonContainer}>
                 <TouchableOpacity
-                  style={formStyles.saveButton}
+                  style={buttonStyle.saveButton}
                   onPress={() => handleSubmit()}
                   disabled={!isValid || isSubmitting}>
                   <Text>Submit</Text>

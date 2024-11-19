@@ -19,6 +19,9 @@ import {
   IMarkerCoordinates,
 } from '../components/common/googleMap.component';
 import WeatherCard from '../components/common/weatherCard.component';
+import {formStyles} from '../styles/form.styles';
+import {textStyles} from '../styles/text.styles';
+import {buttonStyle} from '../styles/buttons.style';
 
 type ContactDetailsScreenProp = NativeStackNavigationProp<
   RootStackParamList,
@@ -51,50 +54,42 @@ export function ContactDetailsScreen(): React.JSX.Element {
   };
 
   return (
-    <ScrollView style={contactDetailsStyles.container}>
+    <ScrollView style={formStyles.container}>
       {isContactLoading ? (
-        <Text style={contactDetailsStyles.loadingText}>
+        <Text style={textStyles.loadingText}>
           Loading contact information...
         </Text>
       ) : errorLoadingContact || !contactInfo ? (
-        <Text style={contactDetailsStyles.errorText}>
+        <Text style={textStyles.errorText}>
           No information for the contact could be found
         </Text>
       ) : (
         <View style={contactDetailsStyles.contactContainer}>
           <ContactImage pictureUri={contactInfo.data.imageUri} size={150} />
-          <Text style={contactDetailsStyles.nameText}>
-            {contactInfo.data.name}
-          </Text>
-          <Text style={contactDetailsStyles.phoneText}>
-            {contactInfo.data.phone}
-          </Text>
-          <Text style={contactDetailsStyles.emailText}>
-            {contactInfo.data.email}
-          </Text>
+          <Text style={textStyles.nameText}>{contactInfo.data.name}</Text>
+          <Text style={textStyles.phoneText}>{contactInfo.data.phone}</Text>
+          <Text style={textStyles.emailText}>{contactInfo.data.email}</Text>
 
-          <Text style={contactDetailsStyles.emailText}>
-            Contact's current location
-          </Text>
+          <Text style={textStyles.emailText}>Contact's current location</Text>
           <GoogleMap marker={marker} setMarker={setMarker} onEdit={false} />
 
           {!!marker && (
             <View>
-              <Text style={contactDetailsStyles.emailText}>Local weather</Text>
+              <Text style={textStyles.emailText}>Local weather</Text>
               <WeatherCard lat={marker?.latitude} lon={marker?.longitude} />
             </View>
           )}
 
           <TouchableOpacity
-            style={[contactDetailsStyles.button]}
+            style={[buttonStyle.button]}
             onPress={() => navigation.navigate('EditContact', {contactId})}>
-            <Text style={contactDetailsStyles.buttonText}>Edit Contact</Text>
+            <Text style={textStyles.buttonText}>Edit Contact</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
-            style={contactDetailsStyles.button}
+            style={buttonStyle.button}
             onPress={() => setConfirmationModalVisible(true)}>
-            <Text style={contactDetailsStyles.buttonText}>Delete Contact</Text>
+            <Text style={textStyles.buttonText}>Delete Contact</Text>
           </TouchableOpacity>
 
           <ConfirmationModal
@@ -111,45 +106,10 @@ export function ContactDetailsScreen(): React.JSX.Element {
 }
 
 export const contactDetailsStyles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: theme.colors.background,
-    padding: theme.spacing.medium,
-  },
   contactContainer: {
     alignItems: 'center',
     borderBottomColor: theme.colors.borderColor,
     borderBottomWidth: 1,
     paddingBottom: theme.spacing.large,
-  },
-  loadingText: {
-    color: theme.colors.textSecondary,
-  },
-  errorText: {
-    color: theme.colors.textSecondary,
-  },
-  nameText: {
-    fontSize: theme.fontSizes.title,
-    color: theme.colors.textPrimary,
-    marginTop: theme.spacing.small,
-  },
-  phoneText: {
-    fontSize: theme.fontSizes.text,
-    color: theme.colors.textSecondary,
-    marginVertical: theme.spacing.small,
-  },
-  emailText: {
-    fontSize: theme.fontSizes.text,
-    color: theme.colors.textSecondary,
-  },
-  button: {
-    backgroundColor: theme.colors.buttonBackground,
-    padding: theme.spacing.medium,
-    marginTop: theme.spacing.medium,
-    borderRadius: theme.spacing.small,
-    alignItems: 'center',
-  },
-  buttonText: {
-    color: theme.colors.textPrimary,
   },
 });

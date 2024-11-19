@@ -1,12 +1,11 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {FlatList, Text, View, StyleSheet} from 'react-native';
+import {FlatList, Text, View} from 'react-native';
 import {SmallButton} from '../components/common/SmallButton';
 import {GoToContacDetailsButton} from '../components/allContacts';
 import {ButtonsCarrousel} from '../components/common/ButtonsCarrousel.component';
 import {ContactsService} from '../services/contacts.service';
 import {IContact} from '../interfaces/contact.interface';
 import {useFocusEffect} from '@react-navigation/native';
-import {theme} from '../theme/main.theme';
 import {PermissionEnum} from '../interfaces/permissions.interface';
 import {checkPermission} from '../utilities/check-permissions.utility';
 import {NotifyUserPermissionModal} from '../components/common/notifyUserPermissionModal.component';
@@ -18,6 +17,8 @@ import {ConfirmationModal} from '../components/common/confirmation-modal.compone
 import {Contact} from 'react-native-contacts/type';
 import {useSyncContext} from '../contexts/contacts-syncronization.context';
 import {isNull} from '../utilities/checkIsNull.utility';
+import {formStyles} from '../styles/form.styles';
+import {textStyles} from '../styles/text.styles';
 
 export function AllContactsScreen(): React.JSX.Element {
   const [contacts, setContacts] = useState<IContact[]>([]);
@@ -133,11 +134,11 @@ export function AllContactsScreen(): React.JSX.Element {
   );
 
   return (
-    <View style={styles.container}>
+    <View style={formStyles.container}>
       {isLoading ? (
-        <Text style={styles.loadingText}>Loading...</Text>
+        <Text style={textStyles.loadingText}>Loading...</Text>
       ) : errorLoading ? (
-        <Text style={styles.loadingText}>Error loading contacts</Text>
+        <Text style={textStyles.loadingText}>Error loading contacts</Text>
       ) : (
         <FlatList
           ListHeaderComponent={
@@ -183,15 +184,3 @@ export function AllContactsScreen(): React.JSX.Element {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: theme.colors.background,
-  },
-  loadingText: {
-    color: theme.colors.textSecondary,
-    textAlign: 'center',
-    marginTop: theme.spacing.large,
-  },
-});

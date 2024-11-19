@@ -1,7 +1,7 @@
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
-import {ScreenHeight, ScreenWidth} from 'react-native-elements/dist/helpers';
 import MapView, {Marker} from 'react-native-maps';
+import {formStyles} from '../../styles/form.styles';
 
 export interface IMarkerCoordinates {
   latitude: number;
@@ -21,7 +21,7 @@ interface IGoogleMap {
 
 export const GoogleMap = ({marker, setMarker, onEdit = true}: IGoogleMap) => {
   return (
-    <View style={styles.container}>
+    <View style={formStyles.container}>
       <MapView
         style={styles.mapStyle}
         initialRegion={
@@ -140,11 +140,6 @@ const mapStyle = [
 ];
 
 const styles = StyleSheet.create({
-  container: {
-    width: ScreenWidth,
-    height: ScreenHeight / 3, // Set height to 1/3 of screen height
-    marginBottom: 10,
-  },
   mapStyle: {
     ...StyleSheet.absoluteFillObject, // Makes the map fill the container completely
   },

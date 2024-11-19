@@ -171,7 +171,7 @@ export const Loader: React.FC<LoaderProps> = ({name, color}) => {
   if (name === '2-curves') {
     return (
       <View style={[containerStyle]}>
-        <View style={[backgroundStyle]}></View>
+        <View style={[backgroundStyle]} />
         <Animated.View
           style={[
             loaderStyle,

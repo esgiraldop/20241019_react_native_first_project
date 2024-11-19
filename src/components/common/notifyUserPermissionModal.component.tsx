@@ -1,7 +1,7 @@
 import React from 'react';
 import {Modal, TouchableOpacity, View} from 'react-native';
 import {Text} from 'react-native-elements';
-import {modalStyles} from './addPictureModal.component';
+import {modalStyles} from '../../styles/modal.styles';
 
 interface INotifyUserPermissionModal {
   modalOpen: boolean;

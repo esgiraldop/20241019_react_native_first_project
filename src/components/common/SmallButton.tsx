@@ -2,8 +2,9 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import React from 'react';
 import {RootStackParamList} from '../../interfaces';
 import {useNavigation} from '@react-navigation/native';
-import {Text, StyleSheet, TouchableOpacity} from 'react-native';
-import {theme} from '../../theme/main.theme';
+import {Text, TouchableOpacity} from 'react-native';
+import {textStyles} from '../../styles/text.styles';
+import {buttonStyle} from '../../styles/buttons.style';
 
 export const SmallButton = ({text}: {text: string}) => {
   type AddContactScreenNavigationProp = NativeStackNavigationProp<
@@ -15,22 +16,9 @@ export const SmallButton = ({text}: {text: string}) => {
 
   return (
     <TouchableOpacity
-      style={styles.button}
+      style={buttonStyle.button4}
       onPress={() => navigation.navigate('AddContact')}>
-      <Text style={styles.buttonText}>{text}</Text>
+      <Text style={textStyles.buttonText}>{text}</Text>
     </TouchableOpacity>
   );
 };
-
-const styles = StyleSheet.create({
-  button: {
-    backgroundColor: theme.colors.accent,
-    padding: theme.spacing.medium,
-    borderRadius: 8,
-  },
-  buttonText: {
-    color: theme.colors.textPrimary,
-    textAlign: 'center',
-    fontSize: theme.fontSizes.text,
-  },
-});

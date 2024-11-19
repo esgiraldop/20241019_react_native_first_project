@@ -1,12 +1,13 @@
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import React from 'react';
-import {TouchableOpacity, StyleSheet} from 'react-native';
+import {TouchableOpacity} from 'react-native';
 import {RootStackParamList} from '../../interfaces';
 import {useNavigation} from '@react-navigation/native';
 import {Text} from 'react-native-elements';
 import ContactImage from '../common/contactImage.component';
 import {IContact} from '../../interfaces/contact.interface';
-import {theme} from '../../theme/main.theme';
+import {textStyles} from '../../styles/text.styles';
+import {formStyles} from '../../styles/form.styles';
 
 interface IContactDetailsButton
   extends Pick<IContact, 'name' | 'id' | 'imageUri'> {}
@@ -25,25 +26,10 @@ export function GoToContacDetailsButton({
 
   return (
     <TouchableOpacity
-      style={styles.container}
+      style={formStyles.container}
       onPress={() => navigation.navigate('ContactDetails', {contactId: id})}>
       <ContactImage pictureUri={imageUri} />
-      <Text style={styles.nameText}>{name}</Text>
+      <Text style={textStyles.nameTextTouchableButton}>{name}</Text>
     </TouchableOpacity>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: theme.spacing.medium,
-    borderBottomWidth: 1,
-    borderBottomColor: theme.colors.borderColor,
-  },
-  nameText: {
-    color: theme.colors.textPrimary,
-    marginLeft: theme.spacing.medium,
-    fontSize: theme.fontSizes.text,
-  },
-});
