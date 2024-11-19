@@ -3,7 +3,7 @@ export const theme = {
     background: '#121212',
     textPrimary: '#FFFFFF',
     textSecondary: '#B0B0B0',
-    accent: '#00A6FF',
+    accent: '#BB86FC',
     buttonBackground: '#2C2C2C',
     borderColor: '#3A3A3A',
     error: '#de0a26',
