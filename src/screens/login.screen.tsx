@@ -1,11 +1,5 @@
 import React, {useState} from 'react';
-import {
-  ScrollView,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {Text, TextInput, TouchableOpacity, View} from 'react-native';
 import {Formik} from 'formik';
 import {CommonActions, useNavigation} from '@react-navigation/native';
 import {theme} from '../theme/main.theme';
@@ -59,7 +53,8 @@ export function LoginScreen(): React.JSX.Element {
   };
 
   return (
-    <ScrollView style={formStyles.container}>
+    <View
+      style={[formStyles.container, formStyles.VerticallyCenteredcontainer]}>
       <Formik
         initialValues={initialValues}
         validationSchema={registrationSchema}
@@ -73,6 +68,7 @@ export function LoginScreen(): React.JSX.Element {
           isValid,
         }) => (
           <View style={formStyles.formContainer}>
+            <Text style={textStyles.titleText}>Sing in</Text>
             <Text style={textStyles.label}>Email</Text>
             <TextInput
               style={textStyles.input}
@@ -120,6 +116,6 @@ export function LoginScreen(): React.JSX.Element {
         ) : (
           <Text style={textStyles.sucessText}>Log in sucessful</Text>
         ))}
-    </ScrollView>
+    </View>
   );
 }

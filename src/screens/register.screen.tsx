@@ -1,11 +1,5 @@
 import React, {useState} from 'react';
-import {
-  ScrollView,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {Text, TextInput, TouchableOpacity, View} from 'react-native';
 import {Formik} from 'formik';
 import {useNavigation} from '@react-navigation/native';
 import {theme} from '../theme/main.theme';
@@ -49,7 +43,8 @@ export function RegistrationScreen(): React.JSX.Element {
   };
 
   return (
-    <ScrollView style={formStyles.container}>
+    <View
+      style={[formStyles.container, formStyles.VerticallyCenteredcontainer]}>
       <Formik
         initialValues={initialValues}
         validationSchema={registrationSchema}
@@ -63,6 +58,9 @@ export function RegistrationScreen(): React.JSX.Element {
           isValid,
         }) => (
           <View style={formStyles.formContainer}>
+            <Text style={[textStyles.titleText, textStyles.textAlignmentLeft]}>
+              Welcome to Close To You
+            </Text>
             <Text style={textStyles.label}>Email</Text>
             <TextInput
               style={textStyles.input}
@@ -98,13 +96,13 @@ export function RegistrationScreen(): React.JSX.Element {
                 disabled={!isValid || isSubmitting}>
                 <Text>Register</Text>
               </TouchableOpacity>
-
-              <TouchableOpacity
-                style={buttonStyle.saveButton}
-                onPress={() => navigation.navigate('Login')}>
-                <Text>Sign in</Text>
-              </TouchableOpacity>
             </View>
+            <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+              <Text>
+                Do you already have an account?{'  '}
+                <Text style={textStyles.linkText}>Sign in</Text>
+              </Text>
+            </TouchableOpacity>
           </View>
         )}
       </Formik>
@@ -116,6 +114,6 @@ export function RegistrationScreen(): React.JSX.Element {
         ) : (
           <Text style={textStyles.sucessText}>Registration sucessful</Text>
         ))}
-    </ScrollView>
+    </View>
   );
 }
