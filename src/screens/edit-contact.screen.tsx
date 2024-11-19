@@ -7,7 +7,6 @@ import {
   View,
 } from 'react-native';
 import {Formik} from 'formik';
-import * as Yup from 'yup';
 import {useContactById} from '../hooks/useContactById.hook';
 import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
 import {IContact, IUpdateContact} from '../interfaces/contact.interface';
@@ -24,14 +23,7 @@ import {
 import {formStyles} from '../styles/form.styles';
 import {textStyles} from '../styles/text.styles';
 import {buttonStyle} from '../styles/buttons.style';
-
-const contactSchema = Yup.object().shape({
-  name: Yup.string()
-    .required()
-    .min(3, 'Name must contain at least 3 characters'),
-  email: Yup.string().required('Email is required').email('Invalid email'),
-  phone: Yup.number().required('Phone number is required'),
-});
+import {contactSchema} from '../schemas/contact.schema';
 
 interface InewContactValues extends Omit<IContact, 'id'> {}
 

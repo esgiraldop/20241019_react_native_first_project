@@ -7,7 +7,6 @@ import {
   View,
 } from 'react-native';
 import {Formik} from 'formik';
-import * as Yup from 'yup';
 import {CommonActions, useNavigation} from '@react-navigation/native';
 import {theme} from '../theme/main.theme';
 import {AuthService} from '../services/auth.service';
@@ -18,16 +17,7 @@ import {setValueAsyncStorage} from '../utilities/set-variable-async-storage.util
 import {formStyles} from '../styles/form.styles';
 import {textStyles} from '../styles/text.styles';
 import {buttonStyle} from '../styles/buttons.style';
-
-// Validation schema for the registration form
-const registrationSchema = Yup.object().shape({
-  email: Yup.string()
-    .required('Email is required')
-    .email('Invalid email format'),
-  password: Yup.string()
-    .required('Password is required')
-    .min(8, 'Password must contain at least 8 characters'),
-});
+import {registrationSchema} from '../schemas/auth.schema';
 
 type LoginScreenProp = NativeStackNavigationProp<RootStackParamList, 'Login'>;
 

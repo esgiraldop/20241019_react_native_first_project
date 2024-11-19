@@ -7,7 +7,6 @@ import {
   View,
 } from 'react-native';
 import {Formik} from 'formik';
-import * as Yup from 'yup';
 import {useNavigation} from '@react-navigation/native';
 import {IUpdateContact} from '../interfaces/contact.interface';
 import {ContactsService} from '../services/contacts.service';
@@ -23,14 +22,7 @@ import {
 import {formStyles} from '../styles/form.styles';
 import {textStyles} from '../styles/text.styles';
 import {buttonStyle} from '../styles/buttons.style';
-
-const contactSchema = Yup.object().shape({
-  name: Yup.string()
-    .required()
-    .min(3, 'Name must contain at least 3 characters'),
-  email: Yup.string().required('Email is required').email('Invalid email'),
-  phone: Yup.number().required('Phone number is required'),
-});
+import {contactSchema} from '../schemas/contact.schema';
 
 type AddContactScreenProp = NativeStackNavigationProp<
   RootStackParamList,
