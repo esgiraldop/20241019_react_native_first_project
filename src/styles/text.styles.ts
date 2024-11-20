@@ -95,4 +95,11 @@ export const textStyles = StyleSheet.create({
     fontWeight: theme.fonts.default.fontWeight,
     fontSize: theme.fontSizes.small,
   },
+  sectionHeader: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    backgroundColor: theme.colors.background,
+    color: theme.colors.textPrimary,
+    padding: theme.spacing.small,
+  },
 });

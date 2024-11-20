@@ -1,5 +1,5 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {FlatList, Text, View} from 'react-native';
+import {FlatList, SectionList, Text, View} from 'react-native';
 import {GoToContacDetailsButton} from '../components/allContacts';
 import {ContactsService} from '../services/contacts.service';
 import {IContact} from '../interfaces/contact.interface';
@@ -21,9 +21,11 @@ import {IconButton} from '../components/common/IconButton';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {theme} from '../theme/main.theme';
 import {SearchBar} from '@rneui/themed';
+import {groupBy} from 'lodash'; // Install lodash if not already present
 
 export function AllContactsScreen(): React.JSX.Element {
   const [contacts, setContacts] = useState<IContact[]>([]);
+  const [filteredContacts, setFilteredContacts] = useState<IContact[]>([]);
   const [isLoading, setIsLoading] = useState<boolean | null>(null);
   const [errorLoading, setErrorLoading] = useState<boolean | null>(null);
   const [permissionModalOpen, setPermissionModalopen] =
@@ -127,6 +129,7 @@ export function AllContactsScreen(): React.JSX.Element {
 
         if (response) {
           setContacts(response.data);
+          setFilteredContacts(response.data);
           setErrorLoading(false);
         } else {
           setErrorLoading(true);
@@ -138,6 +141,31 @@ export function AllContactsScreen(): React.JSX.Element {
       return () => {};
     }, [filterByName]),
   );
+
+  const groupedContacts = useCallback(() => {
+    const grouped = groupBy(filteredContacts, contact =>
+      contact.name.charAt(0).toUpperCase(),
+    );
+
+    return Object.entries(grouped)
+      .sort(([a], [b]) => a.localeCompare(b)) // Sort alphabetically
+      .map(([letter, contactsInfo]) => ({
+        title: letter,
+        data: contactsInfo,
+      }));
+  }, [filteredContacts]);
+
+  const handleSearch = (text: string) => {
+    setFilterByName(text);
+    if (text.trim() === '') {
+      setFilteredContacts(contacts);
+    } else {
+      const filtered = contacts.filter(contact =>
+        contact.name.toLowerCase().includes(text.toLowerCase()),
+      );
+      setFilteredContacts(filtered);
+    }
+  };
 
   return (
     <View style={containerStyles.container}>
@@ -152,7 +180,7 @@ export function AllContactsScreen(): React.JSX.Element {
             placeholder="Search..."
             inputStyle={textStyles.searchBarInput}
             placeholderTextColor={theme.colors.textSecondary}
-            onChangeText={setFilterByName}
+            onChangeText={handleSearch}
             value={filterByName}
           />
         </View>
@@ -163,9 +191,8 @@ export function AllContactsScreen(): React.JSX.Element {
         <Text style={textStyles.loadingText}>Error loading contacts</Text>
       ) : (
         <>
-          <FlatList
-            // ListHeaderComponent={}
-            data={contacts.sort((a, b) => a.name.localeCompare(b.name))}
+          <SectionList
+            sections={groupedContacts()}
             keyExtractor={item => item.id}
             renderItem={({item}) => (
               <GoToContacDetailsButton
@@ -173,6 +200,9 @@ export function AllContactsScreen(): React.JSX.Element {
                 id={item.id}
                 imageUri={item.imageUri}
               />
+            )}
+            renderSectionHeader={({section: {title}}) => (
+              <Text style={textStyles.sectionHeader}>{title}</Text>
             )}
           />
         </>
