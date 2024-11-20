@@ -56,7 +56,6 @@ export const textStyles = StyleSheet.create({
   textAlignmentLeft: {
     textAlign: 'left',
   },
-
   nameText: {
     fontSize: theme.fontSizes.title,
     color: theme.colors.textPrimary,

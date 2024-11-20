@@ -26,7 +26,7 @@ export function GoToContacDetailsButton({
 
   return (
     <TouchableOpacity
-      style={formStyles.container}
+      style={[formStyles.contacDetailsButton]}
       onPress={() => navigation.navigate('ContactDetails', {contactId: id})}>
       <ContactImage pictureUri={imageUri} />
       <Text style={textStyles.nameTextTouchableButton}>{name}</Text>

@@ -19,6 +19,7 @@ import {useSyncContext} from '../contexts/contacts-syncronization.context';
 import {isNull} from '../utilities/checkIsNull.utility';
 import {formStyles} from '../styles/form.styles';
 import {textStyles} from '../styles/text.styles';
+import {containerStyles} from '../styles/container.styles';
 
 export function AllContactsScreen(): React.JSX.Element {
   const [contacts, setContacts] = useState<IContact[]>([]);
@@ -134,7 +135,7 @@ export function AllContactsScreen(): React.JSX.Element {
   );
 
   return (
-    <View style={formStyles.container}>
+    <View style={containerStyles.container}>
       {isLoading ? (
         <Text style={textStyles.loadingText}>Loading...</Text>
       ) : errorLoading ? (

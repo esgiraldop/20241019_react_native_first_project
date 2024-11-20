@@ -8,7 +8,7 @@ export const modalStyles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: 'rgba(0, 0, 0, 0.5)', // Semi-transparent background for the modal overlay
   },
-  centeredView2: {
+  centeredViewModal: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',

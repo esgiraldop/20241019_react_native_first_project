@@ -6,6 +6,7 @@ import {isNull} from '../../utilities/checkIsNull.utility';
 import {modalStyles} from '../../styles/modal.styles';
 import {buttonStyle} from '../../styles/buttons.style';
 import {textStyles} from '../../styles/text.styles';
+import {containerStyles} from '../../styles/container.styles';
 
 interface IConfirmationModal<T> {
   children: React.ReactNode;
@@ -72,21 +73,23 @@ export const ConfirmationModal = <T,>({
       transparent={true}
       visible={evalConfirmationModalVisible()}
       onRequestClose={handleClose}>
-      <View style={modalStyles.centeredView2}>
-        <View style={modalStyles.modalView2}>
+      <View style={modalStyles.centeredView}>
+        <View style={modalStyles.modalView}>
           <Text style={textStyles.modalText}>{children}</Text>
-          <TouchableOpacity
-            style={[buttonStyle.button3, buttonStyle.acceptButton]}
-            onPress={handleAccept}>
-            <Text style={textStyles.buttonText2}>Accept</Text>
-          </TouchableOpacity>
-          {requiresCancel && (
+          <View style={containerStyles.buttonsContainer}>
             <TouchableOpacity
-              style={[buttonStyle.button3, buttonStyle.cancelButton]}
-              onPress={handleClose}>
-              <Text style={textStyles.buttonText2}>Cancel</Text>
+              style={buttonStyle.button5}
+              onPress={handleAccept}>
+              <Text style={textStyles.buttonText2}>Accept</Text>
             </TouchableOpacity>
-          )}
+            {requiresCancel && (
+              <TouchableOpacity
+                style={buttonStyle.button5}
+                onPress={handleClose}>
+                <Text style={textStyles.buttonText2}>Cancel</Text>
+              </TouchableOpacity>
+            )}
+          </View>
         </View>
       </View>
     </Modal>

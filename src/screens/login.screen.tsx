@@ -12,6 +12,7 @@ import {formStyles} from '../styles/form.styles';
 import {textStyles} from '../styles/text.styles';
 import {buttonStyle} from '../styles/buttons.style';
 import {registrationSchema} from '../schemas/auth.schema';
+import {containerStyles} from '../styles/container.styles';
 
 type LoginScreenProp = NativeStackNavigationProp<RootStackParamList, 'Login'>;
 
@@ -54,7 +55,10 @@ export function LoginScreen(): React.JSX.Element {
 
   return (
     <View
-      style={[formStyles.container, formStyles.VerticallyCenteredcontainer]}>
+      style={[
+        containerStyles.container,
+        formStyles.VerticallyCenteredcontainer,
+      ]}>
       <Formik
         initialValues={initialValues}
         validationSchema={registrationSchema}

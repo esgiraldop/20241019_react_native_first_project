@@ -22,6 +22,7 @@ export const buttonStyle = StyleSheet.create({
     borderRadius: theme.spacing.small,
     padding: theme.spacing.medium,
     elevation: 2,
+    width: '50%',
   },
   button4: {
     backgroundColor: theme.colors.accent,
@@ -35,6 +36,16 @@ export const buttonStyle = StyleSheet.create({
     borderRadius: theme.spacing.small,
     alignItems: 'center',
     marginLeft: theme.spacing.small,
+  },
+  button5: {
+    flex: 1,
+    backgroundColor: theme.colors.accent,
+    borderRadius: theme.spacing.small,
+    paddingVertical: theme.spacing.medium,
+    elevation: 2,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginHorizontal: theme.spacing.small, // Adds space between buttons
   },
   touchableButtonContainer: {
     flexDirection: 'row',
