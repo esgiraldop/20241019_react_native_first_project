@@ -33,6 +33,7 @@ export const containerStyles = StyleSheet.create({
   container3: {
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: theme.colors.background,
   },
   mapContainer: {
     width: ScreenWidth,

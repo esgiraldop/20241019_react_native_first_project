@@ -25,6 +25,7 @@ import {textStyles} from '../styles/text.styles';
 import {buttonStyle} from '../styles/buttons.style';
 import {contactSchema} from '../schemas/contact.schema';
 import {containerStyles} from '../styles/container.styles';
+import {Loader} from '../components';
 
 interface InewContactValues extends Omit<IContact, 'id'> {}
 
@@ -97,15 +98,15 @@ export function EditContactScreen(): React.JSX.Element {
   };
 
   return (
-    <ScrollView style={containerStyles.container}>
+    <>
       {isContactLoading ? (
-        <Text style={textStyles.loadingText}>Loading...</Text>
+        <Loader />
       ) : errorLoadingContact ? (
         <Text style={textStyles.errorText}>
           No information for the contact could be found
         </Text>
       ) : (
-        <View>
+        <ScrollView style={containerStyles.container}>
           <View>
             <AddPictureModal
               addPictureModalVisible={addPictureModalVisible}
@@ -200,8 +201,8 @@ export function EditContactScreen(): React.JSX.Element {
               )}
             </Formik>
           </View>
-        </View>
+        </ScrollView>
       )}
-    </ScrollView>
+    </>
   );
 }

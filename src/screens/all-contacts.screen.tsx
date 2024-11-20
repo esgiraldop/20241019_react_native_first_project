@@ -1,5 +1,5 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {FlatList, SectionList, Text, View} from 'react-native';
+import {SectionList, Text, View} from 'react-native';
 import {GoToContacDetailsButton} from '../components/allContacts';
 import {ContactsService} from '../services/contacts.service';
 import {IContact} from '../interfaces/contact.interface';
@@ -22,6 +22,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import {theme} from '../theme/main.theme';
 import {SearchBar} from '@rneui/themed';
 import {groupBy} from 'lodash'; // Install lodash if not already present
+import {Loader} from '../components';
 
 export function AllContactsScreen(): React.JSX.Element {
   const [contacts, setContacts] = useState<IContact[]>([]);
@@ -186,7 +187,7 @@ export function AllContactsScreen(): React.JSX.Element {
         </View>
       </View>
       {isLoading ? (
-        <Text style={textStyles.loadingText}>Loading...</Text>
+        <Loader />
       ) : errorLoading ? (
         <Text style={textStyles.loadingText}>Error loading contacts</Text>
       ) : (
