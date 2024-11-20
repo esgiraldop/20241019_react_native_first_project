@@ -7,7 +7,7 @@ interface IButtonsCarrousel extends PropsWithChildren {}
 
 export const ButtonsCarrousel = ({children}: IButtonsCarrousel) => {
   return (
-    <View style={containerStyles.complexButtonContainerRight}>
+    <View style={containerStyles.buttonsCarrouselContainer}>
       {React.Children.map(children, child => (
         <View style={buttonStyle.buttonWrapper}>{child}</View>
       ))}

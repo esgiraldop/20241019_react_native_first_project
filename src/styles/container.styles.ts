@@ -22,12 +22,13 @@ export const containerStyles = StyleSheet.create({
     backgroundColor: theme.colors.backgroundLight,
     alignItems: 'center',
   },
-  complexButtonContainerRight: {
+  buttonsCarrouselContainer: {
     flexDirection: 'row',
-    justifyContent: 'flex-end',
+    justifyContent: 'space-between',
     padding: theme.spacing.small,
     backgroundColor: theme.colors.background,
     alignItems: 'center',
+    height: 60,
   },
   container3: {
     justifyContent: 'center',
@@ -60,5 +61,25 @@ export const containerStyles = StyleSheet.create({
   },
   marginMedium: {
     margin: theme.spacing.medium,
+  },
+  searchBarContainer: {
+    width: '100%',
+    backgroundColor: theme.colors.background,
+    borderColor: theme.colors.background,
+    // borderTopWidth: 0,
+    // borderBottomWidth: 0,
+    borderWidth: 0,
+    padding: 0,
+    margin: 0,
+    borderRadius: theme.spacing.small,
+    paddingHorizontal: theme.spacing.small,
+  },
+  searchBarInputContainer: {
+    width: '100%',
+    borderWidth: 0,
+    borderColor: theme.colors.background,
+    backgroundColor: theme.colors.background,
+    height: 40,
+    borderRadius: theme.spacing.small,
   },
 });

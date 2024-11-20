@@ -13,7 +13,7 @@ export const theme = {
   fonts: {
     default: {
       fontFamily: 'Sans-Serif', // Change this to your desired font family (e.g., 'Roboto', 'Arial')
-      fontWeight: 'normal',
+      fontWeight: '400' as 'normal' | '400',
     },
     bold: {
       fontFamily: 'Sans-Serif',

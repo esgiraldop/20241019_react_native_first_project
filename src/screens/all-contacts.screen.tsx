@@ -21,6 +21,7 @@ import {containerStyles} from '../styles/container.styles';
 import {IconButton} from '../components/common/IconButton';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {theme} from '../theme/main.theme';
+import {SearchBar} from '@rneui/themed';
 
 export function AllContactsScreen(): React.JSX.Element {
   const [contacts, setContacts] = useState<IContact[]>([]);
@@ -144,7 +145,7 @@ export function AllContactsScreen(): React.JSX.Element {
       ) : (
         <FlatList
           ListHeaderComponent={
-            <ButtonsCarrousel>
+            <View style={containerStyles.buttonsCarrouselContainer}>
               <IconButton size={40}>
                 <Icon
                   name="add-outline"
@@ -152,14 +153,16 @@ export function AllContactsScreen(): React.JSX.Element {
                   color={theme.colors.textPrimary}
                 />
               </IconButton>
-              <IconButton size={40}>
-                <Icon
-                  name="search-outline"
-                  size={30}
-                  color={theme.colors.textPrimary}
+              <View style={{flex: 1, paddingLeft: 10}}>
+                <SearchBar
+                  containerStyle={containerStyles.searchBarContainer}
+                  inputContainerStyle={containerStyles.searchBarInputContainer}
+                  placeholder="Search..."
+                  inputStyle={textStyles.searchBarInput}
+                  placeholderTextColor={theme.colors.textSecondary}
                 />
-              </IconButton>
-            </ButtonsCarrousel>
+              </View>
+            </View>
           }
           data={contacts.sort((a, b) => a.name.localeCompare(b.name))}
           keyExtractor={item => item.id}

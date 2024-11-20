@@ -2,6 +2,20 @@ import {StyleSheet} from 'react-native';
 import {theme} from '../theme/main.theme';
 
 export const buttonStyle = StyleSheet.create({
+  contacDetailsButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    padding: theme.spacing.medium,
+    marginBottom: theme.spacing.small,
+    borderRadius: 8,
+    backgroundColor: theme.colors.background,
+    elevation: 1,
+    shadowColor: theme.colors.textSecondary,
+    shadowOffset: {width: 0, height: 2},
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+  },
   button: {
     backgroundColor: theme.colors.backgroundLight,
     padding: theme.spacing.medium,

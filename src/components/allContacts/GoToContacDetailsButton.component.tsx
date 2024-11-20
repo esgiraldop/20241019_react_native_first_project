@@ -7,7 +7,7 @@ import {Text} from 'react-native-elements';
 import ContactImage from '../common/contactImage.component';
 import {IContact} from '../../interfaces/contact.interface';
 import {textStyles} from '../../styles/text.styles';
-import {formStyles} from '../../styles/form.styles';
+import {buttonStyle} from '../../styles/buttons.style';
 
 interface IContactDetailsButton
   extends Pick<IContact, 'name' | 'id' | 'imageUri'> {}
@@ -26,7 +26,7 @@ export function GoToContacDetailsButton({
 
   return (
     <TouchableOpacity
-      style={[formStyles.contacDetailsButton]}
+      style={buttonStyle.contacDetailsButton}
       onPress={() => navigation.navigate('ContactDetails', {contactId: id})}>
       <ContactImage pictureUri={imageUri} />
       <Text style={textStyles.nameTextTouchableButton}>{name}</Text>

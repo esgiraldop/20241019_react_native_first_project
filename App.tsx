@@ -21,7 +21,6 @@ import {RegistrationScreen} from './src/screens/register.screen';
 import {LoginScreen} from './src/screens/login.screen';
 import {SyncProvider} from './src/contexts/contacts-syncronization.context';
 import AppSplashScreen from './src/components/register/App-splash-screen.component';
-import {Text} from 'react-native-elements';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -55,7 +54,8 @@ function App(): React.JSX.Element {
             <SyncProvider>
               <NavigationContainer>
                 <Stack.Navigator
-                  initialRouteName="Register"
+                  // initialRouteName="Register"
+                  initialRouteName="Contacts"
                   screenOptions={{
                     headerStyle: {
                       backgroundColor: theme.colors.background,

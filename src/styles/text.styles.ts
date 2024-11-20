@@ -89,4 +89,10 @@ export const textStyles = StyleSheet.create({
     fontSize: theme.fontSizes.small,
     textAlign: 'center',
   },
+  searchBarInput: {
+    color: theme.colors.textPrimary,
+    fontFamily: theme.fonts.default.fontFamily,
+    fontWeight: theme.fonts.default.fontWeight,
+    fontSize: theme.fontSizes.small,
+  },
 });
