@@ -66,8 +66,6 @@ export const containerStyles = StyleSheet.create({
     width: '100%',
     backgroundColor: theme.colors.background,
     borderColor: theme.colors.background,
-    // borderTopWidth: 0,
-    // borderBottomWidth: 0,
     borderWidth: 0,
     padding: 0,
     margin: 0,

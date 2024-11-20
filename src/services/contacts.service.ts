@@ -17,13 +17,16 @@ export type IHandleError = (
 export class ContactsService {
   static resource = 'contacts';
 
-  static async getAll(): Promise<IContactsSucessfullResponse | null> {
-    return handleAxiosResponse<IContactsSucessfullResponse>(
-      async () =>
-        await privateAxiosInstance.get<IContactsSucessfullResponse>(
-          `${this.resource}`,
-        ),
-    );
+  static async getAll(
+    params: Record<string, string>,
+  ): Promise<IContactsSucessfullResponse | null> {
+    return handleAxiosResponse<IContactsSucessfullResponse>(async () => {
+      console.log('params: ', params);
+      return await privateAxiosInstance.get<IContactsSucessfullResponse>(
+        `${this.resource}`,
+        {params},
+      );
+    });
   }
 
   static async getById(

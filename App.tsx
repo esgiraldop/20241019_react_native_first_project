@@ -54,8 +54,8 @@ function App(): React.JSX.Element {
             <SyncProvider>
               <NavigationContainer>
                 <Stack.Navigator
-                  // initialRouteName="Register"
-                  initialRouteName="Contacts"
+                  initialRouteName="Register"
+                  // initialRouteName="Contacts"
                   screenOptions={{
                     headerStyle: {
                       backgroundColor: theme.colors.background,

@@ -1,7 +1,6 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {FlatList, Text, View} from 'react-native';
 import {GoToContacDetailsButton} from '../components/allContacts';
-import {ButtonsCarrousel} from '../components/common/ButtonsCarrousel.component';
 import {ContactsService} from '../services/contacts.service';
 import {IContact} from '../interfaces/contact.interface';
 import {useFocusEffect} from '@react-navigation/native';
@@ -36,10 +35,12 @@ export function AllContactsScreen(): React.JSX.Element {
     setHasUserResponded,
   } = useSyncContext();
   const [contacts2Sync, setcontacts2Sync] = useState<Contact[] | null>(null);
+  const [filterByName, setFilterByName] = useState<string>('');
 
   useEffect(() => {
     const syncContacts = async () => {
-      const response = await ContactsService.getAll();
+      const params: Record<string, string> = {};
+      const response = await ContactsService.getAll(params);
       if (response) {
         //If app's contacts could be loaded, ask permission for reading phone's contacts and numbers
 
@@ -102,7 +103,8 @@ export function AllContactsScreen(): React.JSX.Element {
           'The number of contacts inserted in the database and the number contacts to be syncronized are not the same, so probably there was an error',
         );
       }
-      const response = await ContactsService.getAll();
+      const params: Record<string, string> = {};
+      const response = await ContactsService.getAll(params);
       if (response) {
         setContacts(response.data);
         setIsLoading(false);
@@ -118,9 +120,10 @@ export function AllContactsScreen(): React.JSX.Element {
     useCallback(() => {
       async function fetchAllContacts() {
         setIsLoading(true);
-
+        const params: Record<string, string> = {}; //Preparing parameters for fetching contacts
+        if (filterByName) params.filterByName = filterByName;
         // Contacts saved in the app's database do not need permission for reading contacts/phone numbers from the phone
-        const response = await ContactsService.getAll();
+        const response = await ContactsService.getAll(params);
 
         if (response) {
           setContacts(response.data);
@@ -133,47 +136,46 @@ export function AllContactsScreen(): React.JSX.Element {
       fetchAllContacts();
 
       return () => {};
-    }, []),
+    }, [filterByName]),
   );
 
   return (
     <View style={containerStyles.container}>
+      <View style={containerStyles.buttonsCarrouselContainer}>
+        <IconButton size={40}>
+          <Icon name="add-outline" size={30} color={theme.colors.textPrimary} />
+        </IconButton>
+        <View style={{flex: 1, paddingLeft: 10}}>
+          <SearchBar
+            containerStyle={containerStyles.searchBarContainer}
+            inputContainerStyle={containerStyles.searchBarInputContainer}
+            placeholder="Search..."
+            inputStyle={textStyles.searchBarInput}
+            placeholderTextColor={theme.colors.textSecondary}
+            onChangeText={setFilterByName}
+            value={filterByName}
+          />
+        </View>
+      </View>
       {isLoading ? (
         <Text style={textStyles.loadingText}>Loading...</Text>
       ) : errorLoading ? (
         <Text style={textStyles.loadingText}>Error loading contacts</Text>
       ) : (
-        <FlatList
-          ListHeaderComponent={
-            <View style={containerStyles.buttonsCarrouselContainer}>
-              <IconButton size={40}>
-                <Icon
-                  name="add-outline"
-                  size={30}
-                  color={theme.colors.textPrimary}
-                />
-              </IconButton>
-              <View style={{flex: 1, paddingLeft: 10}}>
-                <SearchBar
-                  containerStyle={containerStyles.searchBarContainer}
-                  inputContainerStyle={containerStyles.searchBarInputContainer}
-                  placeholder="Search..."
-                  inputStyle={textStyles.searchBarInput}
-                  placeholderTextColor={theme.colors.textSecondary}
-                />
-              </View>
-            </View>
-          }
-          data={contacts.sort((a, b) => a.name.localeCompare(b.name))}
-          keyExtractor={item => item.id}
-          renderItem={({item}) => (
-            <GoToContacDetailsButton
-              name={item.name}
-              id={item.id}
-              imageUri={item.imageUri}
-            />
-          )}
-        />
+        <>
+          <FlatList
+            // ListHeaderComponent={}
+            data={contacts.sort((a, b) => a.name.localeCompare(b.name))}
+            keyExtractor={item => item.id}
+            renderItem={({item}) => (
+              <GoToContacDetailsButton
+                name={item.name}
+                id={item.id}
+                imageUri={item.imageUri}
+              />
+            )}
+          />
+        </>
       )}
       {permissionModalOpen && (
         <NotifyUserPermissionModal
