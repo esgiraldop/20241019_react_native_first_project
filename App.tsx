@@ -21,6 +21,7 @@ import {RegistrationScreen} from './src/screens/register.screen';
 import {LoginScreen} from './src/screens/login.screen';
 import {SyncProvider} from './src/contexts/contacts-syncronization.context';
 import AppSplashScreen from './src/components/register/App-splash-screen.component';
+import {Text} from 'react-native-elements';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -81,7 +82,9 @@ function App(): React.JSX.Element {
                   <Stack.Screen
                     name="Contacts"
                     component={AllContactsScreen}
-                    options={{title: 'Contacts'}}
+                    options={{
+                      title: 'Contacts',
+                    }}
                   />
                   <Stack.Screen
                     name="ContactDetails"

@@ -18,10 +18,10 @@ export const buttonStyle = StyleSheet.create({
     alignItems: 'center',
     marginVertical: theme.spacing.small,
   },
-  button4: {
+  roundButton: {
     backgroundColor: theme.colors.background,
-    padding: theme.spacing.medium,
-    borderRadius: 8,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   button5: {
     flex: 1,
@@ -64,8 +64,7 @@ export const buttonStyle = StyleSheet.create({
     marginTop: theme.spacing.small,
   },
   buttonWrapper: {
-    flex: 1,
-    margin: theme.spacing.small,
+    marginLeft: theme.spacing.small,
   },
   acceptButton: {
     backgroundColor: theme.colors.accent,

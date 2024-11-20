@@ -10,6 +10,20 @@ export const theme = {
     success: '#3b8132',
     transparent: '#00000080',
   },
+  fonts: {
+    default: {
+      fontFamily: 'Sans-Serif', // Change this to your desired font family (e.g., 'Roboto', 'Arial')
+      fontWeight: 'normal',
+    },
+    bold: {
+      fontFamily: 'Sans-Serif',
+      fontWeight: 'bold',
+    },
+    italic: {
+      fontFamily: 'Sans-Serif',
+      fontStyle: 'italic',
+    },
+  },
   fontSizes: {
     title: 24,
     small: 18,

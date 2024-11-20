@@ -2,11 +2,15 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import React from 'react';
 import {RootStackParamList} from '../../interfaces';
 import {useNavigation} from '@react-navigation/native';
-import {Text, TouchableOpacity} from 'react-native';
-import {textStyles} from '../../styles/text.styles';
+import {TouchableOpacity} from 'react-native';
 import {buttonStyle} from '../../styles/buttons.style';
 
-export const IconButton = ({text}: {text: string}) => {
+interface IIconButton {
+  children: React.ReactNode;
+  size?: number;
+}
+
+export const IconButton = ({children, size = 50}: IIconButton) => {
   type AddContactScreenNavigationProp = NativeStackNavigationProp<
     RootStackParamList,
     'AddContact'
@@ -16,9 +20,16 @@ export const IconButton = ({text}: {text: string}) => {
 
   return (
     <TouchableOpacity
-      style={buttonStyle.button4}
+      style={[
+        buttonStyle.roundButton,
+        {
+          width: size,
+          height: size,
+          borderRadius: size / 2,
+        },
+      ]}
       onPress={() => navigation.navigate('AddContact')}>
-      <Text style={textStyles.buttonText}>{text}</Text>
+      {children}
     </TouchableOpacity>
   );
 };

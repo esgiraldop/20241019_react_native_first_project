@@ -64,7 +64,7 @@ export const AddPictureModal = ({
           <View style={modalStyles.modalView}>
             <ContactImage pictureUri={pictureUri} size={imageSize} />
 
-            <View style={containerStyles.buttonsContainerLight}>
+            <View style={containerStyles.complexButtonContainerLight}>
               <TouchableOpacity
                 style={buttonStyle.button5}
                 onPress={openCamera}>
@@ -78,7 +78,7 @@ export const AddPictureModal = ({
               </TouchableOpacity>
             </View>
 
-            <View style={containerStyles.buttonsContainerLight}>
+            <View style={containerStyles.complexButtonContainerLight}>
               <TouchableOpacity
                 style={buttonStyle.button5}
                 onPress={() =>

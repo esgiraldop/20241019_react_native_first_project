@@ -71,7 +71,7 @@ export const ConfirmationModal = <T,>({
       <View style={modalStyles.centeredView}>
         <View style={modalStyles.modalView}>
           <Text style={textStyles.modalText}>{children}</Text>
-          <View style={containerStyles.buttonsContainerLight}>
+          <View style={containerStyles.complexButtonContainerLight}>
             <TouchableOpacity
               style={buttonStyle.button5}
               onPress={handleAccept}>

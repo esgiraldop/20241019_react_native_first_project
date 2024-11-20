@@ -79,7 +79,7 @@ export function ContactDetailsScreen(): React.JSX.Element {
               <WeatherCard lat={marker?.latitude} lon={marker?.longitude} />
             </View>
           )}
-          <View style={containerStyles.buttonsContainer}>
+          <View style={containerStyles.complexButtonContainer}>
             <TouchableOpacity
               style={buttonStyle.button5}
               onPress={() => navigation.navigate('EditContact', {contactId})}>

@@ -19,6 +19,8 @@ import {isNull} from '../utilities/checkIsNull.utility';
 import {textStyles} from '../styles/text.styles';
 import {containerStyles} from '../styles/container.styles';
 import {IconButton} from '../components/common/IconButton';
+import Icon from 'react-native-vector-icons/Ionicons';
+import {theme} from '../theme/main.theme';
 
 export function AllContactsScreen(): React.JSX.Element {
   const [contacts, setContacts] = useState<IContact[]>([]);
@@ -143,8 +145,20 @@ export function AllContactsScreen(): React.JSX.Element {
         <FlatList
           ListHeaderComponent={
             <ButtonsCarrousel>
-              <IconButton text={'Add new contact'} />
-              <IconButton text={'Search a contact'} />
+              <IconButton size={40}>
+                <Icon
+                  name="add-outline"
+                  size={30}
+                  color={theme.colors.textPrimary}
+                />
+              </IconButton>
+              <IconButton size={40}>
+                <Icon
+                  name="search-outline"
+                  size={30}
+                  color={theme.colors.textPrimary}
+                />
+              </IconButton>
             </ButtonsCarrousel>
           }
           data={contacts.sort((a, b) => a.name.localeCompare(b.name))}

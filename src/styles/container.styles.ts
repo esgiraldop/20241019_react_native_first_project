@@ -8,18 +8,25 @@ export const containerStyles = StyleSheet.create({
     backgroundColor: theme.colors.background,
     padding: theme.spacing.medium,
   },
-  buttonsContainer: {
+  complexButtonContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     padding: theme.spacing.small,
     backgroundColor: theme.colors.background,
     alignItems: 'center',
   },
-  buttonsContainerLight: {
+  complexButtonContainerLight: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     padding: theme.spacing.small,
     backgroundColor: theme.colors.backgroundLight,
+    alignItems: 'center',
+  },
+  complexButtonContainerRight: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    padding: theme.spacing.small,
+    backgroundColor: theme.colors.background,
     alignItems: 'center',
   },
   container3: {
@@ -28,15 +35,15 @@ export const containerStyles = StyleSheet.create({
   },
   mapContainer: {
     width: ScreenWidth,
-    height: ScreenHeight / 3, // Set height to 1/3 of screen height
+    height: ScreenHeight / 3,
     marginBottom: 10,
   },
   buttonContainer: {
-    flex: 1, // Ensures adaptability in flex containers
+    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
     marginVertical: theme.spacing.small,
-    marginTop: theme.spacing.medium, // Default spacing
+    marginTop: theme.spacing.medium,
   },
   card: {
     backgroundColor: theme.colors.backgroundLight,

@@ -1,9 +1,10 @@
 import React, {useState} from 'react';
-import {useColorScheme, View} from 'react-native';
+import {View} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import Icon from 'react-native-vector-icons/Ionicons';
-import {formStyles} from '../../styles/form.styles';
 import {imageStyles} from '../../styles/image.styles';
+import {containerStyles} from '../../styles/container.styles';
+import {theme} from '../../theme/main.theme';
 
 interface IContactImage {
   pictureUri?: string | undefined;
@@ -15,14 +16,14 @@ export default function ContactImage({
   size = undefined,
 }: IContactImage) {
   const [imageError, setImageError] = useState<boolean>(false);
-  const isDarkMode = useColorScheme() === 'dark'; // TODO: Maybe define this in the main app theme?
+  // const isDarkMode = useColorScheme() === 'dark'; // TODO: To use this in the future for light and dark versions
   return (
-    <View style={formStyles.container}>
+    <View style={containerStyles.complexButtonContainer}>
       {imageError || !pictureUri ? (
         <Icon
           name="person-circle"
           size={size ? size : imageStyles.image.width}
-          color={!isDarkMode ? 'grey' : 'white'}
+          color={theme.colors.textPrimary}
         />
       ) : (
         <FastImage
