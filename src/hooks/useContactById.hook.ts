@@ -16,11 +16,12 @@ export function useContactById(contactId: number) {
   useFocusEffect(
     useCallback(() => {
       async function getContactInfo(id: number) {
-        const contactInfoResponse = await ContactsService.getById(id);
         setIsContactLoading(true);
+        const contactInfoResponse = await ContactsService.getById(id);
         if (contactInfoResponse) {
           setContactInfo(contactInfoResponse);
           setIsContactLoading(false);
+          setErrorLoadingContact(false);
         } else {
           setIsContactLoading(false);
           setErrorLoadingContact(true);
