@@ -21,7 +21,6 @@ export class ContactsService {
     params: Record<string, string>,
   ): Promise<IContactsSucessfullResponse | null> {
     return handleAxiosResponse<IContactsSucessfullResponse>(async () => {
-      console.log('params: ', params);
       return await privateAxiosInstance.get<IContactsSucessfullResponse>(
         `${this.resource}`,
         {params},
