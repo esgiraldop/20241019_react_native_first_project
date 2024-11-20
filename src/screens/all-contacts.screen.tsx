@@ -1,6 +1,5 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {FlatList, Text, View} from 'react-native';
-import {SmallButton} from '../components/common/SmallButton';
 import {GoToContacDetailsButton} from '../components/allContacts';
 import {ButtonsCarrousel} from '../components/common/ButtonsCarrousel.component';
 import {ContactsService} from '../services/contacts.service';
@@ -17,9 +16,9 @@ import {ConfirmationModal} from '../components/common/confirmation-modal.compone
 import {Contact} from 'react-native-contacts/type';
 import {useSyncContext} from '../contexts/contacts-syncronization.context';
 import {isNull} from '../utilities/checkIsNull.utility';
-import {formStyles} from '../styles/form.styles';
 import {textStyles} from '../styles/text.styles';
 import {containerStyles} from '../styles/container.styles';
+import {IconButton} from '../components/common/IconButton';
 
 export function AllContactsScreen(): React.JSX.Element {
   const [contacts, setContacts] = useState<IContact[]>([]);
@@ -144,8 +143,8 @@ export function AllContactsScreen(): React.JSX.Element {
         <FlatList
           ListHeaderComponent={
             <ButtonsCarrousel>
-              <SmallButton text={'Add new contact'} />
-              {/* <SmallButton text={'Search a contact'} /> */}
+              <IconButton text={'Add new contact'} />
+              <IconButton text={'Search a contact'} />
             </ButtonsCarrousel>
           }
           data={contacts.sort((a, b) => a.name.localeCompare(b.name))}

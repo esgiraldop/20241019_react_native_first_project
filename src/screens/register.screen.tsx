@@ -95,14 +95,14 @@ export function RegistrationScreen(): React.JSX.Element {
 
             <View style={formStyles.buttonContainer}>
               <TouchableOpacity
-                style={buttonStyle.saveButton}
+                style={buttonStyle.button5}
                 onPress={() => handleSubmit()}
                 disabled={!isValid || isSubmitting}>
-                <Text>Register</Text>
+                <Text style={textStyles.buttonText}>Register</Text>
               </TouchableOpacity>
             </View>
             <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-              <Text>
+              <Text style={textStyles.phoneText}>
                 Do you already have an account?{'  '}
                 <Text style={textStyles.linkText}>Sign in</Text>
               </Text>

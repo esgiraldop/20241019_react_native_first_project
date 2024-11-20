@@ -16,11 +16,11 @@ export const textStyles = StyleSheet.create({
   },
   label: {
     color: theme.colors.textPrimary,
-    fontSize: theme.fontSizes.text,
+    fontSize: theme.fontSizes.small,
     marginBottom: theme.spacing.small,
   },
   input: {
-    backgroundColor: theme.colors.buttonBackground,
+    backgroundColor: theme.colors.backgroundLight,
     color: theme.colors.textPrimary,
     padding: theme.spacing.small,
     borderRadius: theme.spacing.small,
@@ -29,10 +29,11 @@ export const textStyles = StyleSheet.create({
   },
   buttonText: {
     color: theme.colors.textPrimary,
-    fontSize: theme.fontSizes.text,
+    fontSize: theme.fontSizes.small,
     fontWeight: 'bold',
+    textAlign: 'center',
   },
-  buttonText2: {
+  buttonSmallText: {
     color: theme.colors.textPrimary,
     fontWeight: 'bold',
     textAlign: 'center',
@@ -40,7 +41,7 @@ export const textStyles = StyleSheet.create({
   buttonText3: {
     color: theme.colors.textPrimary,
     textAlign: 'center',
-    fontSize: theme.fontSizes.text,
+    fontSize: theme.fontSizes.small,
   },
   linkText: {
     color: theme.colors.textPrimary,
@@ -64,28 +65,28 @@ export const textStyles = StyleSheet.create({
   nameTextTouchableButton: {
     color: theme.colors.textPrimary,
     marginLeft: theme.spacing.medium,
-    fontSize: theme.fontSizes.text,
+    fontSize: theme.fontSizes.small,
   },
   phoneText: {
-    fontSize: theme.fontSizes.text,
+    fontSize: theme.fontSizes.small,
     color: theme.colors.textSecondary,
     marginVertical: theme.spacing.small,
   },
   emailText: {
-    fontSize: theme.fontSizes.text,
+    fontSize: theme.fontSizes.small,
     color: theme.colors.textSecondary,
   },
   cancelButtonText: {
     color: theme.colors.textSecondary,
-    fontSize: theme.fontSizes.text,
+    fontSize: theme.fontSizes.small,
   },
   bigText: {
     color: theme.colors.textPrimary,
-    fontSize: theme.fontSizes.text,
+    fontSize: theme.fontSizes.small,
   },
   modalText: {
     color: theme.colors.textPrimary,
-    fontSize: theme.fontSizes.text,
+    fontSize: theme.fontSizes.small,
     textAlign: 'center',
   },
 });

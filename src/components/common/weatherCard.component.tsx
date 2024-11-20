@@ -89,12 +89,12 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   condition: {
-    fontSize: theme.fontSizes.text,
+    fontSize: theme.fontSizes.small,
     color: theme.colors.textSecondary,
     marginTop: theme.spacing.small,
   },
   temperatures: {
-    fontSize: theme.fontSizes.text,
+    fontSize: theme.fontSizes.small,
     color: theme.colors.textSecondary,
     marginTop: theme.spacing.small,
   },

@@ -23,6 +23,7 @@ import {formStyles} from '../styles/form.styles';
 import {textStyles} from '../styles/text.styles';
 import {buttonStyle} from '../styles/buttons.style';
 import {contactSchema} from '../schemas/contact.schema';
+import {containerStyles} from '../styles/container.styles';
 
 type AddContactScreenProp = NativeStackNavigationProp<
   RootStackParamList,
@@ -56,7 +57,7 @@ export function AddContactScreen(): React.JSX.Element {
   };
 
   return (
-    <ScrollView style={formStyles.container}>
+    <ScrollView style={containerStyles.container}>
       <View>
         <AddPictureModal
           addPictureModalVisible={addPictureModalVisible}
@@ -133,12 +134,16 @@ export function AddContactScreen(): React.JSX.Element {
               </Text>
               <GoogleMap marker={marker} setMarker={setMarker} />
 
-              <View style={formStyles.buttonContainer}>
+              <View
+                style={[
+                  formStyles.buttonContainer,
+                  containerStyles.marginMedium,
+                ]}>
                 <TouchableOpacity
-                  style={buttonStyle.saveButton}
+                  style={buttonStyle.button5}
                   onPress={() => handleSubmit()}
                   disabled={!isValid || isSubmitting}>
-                  <Text>Submit</Text>
+                  <Text style={textStyles.buttonText}>Submit</Text>
                 </TouchableOpacity>
               </View>
             </View>

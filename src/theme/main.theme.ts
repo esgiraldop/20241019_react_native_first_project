@@ -4,14 +4,15 @@ export const theme = {
     textPrimary: '#FFFFFF',
     textSecondary: '#B0B0B0',
     accent: '#4c87e6',
-    buttonBackground: '#2C2C2C',
+    backgroundLight: '#2C2C2C',
     borderColor: '#3A3A3A',
     error: '#de0a26',
     success: '#3b8132',
+    transparent: '#00000080',
   },
   fontSizes: {
     title: 24,
-    text: 18,
+    small: 18,
   },
   spacing: {
     small: 8,

@@ -6,7 +6,7 @@ export const modalStyles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)', // Semi-transparent background for the modal overlay
+    backgroundColor: theme.colors.transparent,
   },
   centeredViewModal: {
     flex: 1,
@@ -14,7 +14,7 @@ export const modalStyles = StyleSheet.create({
     alignItems: 'center',
   },
   modalView: {
-    backgroundColor: theme.colors.buttonBackground,
+    backgroundColor: theme.colors.backgroundLight,
     borderRadius: theme.spacing.small,
     padding: theme.spacing.large,
     alignItems: 'center',
@@ -52,10 +52,10 @@ export const modalStyles = StyleSheet.create({
   buttonText: {
     color: theme.colors.textPrimary,
     fontWeight: 'bold',
-    fontSize: theme.fontSizes.text,
+    fontSize: theme.fontSizes.small,
   },
   cancelButton: {
-    backgroundColor: theme.colors.buttonBackground,
+    backgroundColor: theme.colors.backgroundLight,
     paddingVertical: theme.spacing.medium,
     paddingHorizontal: theme.spacing.large,
     borderRadius: theme.spacing.small,
@@ -67,10 +67,10 @@ export const modalStyles = StyleSheet.create({
   },
   cancelButtonText: {
     color: theme.colors.textSecondary,
-    fontSize: theme.fontSizes.text,
+    fontSize: theme.fontSizes.small,
   },
   bigText: {
     color: theme.colors.textPrimary,
-    fontSize: theme.fontSizes.text,
+    fontSize: theme.fontSizes.small,
   },
 });

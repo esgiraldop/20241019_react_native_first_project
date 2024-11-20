@@ -3,7 +3,7 @@ import {theme} from '../theme/main.theme';
 
 export const buttonStyle = StyleSheet.create({
   button: {
-    backgroundColor: theme.colors.buttonBackground,
+    backgroundColor: theme.colors.backgroundLight,
     padding: theme.spacing.medium,
     marginTop: theme.spacing.medium,
     borderRadius: theme.spacing.small,
@@ -18,24 +18,10 @@ export const buttonStyle = StyleSheet.create({
     alignItems: 'center',
     marginVertical: theme.spacing.small,
   },
-  button3: {
-    borderRadius: theme.spacing.small,
-    padding: theme.spacing.medium,
-    elevation: 2,
-    width: '50%',
-  },
   button4: {
-    backgroundColor: theme.colors.accent,
+    backgroundColor: theme.colors.background,
     padding: theme.spacing.medium,
     borderRadius: 8,
-  },
-  saveButton: {
-    flex: 1,
-    backgroundColor: theme.colors.accent,
-    padding: theme.spacing.medium,
-    borderRadius: theme.spacing.small,
-    alignItems: 'center',
-    marginLeft: theme.spacing.small,
   },
   button5: {
     flex: 1,
@@ -45,7 +31,7 @@ export const buttonStyle = StyleSheet.create({
     elevation: 2,
     alignItems: 'center',
     justifyContent: 'center',
-    marginHorizontal: theme.spacing.small, // Adds space between buttons
+    marginHorizontal: theme.spacing.small,
   },
   touchableButtonContainer: {
     flexDirection: 'row',
@@ -56,14 +42,14 @@ export const buttonStyle = StyleSheet.create({
   },
   cancelButton: {
     flex: 1,
-    backgroundColor: theme.colors.buttonBackground,
+    backgroundColor: theme.colors.backgroundLight,
     padding: theme.spacing.medium,
     borderRadius: theme.spacing.small,
     alignItems: 'center',
     marginRight: theme.spacing.small,
   },
   cancelButton2: {
-    backgroundColor: theme.colors.buttonBackground,
+    backgroundColor: theme.colors.backgroundLight,
     paddingVertical: theme.spacing.medium,
     paddingHorizontal: theme.spacing.large,
     borderRadius: theme.spacing.small,
@@ -74,7 +60,7 @@ export const buttonStyle = StyleSheet.create({
     borderColor: theme.colors.borderColor,
   },
   cancelButton3: {
-    backgroundColor: theme.colors.buttonBackground,
+    backgroundColor: theme.colors.backgroundLight,
     marginTop: theme.spacing.small,
   },
   buttonWrapper: {

@@ -6,7 +6,7 @@ import {Text, TouchableOpacity} from 'react-native';
 import {textStyles} from '../../styles/text.styles';
 import {buttonStyle} from '../../styles/buttons.style';
 
-export const SmallButton = ({text}: {text: string}) => {
+export const IconButton = ({text}: {text: string}) => {
   type AddContactScreenNavigationProp = NativeStackNavigationProp<
     RootStackParamList,
     'AddContact'

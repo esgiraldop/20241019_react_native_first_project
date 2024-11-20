@@ -24,6 +24,7 @@ import {formStyles} from '../styles/form.styles';
 import {textStyles} from '../styles/text.styles';
 import {buttonStyle} from '../styles/buttons.style';
 import {contactSchema} from '../schemas/contact.schema';
+import {containerStyles} from '../styles/container.styles';
 
 interface InewContactValues extends Omit<IContact, 'id'> {}
 
@@ -96,7 +97,7 @@ export function EditContactScreen(): React.JSX.Element {
   };
 
   return (
-    <ScrollView style={formStyles.container}>
+    <ScrollView style={containerStyles.container}>
       {isContactLoading ? (
         <Text style={textStyles.loadingText}>Loading...</Text>
       ) : errorLoadingContact ? (
@@ -183,9 +184,13 @@ export function EditContactScreen(): React.JSX.Element {
                   </Text>
                   <GoogleMap marker={marker} setMarker={setMarker} />
 
-                  <View style={formStyles.buttonContainer}>
+                  <View
+                    style={[
+                      formStyles.buttonContainer,
+                      containerStyles.marginMedium,
+                    ]}>
                     <TouchableOpacity
-                      style={buttonStyle.saveButton}
+                      style={buttonStyle.button5}
                       onPress={() => handleSubmit()}
                       disabled={!isValid || isSubmitting}>
                       <Text style={textStyles.buttonText}>Submit</Text>

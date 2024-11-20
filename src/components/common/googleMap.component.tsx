@@ -2,6 +2,7 @@ import React from 'react';
 import {StyleSheet, View} from 'react-native';
 import MapView, {Marker} from 'react-native-maps';
 import {formStyles} from '../../styles/form.styles';
+import {containerStyles} from '../../styles/container.styles';
 
 export interface IMarkerCoordinates {
   latitude: number;
@@ -21,7 +22,7 @@ interface IGoogleMap {
 
 export const GoogleMap = ({marker, setMarker, onEdit = true}: IGoogleMap) => {
   return (
-    <View style={formStyles.container}>
+    <View style={containerStyles.mapContainer}>
       <MapView
         style={styles.mapStyle}
         initialRegion={

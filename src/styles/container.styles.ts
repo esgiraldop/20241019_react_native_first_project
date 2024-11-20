@@ -12,14 +12,21 @@ export const containerStyles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     padding: theme.spacing.small,
-    backgroundColor: theme.colors.buttonBackground,
+    backgroundColor: theme.colors.background,
+    alignItems: 'center',
+  },
+  buttonsContainerLight: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    padding: theme.spacing.small,
+    backgroundColor: theme.colors.backgroundLight,
     alignItems: 'center',
   },
   container3: {
     justifyContent: 'center',
     alignItems: 'center',
   },
-  container4: {
+  mapContainer: {
     width: ScreenWidth,
     height: ScreenHeight / 3, // Set height to 1/3 of screen height
     marginBottom: 10,
@@ -32,7 +39,7 @@ export const containerStyles = StyleSheet.create({
     marginTop: theme.spacing.medium, // Default spacing
   },
   card: {
-    backgroundColor: theme.colors.buttonBackground,
+    backgroundColor: theme.colors.backgroundLight,
     padding: theme.spacing.large,
     borderRadius: 16,
     alignItems: 'center',
@@ -40,5 +47,11 @@ export const containerStyles = StyleSheet.create({
     shadowOffset: {width: 0, height: 4},
     shadowOpacity: 0.2,
     shadowRadius: 6,
+  },
+  marginSmall: {
+    margin: theme.spacing.small,
+  },
+  marginMedium: {
+    margin: theme.spacing.medium,
   },
 });

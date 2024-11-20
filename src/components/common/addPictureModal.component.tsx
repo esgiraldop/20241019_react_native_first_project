@@ -9,6 +9,7 @@ import {ImagePickerService} from '../../services/gallery.service';
 import {buttonStyle} from '../../styles/buttons.style';
 import {textStyles} from '../../styles/text.styles';
 import {modalStyles} from '../../styles/modal.styles';
+import {containerStyles} from '../../styles/container.styles';
 
 interface IAddPictureModal {
   addPictureModalVisible: boolean;
@@ -63,21 +64,29 @@ export const AddPictureModal = ({
           <View style={modalStyles.modalView}>
             <ContactImage pictureUri={pictureUri} size={imageSize} />
 
-            <TouchableOpacity style={buttonStyle.button2} onPress={openCamera}>
-              <Text style={textStyles.buttonText}>Open Camera</Text>
-            </TouchableOpacity>
+            <View style={containerStyles.buttonsContainerLight}>
+              <TouchableOpacity
+                style={buttonStyle.button5}
+                onPress={openCamera}>
+                <Text style={textStyles.buttonText}>Open Camera</Text>
+              </TouchableOpacity>
 
-            <TouchableOpacity style={buttonStyle.button2} onPress={openGallery}>
-              <Text style={textStyles.buttonText}>Select from Gallery</Text>
-            </TouchableOpacity>
+              <TouchableOpacity
+                style={buttonStyle.button5}
+                onPress={openGallery}>
+                <Text style={textStyles.buttonText}>Select from Gallery</Text>
+              </TouchableOpacity>
+            </View>
 
-            <TouchableOpacity
-              style={buttonStyle.cancelButton2}
-              onPress={() =>
-                setAddPictureModalVisible(!addPictureModalVisible)
-              }>
-              <Text style={textStyles.cancelButtonText}>Cancel</Text>
-            </TouchableOpacity>
+            <View style={containerStyles.buttonsContainerLight}>
+              <TouchableOpacity
+                style={buttonStyle.button5}
+                onPress={() =>
+                  setAddPictureModalVisible(!addPictureModalVisible)
+                }>
+                <Text style={textStyles.buttonText}>Cancel</Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
       </Modal>

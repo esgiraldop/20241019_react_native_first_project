@@ -49,11 +49,6 @@ export const ConfirmationModal = <T,>({
     } else {
       return false;
     }
-    // return typeof confirmationModalVisible === 'boolean'
-    //   ? confirmationModalVisible
-    //   : isAskUserSyncModalOpen(confirmationModalVisible)
-    //   ? confirmationModalVisible.isModalOpen
-    //   : false;
   };
   const handleClose = () => {
     handleCancel();
@@ -76,17 +71,17 @@ export const ConfirmationModal = <T,>({
       <View style={modalStyles.centeredView}>
         <View style={modalStyles.modalView}>
           <Text style={textStyles.modalText}>{children}</Text>
-          <View style={containerStyles.buttonsContainer}>
+          <View style={containerStyles.buttonsContainerLight}>
             <TouchableOpacity
               style={buttonStyle.button5}
               onPress={handleAccept}>
-              <Text style={textStyles.buttonText2}>Accept</Text>
+              <Text style={textStyles.buttonText}>Accept</Text>
             </TouchableOpacity>
             {requiresCancel && (
               <TouchableOpacity
                 style={buttonStyle.button5}
                 onPress={handleClose}>
-                <Text style={textStyles.buttonText2}>Cancel</Text>
+                <Text style={textStyles.buttonText}>Cancel</Text>
               </TouchableOpacity>
             )}
           </View>

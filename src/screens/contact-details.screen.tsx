@@ -19,9 +19,9 @@ import {
   IMarkerCoordinates,
 } from '../components/common/googleMap.component';
 import WeatherCard from '../components/common/weatherCard.component';
-import {formStyles} from '../styles/form.styles';
 import {textStyles} from '../styles/text.styles';
 import {buttonStyle} from '../styles/buttons.style';
+import {containerStyles} from '../styles/container.styles';
 
 type ContactDetailsScreenProp = NativeStackNavigationProp<
   RootStackParamList,
@@ -54,7 +54,7 @@ export function ContactDetailsScreen(): React.JSX.Element {
   };
 
   return (
-    <ScrollView style={formStyles.container}>
+    <ScrollView style={containerStyles.container}>
       {isContactLoading ? (
         <Text style={textStyles.loadingText}>
           Loading contact information...
@@ -79,18 +79,19 @@ export function ContactDetailsScreen(): React.JSX.Element {
               <WeatherCard lat={marker?.latitude} lon={marker?.longitude} />
             </View>
           )}
+          <View style={containerStyles.buttonsContainer}>
+            <TouchableOpacity
+              style={buttonStyle.button5}
+              onPress={() => navigation.navigate('EditContact', {contactId})}>
+              <Text style={textStyles.buttonText}>Edit Contact</Text>
+            </TouchableOpacity>
 
-          <TouchableOpacity
-            style={[buttonStyle.button]}
-            onPress={() => navigation.navigate('EditContact', {contactId})}>
-            <Text style={textStyles.buttonText}>Edit Contact</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={buttonStyle.button}
-            onPress={() => setConfirmationModalVisible(true)}>
-            <Text style={textStyles.buttonText}>Delete Contact</Text>
-          </TouchableOpacity>
+            <TouchableOpacity
+              style={buttonStyle.button5}
+              onPress={() => setConfirmationModalVisible(true)}>
+              <Text style={textStyles.buttonText}>Delete Contact</Text>
+            </TouchableOpacity>
+          </View>
 
           <ConfirmationModal
             confirmationModalVisible={confirmationModalVisible}

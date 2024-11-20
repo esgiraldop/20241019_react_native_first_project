@@ -103,10 +103,10 @@ export function LoginScreen(): React.JSX.Element {
 
             <View style={formStyles.buttonContainer}>
               <TouchableOpacity
-                style={buttonStyle.saveButton}
+                style={buttonStyle.button5}
                 onPress={() => handleSubmit()}
                 disabled={!isValid || isSubmitting}>
-                <Text>Sign in</Text>
+                <Text style={textStyles.buttonText}>Sign in</Text>
               </TouchableOpacity>
             </View>
           </View>
