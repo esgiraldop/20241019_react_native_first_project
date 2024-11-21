@@ -1,12 +1,11 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {StyleSheet, View} from 'react-native';
-import MapView, {Marker} from 'react-native-maps';
+import MapView, {Animated, AnimatedRegion, Marker} from 'react-native-maps';
 import {containerStyles} from '../../styles/container.styles';
 import {checkPermission} from '../../utilities/check-permissions.utility';
 import {PermissionEnum} from '../../interfaces/permissions.interface';
 import {NotifyUserPermissionModal} from './notifyUserPermissionModal.component';
 import Geolocation from '@react-native-community/geolocation';
-import {Image} from 'react-native-elements';
 import FastImage from 'react-native-fast-image';
 
 export interface IMarkerCoordinates {
@@ -30,6 +29,16 @@ export const GoogleMap = ({marker, setMarker, onEdit = true}: IGoogleMap) => {
   const [permissionModalOpen, setPermissionModalopen] =
     useState<boolean>(false);
 
+  // Animation for map traveling to a place
+  const animatedRegion = useRef(
+    new AnimatedRegion({
+      latitude: 6.25089, // Default latitude
+      longitude: -75.574628, // Default longitude
+      latitudeDelta: 0.2,
+      longitudeDelta: 0.2,
+    }),
+  ).current;
+
   useEffect(() => {
     async function setLocation() {
       const permissionResponse = await checkPermission(
@@ -42,6 +51,13 @@ export const GoogleMap = ({marker, setMarker, onEdit = true}: IGoogleMap) => {
               setMyLocation({
                 latitude: +position.coords.latitude,
                 longitude: +position.coords.longitude,
+              });
+              // Update animated region to user's location
+              animatedRegion.setValue({
+                latitude: position.coords.latitude,
+                longitude: position.coords.longitude,
+                latitudeDelta: 0.2,
+                longitudeDelta: 0.2,
               });
             } else {
               console.error('\n\nCoords are null or undefined.\n\n');
@@ -62,80 +78,90 @@ export const GoogleMap = ({marker, setMarker, onEdit = true}: IGoogleMap) => {
     }
 
     setLocation();
-  }, []);
+  }, [animatedRegion]);
 
-  // Animation for map traveling to a place
-  const mapRef = useRef<MapView | null>(null);
-  useEffect(() => {
-    if (marker && mapRef.current) {
-      mapRef.current.animateToRegion(
-        {
-          ...marker,
-          latitudeDelta: 0.2,
-          longitudeDelta: 0.2,
-        },
-        1000,
-      );
+  // Determine the initial region based on available data
+  const initialRegion = React.useMemo(() => {
+    if (myLocation) {
+      return {
+        latitude: myLocation.latitude,
+        longitude: myLocation.longitude,
+        latitudeDelta: 0.2,
+        longitudeDelta: 0.2,
+      };
+    } else if (marker) {
+      return {
+        latitude: marker.latitude,
+        longitude: marker.longitude,
+        latitudeDelta: 0.2,
+        longitudeDelta: 0.2,
+      };
+    } else {
+      // Default region (Medallo)
+      return {
+        latitude: 6.25089,
+        longitude: -75.574628,
+        latitudeDelta: 0.2,
+        longitudeDelta: 0.2,
+      };
     }
-  }, []);
+  }, [myLocation, marker]);
+
+  useEffect(() => {
+    if (marker) {
+      animatedRegion
+        .timing({
+          toValue: {
+            latitude: marker.latitude,
+            longitude: marker.longitude,
+            latitudeDelta: 0.2,
+            longitudeDelta: 0.2,
+          },
+          duration: 1000, // Animation duration in milliseconds
+          useNativeDriver: false, // AnimatedRegion does not support native driver
+        })
+        .start();
+    }
+  }, [marker, animatedRegion]);
 
   return (
     <View style={containerStyles.mapContainer}>
-      <MapView
-        ref={mapRef}
+      <Animated
         style={styles.mapStyle}
-        initialRegion={
-          !marker
-            ? {
-                // Medallo by default
-                latitude: 6.25089,
-                longitude: -75.574628,
-                latitudeDelta: 0.2,
-                longitudeDelta: 0.2,
-              }
-            : !myLocation
-            ? {
-                ...marker,
-                latitudeDelta: 0.2,
-                longitudeDelta: 0.2,
-              }
-            : {
-                latitude: myLocation.latitude,
-                longitude: myLocation.longitude,
-                latitudeDelta: 0.2,
-                longitudeDelta: 0.2,
-              }
-        }
+        region={animatedRegion}
         customMapStyle={mapStyle}
         onPress={e =>
           typeof setMarker !== 'undefined' && onEdit
             ? setMarker(e.nativeEvent.coordinate)
             : null
         }>
-        {marker && (
-          <Marker
-            draggable
-            coordinate={marker}
-            title={'Current location'}
-            description={"This is the contact's current location"}
-          />
-        )}
+        {/* Marker for the user's location */}
         {myLocation && (
           <Marker
             draggable
             coordinate={myLocation}
-            title={'Current location'}
-            description={'This is your current location'}>
+            title="Your location"
+            description="This is your current location">
             <View style={markerStyles.markerContainer}>
               <FastImage
-                source={require('../../assets/img/current-location.png')} // Local image
+                source={require('../../assets/img/current-location.png')}
                 style={markerStyles.markerImage}
-                resizeMode={FastImage.resizeMode.contain} // Use FastImage's resizeMode
+                resizeMode={FastImage.resizeMode.contain}
               />
             </View>
           </Marker>
         )}
-      </MapView>
+
+        {/* Marker for the specified location */}
+        {marker && (
+          <Marker
+            draggable
+            coordinate={marker}
+            title="Current location"
+            description="This is the contact's current location"
+          />
+        )}
+      </Animated>
       {permissionModalOpen && (
         <NotifyUserPermissionModal
           modalOpen={permissionModalOpen}
