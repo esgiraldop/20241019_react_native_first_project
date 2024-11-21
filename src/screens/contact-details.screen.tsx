@@ -69,7 +69,6 @@ export function ContactDetailsScreen(): React.JSX.Element {
             <Text style={textStyles.nameText}>{contactInfo.data.name}</Text>
             <Text style={textStyles.phoneText}>{contactInfo.data.phone}</Text>
             <Text style={textStyles.emailText}>{contactInfo.data.email}</Text>
-
             <Text style={textStyles.emailText}>Contact's current location</Text>
             <GoogleMap marker={marker} setMarker={setMarker} onEdit={false} />
 

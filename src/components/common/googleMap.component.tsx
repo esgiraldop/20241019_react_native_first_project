@@ -7,6 +7,7 @@ import {PermissionEnum} from '../../interfaces/permissions.interface';
 import {NotifyUserPermissionModal} from './notifyUserPermissionModal.component';
 import Geolocation from '@react-native-community/geolocation';
 import {Image} from 'react-native-elements';
+import FastImage from 'react-native-fast-image';
 
 export interface IMarkerCoordinates {
   latitude: number;
@@ -124,21 +125,15 @@ export const GoogleMap = ({marker, setMarker, onEdit = true}: IGoogleMap) => {
             draggable
             coordinate={myLocation}
             title={'Current location'}
-            description={"This is the contact's current location"}
-          />
-          // <Marker
-          //   draggable
-          //   coordinate={myLocation}
-          //   title={'Your location'}
-          //   description={'This is your current location'}>
-          //   <View style={markerStyles.markerContainer}>
-          //     <Image
-          //       source={require('../../assets/img/current-location.png')}
-          //       style={markerStyles.markerImage}
-          //       resizeMode="contain"
-          //     />
-          //   </View>
-          // </Marker>
+            description={'This is your current location'}>
+            <View style={markerStyles.markerContainer}>
+              <FastImage
+                source={require('../../assets/img/current-location.png')} // Local image
+                style={markerStyles.markerImage}
+                resizeMode={FastImage.resizeMode.contain} // Use FastImage's resizeMode
+              />
+            </View>
+          </Marker>
         )}
       </MapView>
       {permissionModalOpen && (
@@ -235,16 +230,16 @@ const mapStyle = [
   },
 ];
 
-const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
   mapStyle: {
     ...StyleSheet.absoluteFillObject, // Makes the map fill the container completely
   },
 });
 
-const markerStyles = StyleSheet.create({
+export const markerStyles = StyleSheet.create({
   markerContainer: {
-    width: 500000, // Set the desired width of the container
-    height: 500000, // Set the desired height of the container
+    width: 20, // Set the desired width of the container
+    height: 20, // Set the desired height of the container
     alignItems: 'center', // FlexAlignType expects specific values
     justifyContent: 'center', // FlexAlignType expects specific values
   },
