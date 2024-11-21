@@ -1,7 +1,6 @@
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
 import MapView, {Marker} from 'react-native-maps';
-import {formStyles} from '../../styles/form.styles';
 import {containerStyles} from '../../styles/container.styles';
 
 export interface IMarkerCoordinates {
