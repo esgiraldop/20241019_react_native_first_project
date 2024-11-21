@@ -10,6 +10,7 @@ export enum PermissionEnum {
   GET_ACCOUNTS = 'GET_ACCOUNTS',
   READ_CONTACTS = 'READ_CONTACTS',
   READ_PHONE_NUMBERS = 'READ_PHONE_NUMBERS',
+  ACCESS_FINE_LOCATION = 'ACCESS_FINE_LOCATION',
 }
 
 // Define the type for permissions using the typeof and keyof operators
@@ -28,4 +29,6 @@ export const permissionMap: {[key in PermissionEnum]: AndroidPermission} = {
   [PermissionEnum.GET_ACCOUNTS]: PERMISSIONS.ANDROID.GET_ACCOUNTS,
   [PermissionEnum.READ_CONTACTS]: PERMISSIONS.ANDROID.READ_CONTACTS,
   [PermissionEnum.READ_PHONE_NUMBERS]: PERMISSIONS.ANDROID.READ_PHONE_NUMBERS,
+  [PermissionEnum.ACCESS_FINE_LOCATION]:
+    PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION,
 };
