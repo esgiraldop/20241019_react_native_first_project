@@ -1,6 +1,6 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {StyleSheet, View} from 'react-native';
-import MapView, {Animated, AnimatedRegion, Marker} from 'react-native-maps';
+import {Animated, AnimatedRegion, Marker} from 'react-native-maps';
 import {containerStyles} from '../../styles/container.styles';
 import {checkPermission} from '../../utilities/check-permissions.utility';
 import {PermissionEnum} from '../../interfaces/permissions.interface';
