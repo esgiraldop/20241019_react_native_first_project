@@ -18,13 +18,14 @@ import {RootStackParamList} from './src/interfaces/navigation.interface';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {theme} from './src/theme/main.theme';
 import {RegistrationScreen} from './src/screens/register.screen';
-import {LoginScreen} from './src/screens/login.screen';
+import LoginScreen from './src/screens/login.screen';
 import {SyncProvider} from './src/contexts/contacts-syncronization.context';
 import AppSplashScreen from './src/components/register/App-splash-screen.component';
 // import {AuthProvider, useAuth} from './src/contexts/auth.context';
 // import {Loader} from './src/components';
 import {isNull} from './src/utilities/checkIsNull.utility';
-import {getAsyncStorageValue} from './src/utilities/get-async-storage-contents.utility';
+import {isTokenValid} from './src/utilities/check-is-token-valid.utility';
+import BottomBar from './src/components/common/botton-bar.component';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -47,10 +48,8 @@ function App(): React.JSX.Element {
   }, []);
 
   useEffect(() => {
-    // Check if token exists in AsyncStorage
     const checkToken = async () => {
-      const token = await getAsyncStorageValue('token');
-      if (token) setIsAuthenticated(!!token); // Set true if token exists, false otherwise
+      setIsAuthenticated(await isTokenValid());
     };
 
     checkToken();
@@ -98,9 +97,17 @@ function App(): React.JSX.Element {
                       />
                       <Stack.Screen
                         name="Login"
-                        component={LoginScreen}
+                        // component={LoginScreen}
                         options={{title: 'User login'}}
-                      />
+                        // initialParams={{setIsAuthenticated}}
+                      >
+                        {props => (
+                          <LoginScreen
+                            {...props}
+                            setIsAuthenticated={setIsAuthenticated}
+                          />
+                        )}
+                      </Stack.Screen>
                     </>
                   ) : (
                     <>
@@ -129,6 +136,9 @@ function App(): React.JSX.Element {
                     </>
                   )}
                 </Stack.Navigator>
+                {isAuthenticated && (
+                  <BottomBar setIsAuthenticated={setIsAuthenticated} />
+                )}
               </NavigationContainer>
             </SyncProvider>
           </>

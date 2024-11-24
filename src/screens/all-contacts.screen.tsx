@@ -23,7 +23,6 @@ import {theme} from '../theme/main.theme';
 import {SearchBar} from '@rneui/themed';
 import {groupBy} from 'lodash';
 import {Loader} from '../components';
-import BottomBar from '../components/common/botton-bar.component';
 
 export function AllContactsScreen(): React.JSX.Element {
   const [contacts, setContacts] = useState<IContact[]>([]);
@@ -238,7 +237,6 @@ export function AllContactsScreen(): React.JSX.Element {
           </ConfirmationModal>
         )}
       </View>
-      <BottomBar onHomePress={() => {}} onLogoutPress={() => {}} />
     </>
   );
 }

@@ -5,21 +5,35 @@ import {theme} from '../../theme/main.theme';
 import {CommonActions, useNavigation} from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const BottomBar = ({onHomePress}: {onHomePress: () => void}) => {
+const BottomBar = ({
+  setIsAuthenticated,
+}: {
+  setIsAuthenticated: (isAuthenticated: boolean) => void;
+}) => {
   const navigation = useNavigation();
 
   const handleLogout = async () => {
     try {
-      await AsyncStorage.removeItem('token'); // Clear the token from AsyncStorage
+      await AsyncStorage.removeItem('token');
+      setIsAuthenticated(false);
       navigation.dispatch(
         CommonActions.reset({
           index: 0,
-          routes: [{name: 'Login'}], // Reset to the login flow
+          routes: [{name: 'Login'}],
         }),
       );
     } catch (error) {
       console.error('Error logging out:', error);
     }
+  };
+
+  const onHomePress = async () => {
+    navigation.dispatch(
+      CommonActions.reset({
+        index: 0,
+        routes: [{name: 'Contacts'}],
+      }),
+    );
   };
 
   return (

@@ -7,7 +7,12 @@ import {
   View,
 } from 'react-native';
 import {Formik} from 'formik';
-import {CommonActions, useNavigation} from '@react-navigation/native';
+import {
+  CommonActions,
+  RouteProp,
+  useNavigation,
+  useRoute,
+} from '@react-navigation/native';
 import {theme} from '../theme/main.theme';
 import {AuthService} from '../services/auth.service';
 import {IUser} from '../interfaces/user.interface';
@@ -23,11 +28,19 @@ import {setValueAsyncStorage} from '../utilities/set-variable-async-storage.util
 
 type LoginScreenProp = NativeStackNavigationProp<RootStackParamList, 'Login'>;
 
-export function LoginScreen(): React.JSX.Element {
+interface LoginScreenProps {
+  setIsAuthenticated: (isAuthenticated: boolean) => void;
+}
+
+function LoginScreen({
+  setIsAuthenticated,
+}: LoginScreenProps): React.JSX.Element {
   const navigation = useNavigation<LoginScreenProp>();
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [errorSubmitting, setErrorSubmitting] = useState<boolean | null>(null);
   // const {login} = useAuth(); // this didn´t work
+  const {params} = useRoute<RouteProp<RootStackParamList, 'Login'>>();
+  console.log('params: ', params);
 
   const onSubmit = async (values: IUser) => {
     setIsSubmitting(true);
@@ -37,6 +50,7 @@ export function LoginScreen(): React.JSX.Element {
       await setValueAsyncStorage('token', response.data.accessToken);
       setIsSubmitting(false);
       setErrorSubmitting(false);
+      setIsAuthenticated(true);
       navigation.dispatch(
         CommonActions.reset({
           index: 0,
@@ -46,6 +60,7 @@ export function LoginScreen(): React.JSX.Element {
     } else {
       setIsSubmitting(false);
       setErrorSubmitting(true);
+      setIsAuthenticated(false);
     }
   };
 
@@ -128,3 +143,5 @@ export function LoginScreen(): React.JSX.Element {
     </View>
   );
 }
+
+export default React.memo(LoginScreen);
