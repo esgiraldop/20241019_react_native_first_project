@@ -1,5 +1,5 @@
 import React from 'react';
-import {Modal, TouchableOpacity, View} from 'react-native';
+import {ActivityIndicator, Modal, TouchableOpacity, View} from 'react-native';
 import {Text} from 'react-native-elements';
 import {IAskUserSyncModalOpen} from '../../contexts/contacts-syncronization.context';
 import {isNull} from '../../utilities/checkIsNull.utility';
@@ -7,6 +7,7 @@ import {modalStyles} from '../../styles/modal.styles';
 import {buttonStyle} from '../../styles/buttons.style';
 import {textStyles} from '../../styles/text.styles';
 import {containerStyles} from '../../styles/container.styles';
+import {theme} from '../../theme/main.theme';
 
 interface IConfirmationModal<T> {
   children: React.ReactNode;
@@ -15,6 +16,7 @@ interface IConfirmationModal<T> {
   handleAccept: () => void;
   requiresCancel: boolean;
   handleCancel?: () => void;
+  isSubmitting?: boolean | null;
 }
 
 // Type guard to check if T is IAskUserSyncModalOpen
@@ -37,6 +39,7 @@ export const ConfirmationModal = <T,>({
   handleAccept,
   requiresCancel,
   handleCancel = () => null,
+  isSubmitting,
 }: IConfirmationModal<T>): React.JSX.Element => {
   const evalConfirmationModalVisible = (): boolean => {
     if (typeof confirmationModalVisible === 'boolean') {
@@ -75,7 +78,14 @@ export const ConfirmationModal = <T,>({
             <TouchableOpacity
               style={buttonStyle.button5}
               onPress={handleAccept}>
-              <Text style={textStyles.buttonText}>Accept</Text>
+              {isSubmitting ? (
+                <ActivityIndicator
+                  size="large"
+                  color={theme.colors.textPrimary}
+                />
+              ) : (
+                <Text style={textStyles.buttonText}>Accept</Text>
+              )}
             </TouchableOpacity>
             {requiresCancel && (
               <TouchableOpacity

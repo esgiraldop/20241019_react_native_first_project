@@ -29,7 +29,7 @@ import {setValueAsyncStorage} from '../utilities/set-variable-async-storage.util
 type LoginScreenProp = NativeStackNavigationProp<RootStackParamList, 'Login'>;
 
 interface LoginScreenProps {
-  setIsAuthenticated: (isAuthenticated: boolean) => void;
+  setIsAuthenticated?: (isAuthenticated: boolean) => void;
 }
 
 function LoginScreen({
@@ -50,7 +50,7 @@ function LoginScreen({
       await setValueAsyncStorage('token', response.data.accessToken);
       setIsSubmitting(false);
       setErrorSubmitting(false);
-      setIsAuthenticated(true);
+      if (setIsAuthenticated) setIsAuthenticated(true);
       navigation.dispatch(
         CommonActions.reset({
           index: 0,
@@ -60,7 +60,7 @@ function LoginScreen({
     } else {
       setIsSubmitting(false);
       setErrorSubmitting(true);
-      setIsAuthenticated(false);
+      if (setIsAuthenticated) setIsAuthenticated(false);
     }
   };
 
@@ -75,63 +75,66 @@ function LoginScreen({
         containerStyles.container,
         formStyles.VerticallyCenteredcontainer,
       ]}>
-      {isSubmitting ? (
-        <ActivityIndicator size="large" color={theme.colors.accent} />
-      ) : (
-        <Formik
-          initialValues={initialValues}
-          validationSchema={registrationSchema}
-          onSubmit={onSubmit}>
-          {({
-            handleSubmit,
-            handleChange,
-            handleBlur,
-            values,
-            errors,
-            isValid,
-          }) => (
-            <View style={formStyles.formContainer}>
-              <Text style={textStyles.titleText}>Sign in</Text>
-              <Text style={textStyles.label}>Email</Text>
-              <TextInput
-                style={textStyles.input}
-                onChangeText={handleChange('email')}
-                onBlur={handleBlur('email')}
-                value={values.email}
-                placeholder="Enter email"
-                placeholderTextColor={theme.colors.textSecondary}
-                keyboardType="email-address"
-              />
-              {errors.email && (
-                <Text style={formStyles.error}>{errors.email}</Text>
-              )}
+      <Formik
+        initialValues={initialValues}
+        validationSchema={registrationSchema}
+        onSubmit={onSubmit}>
+        {({
+          handleSubmit,
+          handleChange,
+          handleBlur,
+          values,
+          errors,
+          isValid,
+        }) => (
+          <View style={formStyles.formContainer}>
+            <Text style={textStyles.titleText}>Sign in</Text>
+            <Text style={textStyles.label}>Email</Text>
+            <TextInput
+              style={textStyles.input}
+              onChangeText={handleChange('email')}
+              onBlur={handleBlur('email')}
+              value={values.email}
+              placeholder="Enter email"
+              placeholderTextColor={theme.colors.textSecondary}
+              keyboardType="email-address"
+            />
+            {errors.email && (
+              <Text style={formStyles.error}>{errors.email}</Text>
+            )}
 
-              <Text style={textStyles.label}>Password</Text>
-              <TextInput
-                style={textStyles.input}
-                onChangeText={handleChange('password')}
-                onBlur={handleBlur('password')}
-                value={values.password}
-                placeholder="Enter password"
-                placeholderTextColor={theme.colors.textSecondary}
-                secureTextEntry={true}
-              />
-              {errors.password && (
-                <Text style={formStyles.error}>{errors.password}</Text>
-              )}
+            <Text style={textStyles.label}>Password</Text>
+            <TextInput
+              style={textStyles.input}
+              onChangeText={handleChange('password')}
+              onBlur={handleBlur('password')}
+              value={values.password}
+              placeholder="Enter password"
+              placeholderTextColor={theme.colors.textSecondary}
+              secureTextEntry={true}
+            />
+            {errors.password && (
+              <Text style={formStyles.error}>{errors.password}</Text>
+            )}
 
-              <View style={formStyles.buttonContainer}>
-                <TouchableOpacity
-                  style={buttonStyle.button5}
-                  onPress={() => handleSubmit()}
-                  disabled={!isValid || isSubmitting}>
+            <View style={formStyles.buttonContainer}>
+              <TouchableOpacity
+                style={buttonStyle.button5}
+                onPress={() => handleSubmit()}
+                disabled={!isValid || isSubmitting}>
+                {isSubmitting ? (
+                  <ActivityIndicator
+                    size="large"
+                    color={theme.colors.textPrimary}
+                  />
+                ) : (
                   <Text style={textStyles.buttonText}>Sign in</Text>
-                </TouchableOpacity>
-              </View>
+                )}
+              </TouchableOpacity>
             </View>
-          )}
-        </Formik>
-      )}
+          </View>
+        )}
+      </Formik>
       {errorSubmitting !== null &&
         (errorSubmitting ? (
           <Text style={textStyles.errorText}>

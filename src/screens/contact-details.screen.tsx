@@ -33,7 +33,7 @@ export function ContactDetailsScreen(): React.JSX.Element {
   const {params} = useRoute<RouteProp<RootStackParamList, 'EditContact'>>();
   const contactId = params.contactId;
   const navigation = useNavigation<ContactDetailsScreenProp>();
-
+  const [isDeleting, setIsDeleting] = useState<boolean | null>(null);
   const {contactInfo, isContactLoading, errorLoadingContact} =
     useContactById(contactId);
   const [confirmationModalVisible, setConfirmationModalVisible] =
@@ -50,7 +50,9 @@ export function ContactDetailsScreen(): React.JSX.Element {
   }, [contactInfo]);
 
   const handleDeleteContact = async () => {
+    setIsDeleting(true);
     await ContactsService.delete(contactId);
+    setIsDeleting(false);
     navigation.goBack();
   };
 
@@ -96,7 +98,8 @@ export function ContactDetailsScreen(): React.JSX.Element {
               confirmationModalVisible={confirmationModalVisible}
               setConfirmationModalVisible={setConfirmationModalVisible}
               handleAccept={handleDeleteContact}
-              requiresCancel={true}>
+              requiresCancel={true}
+              isSubmitting={isDeleting}>
               <Text>Do you want to delete this contact?</Text>
             </ConfirmationModal>
           </View>

@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import {
+  ActivityIndicator,
   ScrollView,
   Text,
   TextInput,
@@ -143,7 +144,14 @@ export function AddContactScreen(): React.JSX.Element {
                   style={buttonStyle.button5}
                   onPress={() => handleSubmit()}
                   disabled={!isValid || isSubmitting}>
-                  <Text style={textStyles.buttonText}>Submit</Text>
+                  {isSubmitting ? (
+                    <ActivityIndicator
+                      size="large"
+                      color={theme.colors.textPrimary}
+                    />
+                  ) : (
+                    <Text style={textStyles.buttonText}>Submit</Text>
+                  )}
                 </TouchableOpacity>
               </View>
             </View>

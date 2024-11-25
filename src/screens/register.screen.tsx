@@ -1,5 +1,11 @@
 import React, {useState} from 'react';
-import {Text, TextInput, TouchableOpacity, View} from 'react-native';
+import {
+  ActivityIndicator,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import {Formik} from 'formik';
 import {useNavigation} from '@react-navigation/native';
 import {theme} from '../theme/main.theme';
@@ -98,7 +104,14 @@ export function RegistrationScreen(): React.JSX.Element {
                 style={buttonStyle.button5}
                 onPress={() => handleSubmit()}
                 disabled={!isValid || isSubmitting}>
-                <Text style={textStyles.buttonText}>Register</Text>
+                {isSubmitting ? (
+                  <ActivityIndicator
+                    size="large"
+                    color={theme.colors.textPrimary}
+                  />
+                ) : (
+                  <Text style={textStyles.buttonText}>Register</Text>
+                )}
               </TouchableOpacity>
             </View>
             <TouchableOpacity onPress={() => navigation.navigate('Login')}>
