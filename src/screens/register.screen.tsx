@@ -27,18 +27,15 @@ type registerScreenProp = NativeStackNavigationProp<
 export function RegistrationScreen(): React.JSX.Element {
   const navigation = useNavigation<registerScreenProp>();
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-  const [errorSubmitting, setErrorSubmitting] = useState<boolean | null>(null);
 
   const onSubmit = async (values: IUser) => {
     setIsSubmitting(true);
     const response = await AuthService.register(values);
     if (response) {
       setIsSubmitting(false);
-      setErrorSubmitting(false);
       navigation.navigate('Login');
     } else {
       setIsSubmitting(false);
-      setErrorSubmitting(true);
     }
   };
 

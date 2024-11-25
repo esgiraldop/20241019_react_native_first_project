@@ -24,7 +24,6 @@ function processAxiosResponse<T>(
   response: AxiosResponse<T>,
   showPositiveMessage: boolean,
 ): Promise<T | never> {
-  console.log('\n\nresponse.data: ', response.data);
   let userMessage = '';
   if (!String(response.status).startsWith('2')) {
     // Construct an error object with response details
@@ -73,7 +72,6 @@ export async function handleAxiosResponse<T>(
 ): Promise<T | null> {
   try {
     const response = await axiosCall();
-    console.log('response: ', response);
     return processAxiosResponse(response, showPositiveMessage);
   } catch (error) {
     return processAxiosError(

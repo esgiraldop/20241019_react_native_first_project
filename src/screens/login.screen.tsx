@@ -7,12 +7,7 @@ import {
   View,
 } from 'react-native';
 import {Formik} from 'formik';
-import {
-  CommonActions,
-  RouteProp,
-  useNavigation,
-  useRoute,
-} from '@react-navigation/native';
+import {CommonActions, useNavigation} from '@react-navigation/native';
 import {theme} from '../theme/main.theme';
 import {AuthService} from '../services/auth.service';
 import {IUser} from '../interfaces/user.interface';
@@ -37,7 +32,6 @@ function LoginScreen({
 }: LoginScreenProps): React.JSX.Element {
   const navigation = useNavigation<LoginScreenProp>();
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-  const [errorSubmitting, setErrorSubmitting] = useState<boolean | null>(null);
   // const {login} = useAuth(); // this didn´t work
 
   const onSubmit = async (values: IUser) => {
@@ -47,7 +41,6 @@ function LoginScreen({
       // await login(token); // This didn't work
       await setValueAsyncStorage('token', response.data.accessToken);
       setIsSubmitting(false);
-      setErrorSubmitting(false);
       if (setIsAuthenticated) setIsAuthenticated(true);
       navigation.dispatch(
         CommonActions.reset({
@@ -57,7 +50,6 @@ function LoginScreen({
       );
     } else {
       setIsSubmitting(false);
-      setErrorSubmitting(true);
       if (setIsAuthenticated) setIsAuthenticated(false);
     }
   };
