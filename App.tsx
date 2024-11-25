@@ -43,7 +43,6 @@ function App(): React.JSX.Element {
     const timer = setTimeout(() => {
       setShowSplash(false);
     }, 2000); // splash duration
-    console.log('isAuthenticated from app.tsx: ', isAuthenticated);
     return () => clearTimeout(timer);
   }, []);
 

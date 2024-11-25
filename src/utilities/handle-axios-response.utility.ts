@@ -1,41 +1,80 @@
-import {AxiosResponse} from 'axios';
+import {AxiosError, AxiosResponse} from 'axios';
 // import {Alert} from 'react-native';
 // import {IHandleError} from '../services/contacts.service';
 import {showSnackbar} from './snackbar.utility';
 // import {IHandleError} from '../services/contacts.service';
 
+interface IErrorResponse {
+  message?: string;
+  statusCode?: number;
+  [key: string]: unknown;
+}
+
+interface ISucessResponse {
+  code?: number;
+  data?: unknown;
+  message?: string;
+}
+
+function isAxiosError(error: unknown): error is AxiosError {
+  return (error as AxiosError).isAxiosError !== undefined;
+}
+
 function processAxiosResponse<T>(
   response: AxiosResponse<T>,
+  showPositiveMessage: boolean,
 ): Promise<T | never> {
+  console.log('\n\nresponse.data: ', response.data);
+  let userMessage = '';
   if (!String(response.status).startsWith('2')) {
-    const errorMessage =
-      (response.data as {error?: string})?.error || 'Unknown error';
-    return Promise.reject(errorMessage);
+    // Construct an error object with response details
+    const error = {
+      message: response.data
+        ? (response.data as {message?: string}).message || 'Unknown error'
+        : 'No response data',
+      statusCode: response.status,
+      responseData: response.data,
+    };
+    userMessage = `Status code ${
+      response.statusText
+    }: ${'Sucessfull response'}`;
+    showSnackbar(userMessage);
+    return Promise.reject(error);
   }
+  const sucessfulResponse = response.data as ISucessResponse;
+  userMessage = `Status code ${sucessfulResponse.code}: ${sucessfulResponse.message}`;
+  if (showPositiveMessage) showSnackbar(userMessage, false);
   return Promise.resolve(response.data);
 }
 
-function processAxiosError(
-  error: unknown,
-  // handleError?: IHandleError
-) {
-  let errorMessage =
-    'There was an error related to a bad axios/network connection or an undefined error.';
+function processAxiosError(error: unknown): Promise<null> {
+  let errorMessage = '';
 
-  errorMessage += error instanceof Error ? error.message : '';
+  if (isAxiosError(error)) {
+    if (error.response) {
+      const errorData = error.response.data as IErrorResponse;
+      errorMessage = `Error ${error.response.status}: ${
+        errorData.message || 'Unknown error'
+      }`;
+    } else if (error.request) {
+      errorMessage = 'No response received from server.';
+    }
+  } else if (error instanceof Error) {
+    errorMessage += error.message;
+  }
   showSnackbar(errorMessage);
 
-  // return Promise.reject(errorMessage);
   return Promise.resolve(null);
 }
 
 export async function handleAxiosResponse<T>(
   axiosCall: () => Promise<AxiosResponse<T>>,
-  // handleError?: IHandleError,
+  showPositiveMessage: boolean = false,
 ): Promise<T | null> {
   try {
     const response = await axiosCall();
-    return processAxiosResponse(response);
+    console.log('response: ', response);
+    return processAxiosResponse(response, showPositiveMessage);
   } catch (error) {
     return processAxiosError(
       error,

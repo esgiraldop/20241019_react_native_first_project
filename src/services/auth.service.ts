@@ -6,22 +6,22 @@ import {handleAxiosResponse} from '../utilities/handle-axios-response.utility';
 export class AuthService {
   static resource = 'auth';
 
-  static async register(values: IUser): // handleError?: IHandleError
-  Promise<IUser | null> {
+  static async register(values: IUser): Promise<IUser | null> {
     return handleAxiosResponse<IUser>(
       async () =>
         await axiosInstance.post<IUser>(`${this.resource}/register`, values),
+      true,
     );
   }
 
-  static async login(values: IUser): // handleError?: IHandleError
-  Promise<ISucessfullLoginResponse | null> {
+  static async login(values: IUser): Promise<ISucessfullLoginResponse | null> {
     return handleAxiosResponse<ISucessfullLoginResponse>(
       async () =>
         await axiosInstance.post<ISucessfullLoginResponse>(
           `${this.resource}/login`,
           values,
         ),
+      true,
     );
   }
 }

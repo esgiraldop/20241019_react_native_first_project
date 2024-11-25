@@ -39,8 +39,6 @@ function LoginScreen({
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [errorSubmitting, setErrorSubmitting] = useState<boolean | null>(null);
   // const {login} = useAuth(); // this didn´t work
-  const {params} = useRoute<RouteProp<RootStackParamList, 'Login'>>();
-  console.log('params: ', params);
 
   const onSubmit = async (values: IUser) => {
     setIsSubmitting(true);
@@ -135,14 +133,6 @@ function LoginScreen({
           </View>
         )}
       </Formik>
-      {errorSubmitting !== null &&
-        (errorSubmitting ? (
-          <Text style={textStyles.errorText}>
-            There was an error logging in. Please try again later
-          </Text>
-        ) : (
-          <Text style={textStyles.sucessText}>Log in sucessful</Text>
-        ))}
     </View>
   );
 }

@@ -19,8 +19,6 @@ import {buttonStyle} from '../styles/buttons.style';
 import {registrationSchema} from '../schemas/auth.schema';
 import {containerStyles} from '../styles/container.styles';
 
-// Validation schema for the registration form
-
 type registerScreenProp = NativeStackNavigationProp<
   RootStackParamList,
   'Register'
@@ -123,14 +121,6 @@ export function RegistrationScreen(): React.JSX.Element {
           </View>
         )}
       </Formik>
-      {errorSubmitting !== null &&
-        (errorSubmitting ? (
-          <Text style={textStyles.errorText}>
-            There was an error registering. Please try again later
-          </Text>
-        ) : (
-          <Text style={textStyles.sucessText}>Registration sucessful</Text>
-        ))}
     </View>
   );
 }
