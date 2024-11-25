@@ -21,7 +21,7 @@ import {IconButton} from '../components/common/IconButton';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {theme} from '../theme/main.theme';
 import {SearchBar} from '@rneui/themed';
-import {groupBy} from 'lodash'; // Install lodash if not already present
+import {groupBy} from 'lodash';
 import {Loader} from '../components';
 
 export function AllContactsScreen(): React.JSX.Element {
@@ -169,68 +169,74 @@ export function AllContactsScreen(): React.JSX.Element {
   };
 
   return (
-    <View style={containerStyles.container}>
-      <View style={containerStyles.buttonsCarrouselContainer}>
-        <IconButton size={40}>
-          <Icon name="add-outline" size={30} color={theme.colors.textPrimary} />
-        </IconButton>
-        <View style={{flex: 1, paddingLeft: 10}}>
-          <SearchBar
-            containerStyle={containerStyles.searchBarContainer}
-            inputContainerStyle={containerStyles.searchBarInputContainer}
-            placeholder="Search..."
-            inputStyle={textStyles.searchBarInput}
-            placeholderTextColor={theme.colors.textSecondary}
-            onChangeText={handleSearch}
-            value={filterByName}
-          />
+    <>
+      <View style={containerStyles.container}>
+        <View style={containerStyles.buttonsCarrouselContainer}>
+          <IconButton size={40}>
+            <Icon
+              name="add-outline"
+              size={30}
+              color={theme.colors.textPrimary}
+            />
+          </IconButton>
+          <View style={{flex: 1, paddingLeft: 10}}>
+            <SearchBar
+              containerStyle={containerStyles.searchBarContainer}
+              inputContainerStyle={containerStyles.searchBarInputContainer}
+              placeholder="Search..."
+              inputStyle={textStyles.searchBarInput}
+              placeholderTextColor={theme.colors.textSecondary}
+              onChangeText={handleSearch}
+              value={filterByName}
+            />
+          </View>
         </View>
-      </View>
-      {isLoading ? (
-        <Loader />
-      ) : errorLoading ? (
-        <Text style={textStyles.loadingText}>Error loading contacts</Text>
-      ) : (
-        <>
-          <SectionList
-            sections={groupedContacts()}
-            keyExtractor={item => item.id}
-            renderItem={({item}) => (
-              <GoToContacDetailsButton
-                name={item.name}
-                id={item.id}
-                imageUri={item.imageUri}
-              />
-            )}
-            renderSectionHeader={({section: {title}}) => (
-              <Text style={textStyles.sectionHeader}>{title}</Text>
-            )}
+        {isLoading ? (
+          <Loader />
+        ) : errorLoading ? (
+          <Text style={textStyles.loadingText}>Error loading contacts</Text>
+        ) : (
+          <>
+            <SectionList
+              sections={groupedContacts()}
+              keyExtractor={item => item.id}
+              renderItem={({item}) => (
+                <GoToContacDetailsButton
+                  name={item.name}
+                  id={item.id}
+                  imageUri={item.imageUri}
+                />
+              )}
+              renderSectionHeader={({section: {title}}) => (
+                <Text style={textStyles.sectionHeader}>{title}</Text>
+              )}
+            />
+          </>
+        )}
+        {permissionModalOpen && (
+          <NotifyUserPermissionModal
+            modalOpen={permissionModalOpen}
+            setModalopen={setPermissionModalopen}
+            message={
+              "Please enable the app permissions from the settings to be able to syncronize the phone's contacts with Close To You app"
+            }
           />
-        </>
-      )}
-      {permissionModalOpen && (
-        <NotifyUserPermissionModal
-          modalOpen={permissionModalOpen}
-          setModalopen={setPermissionModalopen}
-          message={
-            "Please enable the app permissions from the settings to be able to syncronize the phone's contacts with Close To You app"
-          }
-        />
-      )}
-      {askUserSyncModalOpen.isModalOpen && (
-        <ConfirmationModal
-          confirmationModalVisible={askUserSyncModalOpen}
-          setConfirmationModalVisible={setAskUserSyncModalOpen}
-          handleAccept={handleSyncContacts}
-          requiresCancel={true}
-          handleCancel={() => setHasUserResponded(true)}>
-          <Text>
-            {askUserSyncModalOpen.numNewContacts} new contacts have been found.
-            Do you want to syncronize them? (Only 10 contacts will be
-            syncronized)
-          </Text>
-        </ConfirmationModal>
-      )}
-    </View>
+        )}
+        {askUserSyncModalOpen.isModalOpen && (
+          <ConfirmationModal
+            confirmationModalVisible={askUserSyncModalOpen}
+            setConfirmationModalVisible={setAskUserSyncModalOpen}
+            handleAccept={handleSyncContacts}
+            requiresCancel={true}
+            handleCancel={() => setHasUserResponded(true)}>
+            <Text>
+              {askUserSyncModalOpen.numNewContacts} new contacts have been
+              found. Do you want to syncronize them? (Only 10 contacts will be
+              syncronized)
+            </Text>
+          </ConfirmationModal>
+        )}
+      </View>
+    </>
   );
 }
